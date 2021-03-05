@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[duduweb_orange.template]]></item>
+	<item id="RevisionID"><![CDATA[89216]]></item>
+	<item id="SN"><![CDATA[2021030210J9o7c9B3J1]]></item>
+	<item id="RevisionDateline"><![CDATA[1599464627]]></item>
+	<item id="Data">
+		<item id="/preview.jpg"><![CDATA[f46e0f265381846c23b85b93a9a42d6c]]></item>
+		<item id="/Ð§¹ûÍ¼/ÃÅ»§Ê×Ò³.jpg"><![CDATA[e6e1009c55a6fef0bfad4941f513cb98]]></item>
+		<item id="/Ð§¹ûÍ¼/ÂÛÌ³Ê×Ò³.jpg"><![CDATA[0358f733d298a9a7f425c53cb9528ac6]]></item>
+		<item id="/Ð§¹ûÍ¼/Ö÷ÌâÁÐ±íÒ³.jpg"><![CDATA[53ad0220bf14eae5120c8a8b1e4666ef]]></item>
+		<item id="/preview_large.jpg"><![CDATA[a089b88d516d32553997505f46c5796d]]></item>
+		<item id="/forum/discuz.htm"><![CDATA[7c5f5c75d5e2881660aac381deb60c8d]]></item>
+		<item id="/forum/forumdisplay_fastpost.htm"><![CDATA[9fbaafc9d99ffdb12ee73de01e0d31ab]]></item>
+		<item id="/forum/forumdisplay.htm"><![CDATA[16bdb29f7ec1a64a3fd39596d9017d67]]></item>
+		<item id="/forum/forumdisplay_list.htm"><![CDATA[ea8d7c71ff5423a28c8c78c40be12425]]></item>
+		<item id="/forum/viewthread.htm"><![CDATA[0887e42e3ced3b70de079fad77a7750f]]></item>
+		<item id="/forum/guide.htm"><![CDATA[9dedfe1bd457931d71188e7832c98574]]></item>
+		<item id="/images/reply.png"><![CDATA[74d5d583d6489bd5040409365c7ceaf6]]></item>
+		<item id="/images/sc.png"><![CDATA[2b959b6abdc2a073d9efc33dc3fdae3e]]></item>
+		<item id="/images/today.png"><![CDATA[5e5c0306a4b7a128662a6ecd666fe759]]></item>
+		<item id="/images/pn_reply.png"><![CDATA[9fb1b7ea22179a6371a94604d8e3ce54]]></item>
+		<item id="/images/new-post.png"><![CDATA[ae6684fac9bf232b1338db4b9376f427]]></item>
+		<item id="/images/arrow.png"><![CDATA[98d2a73b06e81a1973d34946c48891ee]]></item>
+		<item id="/images/pn_post.png"><![CDATA[5fdb2846e15182b9a960818fa9fa6ca2]]></item>
+		<item id="/images/view.png"><![CDATA[1f4587f8dbb0a65733aca0d13e054822]]></item>
+		<item id="/images/logo.png"><![CDATA[90f780e051e352243d20a4884db3f557]]></item>
+		<item id="/images/author.png"><![CDATA[5f5f9690e9adec092853c0f27b8678d0]]></item>
+		<item id="/images/pn-post.png"><![CDATA[d8c91d3549bab8569e38ab36e85c2621]]></item>
+		<item id="/images/ranking.png"><![CDATA[8e6b13023af4d89e24adcd5c09847f8e]]></item>
+		<item id="/common/header.htm"><![CDATA[28969f19e50bca9f68540ab060fc1ca0]]></item>
+		<item id="/common/footer.htm"><![CDATA[2b400c146336f7a1146abacbd94c0170]]></item>
+		<item id="/common/header_userstatus.htm"><![CDATA[2d904a63fb0c6ed89981d586f5c5dcb6]]></item>
+		<item id="/common/pubsearchform.htm"><![CDATA[35f29d3b53f95f0941c4352d7337a1ba]]></item>
+		<item id="/common/extend_common.css"><![CDATA[a4e674fab6ff2868904a90191e12ecce]]></item>
+		<item id="/portal/index.htm"><![CDATA[c07067b9fe0eb326872c2e9a9d170bf9]]></item>
+		<item id="/discuz_style_duduweb_orange.xml"><![CDATA[ff7b7a462d9dcc4b3246936969b31f91]]></item>
+	</item>
+</root>

@@ -1,0 +1,43 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :admin.inc.php
+//        description :
+//
+//        update by ier at 2016-07-08 17:19:58
+//        http://vier.ml
+//
+//======================================================================
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+
+//调试开关
+define('DEBUG',0);
+ini_set('display_errors',DEBUG?'on':'off');
+error_reporting(DEBUG?E_ALL:0);
+//安全过滤
+//@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/safe.func.php';
+//加载插件配置
+if (!isset($_G['cache']['plugin'])) loadcache('plugin');
+//加载SDK
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';
+
+
+// @extract($_G['cache']['plugin']['yxwg_web']);
+//分流
+$pagearray = array(
+    'yxwg_game',//联盟游戏
+    'game',//我的游戏
+    'edit_game',//编辑游戏
+    'server',//游戏区服
+    'lunboqi',//轮播器管理
+    'ziliao',//资料管理
+    'news',//新闻管理
+    'play',//玩家记录管理
+    'edit_lunboqi',//编辑轮播器
+    'edit_newsorziliao',
+);
+$mod = isset($_GET['a']) && in_array($_GET['a'], $pagearray) ? trim($_GET['a']) : 'game';
+require 'admin/'.$mod.'.php';

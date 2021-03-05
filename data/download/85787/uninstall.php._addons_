@@ -1,0 +1,64 @@
+<?php  
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :uninstall.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:32:15
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')||!defined('IN_ADMINCP')){exit('Access Denied');}
+
+// 清理插件运行过程中用户上传的所有文件
+$dir = DISCUZ_ROOT . '/source/plugin/yxwg_web/upload/';
+function deldir($dir, $flag = 0){
+    $dh=opendir($dir);
+    while ($file=readdir($dh))
+    {
+        if($file!="." && $file!="..")
+        {
+            $fullpath=$dir."/".$file;
+            if(!is_dir($fullpath)) {
+                unlink($fullpath);
+            }
+            else {
+                deldir($fullpath, 1);
+            }
+        }
+    }
+    if($flag ==1){
+        rmdir($dir);
+    }
+}
+deldir($dir);
+
+$adimg = DB::table('yxwg_web_adimg');
+$game = DB::table('yxwg_web_game');
+$server = DB::table('yxwg_web_server');
+$h5game = DB::table('yxwg_web_h5game');
+$h5adimg = DB::table('yxwg_web_h5adimg');
+$play = DB::table('yxwg_web_play');
+$news = DB::table('yxwg_web_news');
+$firstpay  = DB::table('yxwg_web_firstpay');
+$ziliao = DB::table('yxwg_web_ziliao');
+$syscache = DB::table('yxwg_web_syscache');
+
+$sql = <<<EOF
+DROP TABLE IF EXISTS `$adimg`;
+DROP TABLE IF EXISTS `$game`;
+DROP TABLE IF EXISTS `$server`;
+DROP TABLE IF EXISTS `$firstpay`;
+DROP TABLE IF EXISTS `$h5game`;
+DROP TABLE IF EXISTS `$h5adimg`;
+DROP TABLE IF EXISTS `$play`;
+DROP TABLE IF EXISTS `$news`;
+DROP TABLE IF EXISTS `$ziliao`;
+DROP TABLE IF EXISTS `$syscache`;
+EOF;
+
+runquery($sql);
+$finish = TRUE;

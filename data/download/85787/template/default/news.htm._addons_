@@ -1,0 +1,35 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/news.css" />
+<script>
+var len = gameJsons.length;
+$(function(){
+	$("body").css({'background':'url("https://img.5qwan.com/2686/{$game_info['host']}_bg.jpg") no-repeat  center 96px'});
+})
+</script>
+<div class="rightside">
+<div class="newsList">
+<div class="hd">
+<!--判断传过来的值显示新闻或攻略标题-->
+<!--{if $newsid}-->
+<h2>{lang yxwg_web:news_1}</h2>
+<span>{lang yxwg_web:news_2}<a href="plugin.php?id=yxwg_web">{lang yxwg_web:news_3}</a>&gt;{lang yxwg_web:news_4}</span>
+<!--{else}-->
+<h2>{lang yxwg_web:game_strategy}</h2>
+<span>{lang yxwg_web:news_2}<a href="plugin.php?id=yxwg_web">{lang yxwg_web:news_3}</a>&gt;{lang yxwg_web:game_strategy}</span>
+<!--{/if}-->
+</div>
+
+<div class="bd">
+<div class="article">
+<h1>{$news_content['title']}</h1>
+<div class="articleInfo"><span>{lang yxwg_web:news_5}</span>|<span>{$news_content['time_add']}</span>
+<div class="share"></div>
+</div>
+<div class="guanwangArticle">
+{$news_content['context']}
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->

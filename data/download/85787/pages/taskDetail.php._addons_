@@ -1,0 +1,68 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: YKT
+ * Date: 2018/2/23
+ * Time: 16:27
+ */
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+date_default_timezone_set('PRC');
+$time = date('Y-m-d H:i:s');
+
+//参数获取
+$tid = intval(isset($_GET['tid']) ? $_GET['tid'] : dheader('location:plugin.php?id=yxwg_web'));
+$sid = intval(isset($_GET['sid']) ? $_GET['sid'] : 0);
+
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['info'] = diconv($v['info'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+
+//根据tid获取任务详情
+$task = Yeyou::getTaskById($tid);
+
+//获取游戏详情
+$game = C::t('#yxwg_web#yxwg_web_game')->bygid($task['gid']);
+
+//获取最新区服信息
+if (!empty($sid)) {
+    $server = C::t('#yxwg_web#yxwg_web_server')->byid($sid);
+} else {
+    $server = C::t('#yxwg_web#yxwg_web_server')->getNewsSid($task['gid'], $time);
+}
+
+//获取任务截至时间
+$dead_line = date('Y-m-d H:i:s', $task['expiretime'] + strtotime($server['time_open']));
+$dead_line_int = strtotime($dead_line) * 1000;
+
+//获取已开区服
+$all_open_server = C::t('#yxwg_web#yxwg_web_server')->bygid($task['gid'],0,1,'desc',1);
+$serverlist = "<select name='sid' id='sid' style='margin-top: 0'>";
+foreach ($all_open_server as $item){
+    if(date('Y-m-d H:i:s',(strtotime($item['time_open'])+$task['expiretime'])) > $time){
+        $class = $item['id'] == $sid ? 'selected' : '' ;
+        $serverlist .="<option value='".$item['id']."' ".$class.">".$item['name']."</option>" ;
+    }
+}
+$serverlist .= "</select>";
+
+//获取游戏角色
+$role = yeyou::role($game['host'], $server['sno']);
+
+//引入模板
+include template('yxwg_web:'.$display.'/taskDetail');

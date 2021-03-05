@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{$navtitle}</title>
+	<meta content="{$keywords}" name="keywords">
+	<meta content="{$description}" name="description">
+    <script src="./source/plugin/yxwg_web/template/js/jquery.js?t={$_SERVER['REQUEST_TIME']}"></script>
+    {eval if($_G['mobile']):}
+    <link rel="stylesheet" href="./source/plugin/yxwg_web/template/style/play_mobile_verify.css?t={$_SERVER['REQUEST_TIME']}">
+    {eval else:}
+    <link rel="stylesheet" href="./source/plugin/yxwg_web/template/style/play_pc_verify.css?t={$_SERVER['REQUEST_TIME']}">
+    {eval endif}
+    <link rel="stylesheet" href="./source/plugin/yxwg_web/template/style/game_play{eval echo $app['items'][0]['direction_screen'] == 2 ? '2' : '';}.css?t={$_SERVER['REQUEST_TIME']}">
+
+</head>
+<body onorientationchange="updateOrientation();">
+
+{eval if(!$_G['mobile']):}
+<div class="JF-h5" id="JFh5" user_id="{$G['uid']}">
+    <a class="h5-screen" id="h5-screen" style="right: -13.2462px;">
+        <span class="ico-resize"></span>
+        <span class="pcmode-screen">{$lang['player']['fullscreen1']} </span>
+        <span class="fullmode-screen">{$lang['player']['fullscreen2']} </span>
+    </a>
+{eval endif}
+    <iframe id="main_frame" src="{$game_url}" style="width:100%;height:100%;float:left;" marginheight="0" frameBorder="0" scrolling="no"></iframe>
+    {eval if($_G['mobile']):}
+    <script type="text/javascript">
+        window.onresize = function () {
+            document.getElementById("main_frame").style.width = document.documentElement.clientWidth+'px';
+            document.getElementById("main_frame").style.height = document.documentElement.clientHeight-0+'px';
+        }
+        window.onresize();
+    </script>
+    {eval endif}
+
+{eval if(!$_G['mobile']):}
+</div>
+{eval endif}
+
+
+
+<script type="text/javascript">
+    var h5_screen = $('#h5-screen');
+    var verify_status = '{$fcm}'; //防沉迷状态 -1/0/1
+    var uid = '{$_G['uid']}'; //用户id
+    var token = '{$user_token}'; //用户令牌
+    window.user_name = '{$_COOKIE['user_id']}'; //用户账号
+    var status = '{$app['items'][0]['direction_screen']}'; //游戏屏幕方向 1/2
+    var appid = '{$app['items'][0]["id"]}';
+
+    /** 页面监听相关 **/
+    //监听屏幕大小是否发生改变
+    $(window).resize(function () {
+        if (uid) {
+            bindCircleBtn(); //重新初始化悬浮按钮
+        }
+    });
+
+    //监听从iframe子页面发送过来的信息
+    window.addEventListener('message', function (e) {
+        switch (e.data.op) {
+            case 'showVerify':
+                uid = e.data.userid;
+                token = e.data.token;
+                verify_status = e.data.fcm;
+                console.log(e.data.fcm);
+                if (e.data.fcm == '-1') {
+                    jishiShow();
+                    showVerify();
+                }
+                break;
+            case 'showCircleBtn':
+                uid = e.data.userid;
+                token = e.data.token;
+                bindCircleBtn();
+                break;
+        }
+    }, false);
+
+    //当游戏为横屏的时候，监听屏幕的方向
+    function updateOrientation() {
+        if (status == 2) {
+            switch (window.orientation) {
+                case 0:
+                    $("#verify_div").removeClass('xuanzhuang_o');
+                    $("#verify_div").addClass('xuanzhuang_0');
+
+                    $("#circle_btn").removeClass('xuanzhuang_o');
+                    $("#circle_btn").addClass('xuanzhuang_0');
+                    break;
+                default:
+                    $("#verify_div").removeClass('xuanzhuang_0');
+                    $("#verify_div").addClass('xuanzhuang_o');
+
+                    $("#circle_btn").removeClass('xuanzhuang_0');
+                    $("#circle_btn").addClass('xuanzhuang_o');
+            }
+        }
+    }
+
+    //iframe加载完成后
+    $(window).load(function () {
+        //判断当前的屏幕方向
+        if ($(window).width() > $(window).height()) {
+            $("#verify_div").removeClass('xuanzhuang_0');
+            $("#verify_div").addClass('xuanzhuang_o');
+
+            $("#circle_btn").removeClass('xuanzhuang_0');
+            $("#circle_btn").addClass('xuanzhuang_o');
+        }
+        if (uid) {
+            bindCircleBtn(); //初始化悬浮按钮
+        }
+        if (verify_status == -1) {
+            showVerify(); //弹窗
+        }
+    });
+
+    /** 悬浮按钮相关 **/
+    {eval if($_G['mobile']):}
+    //悬浮按钮拖动事件 移动
+    function bindCircleBtn() {
+        window.lionClick = false;
+        var winW = $(window).width();
+        var winH = $(window).height();
+        var cont = $("#circle_btn");
+        var contW = $("#circle_btn").width();
+        var contH = $("#circle_btn").height();
+        var startX, startY, sX, sY, moveX, moveY, disX, disY;
+        moveX = 0;
+        moveY = 0;
+        cont.show();
+        cont.css('right', '0px');
+        cont.css('bottom', '310px');
+        cont.css('top', '');
+        cont.css('left', '');
+        cont.on({//绑定事件
+            touchstart: function (e) {
+                //e.preventDefault();
+                startX = e.originalEvent.targetTouches[0].pageX;    //获取点击点的X坐标
+                startY = e.originalEvent.targetTouches[0].pageY;    //获取点击点的Y坐标
+                sX = $(this).offset().left;//相对于当前窗口X轴的偏移量
+                sY = $(this).offset().top;//相对于当前窗口Y轴的偏移量
+                //console.log("sX="+sX+"***************sY="+sY);
+                leftX = startX - sX;//鼠标所能移动的最左端是当前鼠标距div左边距的位置
+                rightX = winW - contW + leftX;//鼠标所能移动的最右端是当前窗口距离减去鼠标距div最右端位置
+                topY = startY - sY;//鼠标所能移动最上端是当前鼠标距div上边距的位置
+                bottomY = winH - contH + topY;//鼠标所能移动最下端是当前窗口距离减去鼠标距div最下端位置
+            },
+            touchmove: function (e) {
+                //e.preventDefault();
+                moveX = e.originalEvent.targetTouches[0].pageX;//移动过程中X轴的坐标
+                moveY = e.originalEvent.targetTouches[0].pageY;//移动过程中Y轴的坐标
+                if (moveX < leftX) {
+                    moveX = leftX;
+                }
+                if (moveX > rightX) {
+                    moveX = rightX;
+                }
+                if (moveY < topY) {
+                    moveY = topY;
+                }
+                if (moveY > bottomY) {
+                    moveY = bottomY;
+                }
+                $(this).css({
+                    "left": moveX + sX - startX,
+                    "top": moveY + sY - startY,
+                });
+
+            },
+            touchend: function (e) {
+                //e.preventDefault();
+                var patch = parseInt($(this).css("height")) / 2;
+                var oEvent = e || event;
+                //console.log(oEvent.target);
+                var oX = oEvent.clientX;
+                var oY = oEvent.clientY;
+                var t = oY - patch;
+                var l = oX - patch;
+                var w = $(window).width() - $(this).width();
+                var h = $(window).height() - $(this).height();
+                if (t < 0) {
+                    t = 0;
+                }
+                if (l < 0) {
+                    l = 0;
+                }
+                if (t > h) {
+                    t = h;
+                }
+                if (l > w) {
+                    l = w;
+                }
+                $(this).css({top: t, left: l});
+
+
+                if(Math.abs(moveX) < 1 || Math.abs(moveY) < 1 || Math.abs(moveX - startX) <= 3 || Math.abs(moveY - startY) <= 3){
+                    window.lionClick = true;
+                }else{
+                    window.lionClick = false;
+                }
+                moveX = 0;
+                moveY = 0;
+            }
+        });
+
+
+        //调整屏幕方向,针对横屏游戏
+        if(status == 2){
+            //$(".xuanzhuan_0").addClass("");
+            var sWidth = $(window).width();
+            var sHeight = $(window).height();
+            var left = 0;
+            if(sWidth<=360){
+                left = -70;
+            }
+            else if(sWidth>=360 && sWidth<=390){
+                left = -55;
+            }
+            else if(sWidth>390 && sWidth<=420){
+                left = -40;
+            }
+            else if(sWidth>420 && sWidth<=480){
+                left = -30;
+            }
+
+            $("#suspend_div").css({
+                "width":"500px",
+                "height":sWidth * 0.9 +"px",
+                //"margin":"auto"
+                "left":left+"px"
+            });
+
+            //console.log(sWidth,sHeight);
+
+        }
+
+    }
+    {eval else:}
+    //悬浮按钮拖动事件 pc
+    function bindCircleBtn() {
+        var h5Ele = $("#JFh5");
+        var h5W = h5Ele.width();
+        var h5H = h5Ele.height();
+        var winW = $(window).width();
+        var winH = $(window).height();
+        var cont = $("#circle_btn");
+        var cont_current = cont[0];
+        var contW = $("#circle_btn").width();
+        var contH = $("#circle_btn").height();
+        var startX, startY, sX, sY, moveX, moveY, disX, disY,startR,startB,endR,endB;
+
+        moveX = 0;
+        moveY = 0;
+        var my_right = status == 2 ? 420 : 30;
+        var my_bottom = status == 2 ? 40 : 420;
+        cont.css({'right':my_right + 'px','bottom': my_bottom + 'px',"position":"absolute"});
+
+        cont.show();
+
+        var mainframe = $("#main_frame");//
+
+        cont_current.ondragstart = function () {
+            return false;
+        };
+        cont_current.onselectstart = function () {
+            return false;
+        };
+        cont_current.onmouseover = function(){
+            $(cont_current).css({"cursor":"pointer"});
+            return false;
+        };
+
+        cont_current.onmousedown = function (e) {
+            e.preventDefault();
+            mainframe.css("pointer-events","none");
+
+            startX = cont.offset().left;
+            startY = cont.offset().top;
+
+            document.onmousemove = function (e) {
+                e.preventDefault();
+                moveX = (e.pageX - h5Ele.offset().left - contW / 2);
+                moveY = (e.pageY - h5Ele.offset().top - contH/2);
+
+                var x_left = parseInt(h5Ele.css("padding-left"));
+                var x_right = parseInt(h5Ele.css("width")) - 14;
+                var y_top =  parseInt(h5Ele.css("padding-top"));
+                var y_bottom = parseInt(h5Ele.css("height")) + 16;
+
+                console.log(y_top,x_right,y_bottom,x_left);
+
+                if(moveX < x_left){
+                    moveX = x_left;
+                }
+                if(moveX > x_right){
+                    moveX = x_right;
+                }
+                if(moveY < y_top){
+                    moveY = y_top;
+                }
+                if(moveY > y_bottom){
+                    moveY = y_bottom;
+                }
+
+                var self = $(cont_current);
+                self.css({"left": moveX +"px","top":moveY + "px"});
+
+            };
+            document.onmouseup = function (e) {
+                e.preventDefault();
+                document.onmousemove = null;
+                document.onmouseup = null;
+
+               var flagX = moveX - startX;
+               var flagY = moveY - startY;
+               if(status == 2){
+                   flagX = moveX - startX + contW;
+                   flagY = moveY - startY + contH;
+               }
+
+                if(Math.abs(moveX) < 1 || Math.abs(moveY) < 1 || Math.abs(flagX) <= 12 || Math.abs(flagY) <=12){
+                    window.lionClick = true;
+                }else{
+                    window.lionClick = false;
+                }
+                mainframe.css("pointer-events","all");
+                //startX = cont.offset().left;
+                //startY = cont.offset().top;
+                moveX = 0;
+                moveY = 0;
+            };
+        };
+
+        var suspend_div  = $("#suspend_div ");
+
+        if(status == 2){
+            suspend_div.css({"width":"500px"}).removeClass("xuanzhuang_0");
+        }else{
+            suspend_div.css({"width":"80%"});
+        }
+    }
+    {eval endif}
+
+    {eval if(!$_G['mobile']):}
+    /** 屏幕调节相关 **/
+    //适配屏幕高度
+    resizePhone();
+    function resizePhone() {
+        if (status == 1) {
+            var minwidth = 300,
+                minheight = ( minwidth + minwidth * 0.1 ) / 0.557;
+            $( '#h5-screen' ).css( 'right', '-28px' );
+
+            if ( $( window ).height() < minheight ) {
+                var paddingLeft = paddingRight = minwidth * 0.05,
+                    bgwidth = minwidth + 2 * paddingLeft,
+                    bgheight = bgwidth / 0.557,
+                    paddingTop = 0.06 * bgheight,
+                    paddingBottom = 0.07 * bgheight,
+                    bottom = '0',
+                    right = -28 + 0.028 * bgwidth,
+                    JFh5 = {
+                        "height": bgheight - paddingTop - paddingBottom,
+                        "width": bgwidth - 2 * paddingLeft,
+                        "margin-left": -bgwidth / 2,
+                        "padding": paddingTop + 'px ' + paddingRight + 'px ' + paddingBottom + 'px ' + paddingLeft + 'px ',
+                        "top": 0,
+                        "bottom": "auto"
+                    };
+            } else {
+                var winHeight = $( window ).height(),
+                    bgheight = winHeight - 10,
+                    paddingTop = 0.06 * bgheight,
+                    paddingBottom = 0.07 * bgheight,
+                    bgwidth = 0.557 * bgheight,
+                    bottom = '0',
+                    paddingLeft = 0.05 * bgwidth,
+                    paddingRight = 0.05 * bgwidth,
+                    right = -28 + 0.028 * bgwidth,
+                    JFh5 = {
+                        "height": bgheight - paddingTop - paddingBottom,
+                        "width": bgwidth - 2 * paddingLeft,
+                        "margin-left": -bgwidth / 2,
+                        "padding": paddingTop + 'px ' + paddingRight + 'px ' + paddingBottom + 'px ' + paddingLeft + 'px ',
+                        "top": "auto",
+                        "bottom": bottom + 'px'
+                    };
+            }
+        }else {
+            var minheight = 300,
+                minwidth = ( minheight + minheight * 0.1 ) / 0.557;
+            $( '#h5-screen' ).css( 'right', '-28px' );
+
+            if ( $( window ).width() < minwidth ) {
+
+            } else {
+                var winHeight = $( window ).height(),
+                    bgheight = winHeight - 10,
+                    paddingTop = 0.06 * bgheight,
+                    paddingBottom = 0.07 * bgheight,
+                    bgwidth = 0.557 * bgheight,
+                    bottom = '0',
+                    paddingLeft = 0.05 * bgwidth,
+                    paddingRight = 0.05 * bgwidth,
+                    right = -28 + 0.028 * bgwidth,
+                    JFh5 = {
+                        "height": bgwidth - 2 * paddingLeft,
+                        "width": bgheight - paddingTop - paddingBottom,
+                        "margin-left": -bgheight / 2,
+                        "padding": paddingRight + 'px ' + paddingBottom + 'px ' + paddingLeft + 'px ' + paddingTop + 'px ',
+                        "margin": "auto",
+                        "left": "0",
+                        "right": "0",
+                        "top": "0",
+                        "bottom": "0"
+                    };
+            }
+        }
+        $( '#JFh5' ).css( JFh5 ).show();
+        $( '#h5-screen' ).css( 'right', right + 'px' );
+
+        var height = $("#JFh5").css('height');
+        var width = $("#JFh5").css('width');
+        // 给透明黑色背景设置长宽
+        $("#bg_div").css('height', height);
+        $("#bg_div").css('width', width);
+        // 重置悬浮按钮移动范围
+        $(".circle_bg").css('height', height);
+        $(".circle_bg").css('width', width);
+    }
+
+    //非/全屏切换事件
+    h5_screen.click(function(){
+        if ( !$( 'body' ).hasClass( 'fullmode' ) ) {
+            $( 'body' ).addClass( 'fullmode' );
+            // 给透明黑色背景设置长宽
+            $("#bg_div").css('height', '100%');
+            $("#bg_div").css('width', '100%');
+            // 给悬浮按钮设置移动范围
+            $(".circle_bg").css('height', '100%');
+            $(".circle_bg").css('width', '100%');
+        } else {
+            $( 'body' ).removeClass( 'fullmode');
+            resizePhone();
+        }
+
+        //重置悬浮按钮
+        bindCircleBtn();
+    });
+    {eval endif}
+</script>
+
+
+<!--{if $member_profile['idcard'] == '' || !$fcm}-->
+<script>
+    con = confirm("{lang yxwg_web:play_10}");
+    if (con == true) {
+        window.location.href = 'home.php?mod=spacecp&ac=profile&op=info';
+    }else{
+        window.location.href = 'plugin.php?id=yxwg_web';
+    }
+</script>
+<!--{elseif $fcm == -1}-->
+    <script>
+        alert("{$lang['player']['verify_fcm_1']}");
+        window.location.href = 'plugin.php?id=yxwg_web';
+    </script>
+<!--{/if}-->
+
+</body>
+</html>

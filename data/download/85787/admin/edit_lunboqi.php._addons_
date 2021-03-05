@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2017/3/20
+ * Time: 15:01
+ */
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+$_lang = lang('plugin/yxwg_web', 'admin');
+showtips($_lang['page']['edit_game']['showtips']);
+
+if (@$_GET['pid']) {
+    $adimg = C::t('#yxwg_web#yxwg_web_adimg')->byid($_GET['pid']);
+}
+
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=lunboqi">'.$_lang['page']['lunboqi']['showtableheader'].'</a>&nbsp;';
+
+showfileformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=lunboqi');
+showtableheader($_lang['page']['edit_lunboqi']['showtableheader']);
+$_lang_g = $_lang['table']['lunboqi'];
+echo "<input type='hidden' name='adimg[id]' value='{$adimg['id']}'/>";
+echo "<input type='hidden' name='adimg[aid]' value='{$adimg['aid']}'/>";
+@showsetting($_lang_g['title'], 'adimg[title]', $adimg['title'], 'text',0,0);
+@showsetting($_lang_g['image'], 'adimg[image]', $adimg['image'], 'file',0,0);
+@showsetting($_lang_g['url'], 'adimg[url]', $adimg['url'], 'text',0,0);
+@showsetting($_lang_g['list'], 'adimg[list]', $adimg['list'], 'text',0,0);
+
+showsubmit('settingsubmit');
+showtablefooter();
+showformfooter();

@@ -1,0 +1,78 @@
+@charset "utf-8";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,iframe{margin:0;padding:0;}
+body{color:#646464;line-height: 1.6; font-size: 14px;font-family:Microsoft YaHei,Arial,tahoma, Verdana, Geneva, sans-serif;}
+li,ul{list-style:none;}
+a,a:link{color:#333;text-decoration:none; outline:none}
+a:hover,.Tlists dd a:hover{color:#ff6600}
+img{ border:none;}
+em,i{ font-style:normal}
+input:focus,textarea:focus{outline:none;}
+/*头部登录部分结束*/
+.search{ width:1000px; margin:0 auto;}
+.s_header{clear: both;height:85px; padding:20px 10px 0 10px;}
+.s_header a.logo{ float:left; margin:0 5px 0 0}
+.s_header .search{float: right;width:495px;height:41px;background:#3EB137;overflow:hidden;}
+.s_header .search input{float: left;width:431px;height:29px;margin: 3px; padding:3px 5px;border:none; background:#fff; font-size:14px; line-height: 2em; color:#646464}
+.s_header .hottag{ float:right; width:485px; padding:10px 10px 0 0; font-size:12px; font-family:宋体}
+.s_header #wp_search{margin-top: 8px}
+.s_header #wp_hottag{padding-top: 8px}
+.s_header #wp_banner {margin-top: -6px;}
+.hottag a{ margin:0 5px;}
+.stit{ clear:both; font-size:16px; color:#333; padding:15px 0;}
+em.red,.red{ color:#ff0000;}
+.stit em.red{ margin:0 5px;}
+.serlists{ clear:both; overflow:hidden; width:1100px;}
+.serlists li.sGameTao{ float:left; width:493px; border:1px solid #E2E2E2; background:#fff; margin:0 10px 10px 0;}
+.sGameTao h4{ font-size:20px; height:35px; padding-bottom:5px; font-weight:normal}
+.sGameTao h4 a{color:#1c1c1c}
+.sGameTao p{ overflow:hidden; padding:27px;}
+.sGameTao a img{ float:left; margin:0 14px 0 0}
+/*新添加开始*/
+.sGameTao strong{display:block; width:215px; font-size:18px; color:#000; height:30px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;}
+.sGameTao .start{display:block; width:215px; height:24px; display:block; font-size:12px;  overflow: hidden;}
+.sGameTao .start span {float:left; width:230px;background:url(http://p1.qhimg.com/t013582face4296f334.gif) no-repeat 0 -13px;display: inline-block;height: 13px;overflow: hidden;width: 73px;  margin: 2px 0 0;}
+.sGameTao .start span i{background:url(http://p1.qhimg.com/t013582face4296f334.gif) no-repeat; display: block; height: 13px;}
+.sGameTao .start em{ color:#333; margin-left:4px;}
+.sGameTao span.stxt{display:block;width:215px; font-size:12px; height:24px; overflow:hidden;color:#999;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;}
+.sGameTao span.stxt em{ color:#999; margin:0 7px 0 0;}
+.sGameTao p a{ color:#000}
+.sGameTao .sbtn{ padding: 5px 0px;}
+.sGameTao .sbtn a{ display: inline-block;width: 59px;height: 30px;text-align: center;line-height: 30px;font-size: 14px;color:#fff; background:#7AC72C; margin-right:14px;transition: background-color 0.4s ease 0s;margin-top: 12px;}
+.sGameTao .sbtn a.icobtn_01{ background:#7AC72C;}
+.sGameTao .sbtn a.icobtn_01:hover{ background:#99D846;}
+.sGameTao .sbtn a.icobtn_02{ background:#56AEF3;}
+.sGameTao .sbtn a.icobtn_02:hover{ background:#75C4F7;}
+.sGameTao .sbtn a.icobtn_03{ background:#FF9E00;}
+.sGameTao .sbtn a.icobtn_03:hover{ background:#FFB700;}
+.sGameTao .sbtn a.icobtn_04{ background: #ff6daa;}
+.sGameTao .sbtn a.icobtn_04:hover{ background: #ff6daa;}
+.sGameTao .sbtn a.icobtn_05{ background: #cfcfcf;}
+.picma{ float:right; width:120px; height:120px; overflow:hidden}
+.picma div{ width:100px;}
+.serlists li.onlyone{ clear:both; float:none;  width: 998px;}
+.onlyone span.stxt,.onlyone span.sbtn{float:right; clear:none; width:400px;_width:350px; background:none; text-align: right;padding: 6px 27px 0 0;}
+.onlyone span.stxt{ padding-right:21px;height: 77px;}
+.onlyone .sbtn a{ margin:0 0 0 14px;}
+.onlyone span.stxt em{ font-size:14px; font-family:宋体}
+.onlyone .start{ height:32px;}
+.onlyone .start span{ margin:10px 0 0 0}
+.onlyone .start em i{ font-size:20px; color:#FF6500;  margin-right:2px;}
+.snewlists{ clear:both; padding:10px; background:#fff; border:1px solid #E2E2E2; margin:0 0 20px 0;}
+.snewlists .listmain{overflow:hidden;}
+.maincon{ overflow:hidden; padding:15px; }
+.maincon span.mpic{ float:left; width:214px; height:144px; overflow:hidden; margin-right:30px;}
+.maincon span.mpic img{ width:214px;}
+.maincon strong{  display: block; font-size:20px; line-height:1.8em; height:40px; overflow:hidden;}
+.maincon .sdes{ height:70px; overflow:hidden; color:#666; margin-bottom:10px;}
+.maincon .sdname{ color:#999;}
+.sdname a{ float:right;display:inline-block; width:82px; height:28px; color:#999; border:1px solid #E2E2E2; text-align:center; line-height:28px;}
+.sdname a:hover{ background:#3EB137; border:1px solid #3EB137; color:#fff;}
+.maincon .line{ clear:both; margin:5px 13px; height:1px; border-bottom:1px dotted #E2E2E2;}
+.snewlists .listmain.now .maincon,.maincon:hover{ background:#F8F8F8;}
+.spages{ clear:both; padding:30px 20px; text-align:center;}
+.spages a,.spages em{ display:inline-block; padding:0 8px; color:#333; background:#F8F8F8; border:1px solid #D0D0D0; text-align:center; margin:0 7px;}
+.spages em{ border:1px solid #E6E6E6; color:#D7D7D7; background:#FCFCFC}
+.spages a:hover,.spages a.now{ color:#fff; background:#FE8F00; border:1px solid #FE8F00}
+.footer{ clear:both; padding:30px 0; line-height:2em; color:#c2c2c2;background:#000; font-size:12px; text-align:center; font-family:Arial, Helvetica, sans-serif}
+.footer a{ color:#c2c2c2; margin:0 5px;}
+.footer a:hover{ text-decoration:underline}

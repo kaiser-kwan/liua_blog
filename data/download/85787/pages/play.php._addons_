@@ -1,0 +1,102 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :play.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:34:41
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//必须登录
+if (!$uid) showmessage('not_loggedin', null, 'NOPERM');
+//获取参数
+$gid = intval(isset($_GET['gid']) ? $_GET['gid'] : '0');
+$sid = intval(isset($_GET['sid']) ? $_GET['sid'] : '0');
+$host = isset($_GET['game']) ? trim($_GET['game']) : '';
+if (empty($gid)) { 
+    $game = $host?C::t('#yxwg_web#yxwg_web_game')->byhost($host):'';
+}else{
+    $game = C::t('#yxwg_web#yxwg_web_game')->bygid($gid);
+}
+$gid = $game['gid'];
+$host = $game['host'] or dheader('location:?id=yxwg_web');
+require('task.php');
+@$taskresult['role']['name'] = urldecode($taskresult['role']['name']);
+//获取当前区服信息
+$server_info = C::t('#yxwg_web#yxwg_web_server')->bysno($sid,$gid);
+//获取该游戏所有区服信息
+$servers_info = C::t('#yxwg_web#yxwg_web_server')->get_servers($gid);
+//页面标题
+$navtitle = $server_info['sname'].'--'.$server_info['gname'].' '.$navtitle;
+// 防沉迷
+function check_idcard($idcard){
+    $flag = false;
+    $error_code = array(0,1,2,3,4);
+    $area = array(
+            11,12,13,14,15,
+            21,22,23,
+            31,32,33,34,35,36,37,
+            41,42,43,44,45,46,
+            50,51,52,53,54,
+            61,62,63,64,65,
+            71,81,82,91
+    );
+    
+    $idlen = strlen($idcard);
+    if($idlen != 18){
+        return $flag;
+    }
+    
+    $areaid = substr($idcard,0,2);
+    if(!$areaid || !in_array($areaid,$area)){
+        return $flag;
+    }
+    $year = substr($idcard,6,4);
+    $ereg = '/^[1-9][0-9]{5}(19[0-9]{2}|20[0|1][0-9])((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/';
+    if($year%4 == 0 || ($year%100 == 0 && $year%4 == 0)){ //闰年
+        $ereg = '/^[1-9][0-9]{5}(19[0-9]{2}|20[0|1][0-9])((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/';
+    }
+    if(preg_match($ereg,$idcard) == 1){
+        //ssccxxyyyy mmddvvv c;
+        $idcard_array = str_split($idcard);
+        $c = strtoupper($idcard_array[17]);
+        $s =  ( $idcard_array[0] + $idcard_array[10] ) * 7
+        + ( $idcard_array[1] + $idcard_array[11] ) * 9
+        + ( $idcard_array[2] + $idcard_array[12] ) * 10
+        + ( $idcard_array[3] + $idcard_array[13] ) * 5
+        + ( $idcard_array[4] + $idcard_array[14] ) * 8
+        + ( $idcard_array[5] + $idcard_array[15] ) * 4
+        + ( $idcard_array[6] + $idcard_array[16] ) * 2
+        +   $idcard_array[7] * 1
+        +   $idcard_array[8] * 6
+        +   $idcard_array[9] * 3 ;
+        $m = substr('10X98765432',$s%11,1);
+        $flag = $m == $c; //0,3
+    }//2
+    return $flag;
+}
+$member_profile = C::t('common_member_profile')->fetch($_G['uid']);
+$fcm = check_idcard($member_profile['idcard']);
+$fcm && $fcm = (date('Ymd')-substr($member_profile['idcard'],6,8)<180000) ? -1 : 1;
+/*//获取游戏链接
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';*/
+$gameurl = yeyou::login($host,$sid,$fcm);
+// $gameurl = getGameUrl($gid, $sid);
+if (substr($gameurl, 0, 4) == 'http') {
+    //$game_card = getGameCard($gid, $sid);
+    $game_card = yeyou::card($host, $sid);
+    $game_card = $game_card['card'];
+    $game_card = strlen($game_card) > 5 ? $game_card : lang('plugin/yxwg_web', 'errorcode_' . $game_card);
+    $logopath = $_G['cache']['style_default']['boardimg'];
+    // $gameurl.= '&apiurl=' . urlencode($_G['siteurl']);
+    include template('yxwg_web:'.$display.'/play');
+
+} else {
+    $error_info = lang('plugin/yxwg_web', 'errorcode_' . $gameurl);
+    echo $error_info;//include template('yxwg_web:'.$display.'/error');
+}

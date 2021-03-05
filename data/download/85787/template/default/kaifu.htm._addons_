@@ -1,0 +1,54 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/kaifu.css" />
+<div class="rightside fr">
+<div class="newsList" >
+	<div class="hd" >
+		<h2>{lang yxwg_web:open_list}</h2>
+		<span>{lang yxwg_web:card_title_2}<a href="javascript:;">{lang yxwg_web:card_title_3}</a>&gt;{lang yxwg_web:open_list}</span>
+	</div>
+	<div class="bd" style="background:none">
+		<div class="article">
+			<div class="serverlist">
+				<dl class="serverhead">
+				 	<dd class="gamename flo bigfont">{lang yxwg_web:open_gname}</dd>
+				 	<dt class="data flo bigfont">{lang yxwg_web:play_6}</dt>
+                    <dt class="time flo bigfont">{lang yxwg_web:open_time}</dt>
+                    <dt class="servername flo bigfont">{lang yxwg_web:open_server}</dt>
+                    <dt class="homesite flo bigfont">{lang yxwg_web:open_ghome}</dt>
+				</dl>
+{loop $open_list $item}
+				<dl class="serveritem">
+					<dd class="gamename flo posr"><a href="{echo yxwgurl('game',$item['gid'])}" target="_blank">{echo $item['gname']}</a><span><img src="https://img.5qwan.com/attachment/s/dzweb/default/images/hot.gif"></span></dd>
+					<dt class="data flo"><a href="{echo yxwgurl('card',$item['gid'])}" target="_blank">{lang yxwg_web:play_6}</a></dt>
+					<dt class="time flo">{echo substr($item['time_open'],5,11);} </dt>
+					<dt class="servername flo">
+						<a target="_blank" href="{echo yxwgurl('play',$item['gid'],$item['sid'])}">
+						{eval echo $item['sname']}
+						</a>
+					</dt>
+					<dt class="homesite flo"><a target="_blank" href="{echo yxwgurl('game',$item['gid'])}">{lang yxwg_web:open_home}</a> </dt>
+				</dl>
+{/loop}
+			</div>
+			<div class="m-pagination">
+		    <!--{echo $page_data[2];}-->
+			</div>
+			<!--分页参数传递-->
+			<form name="myform" action="plugin.php?" method="get">
+				<input type="hidden" id="id" name="id" value="yxwg_web"/>
+				<input type="hidden" id="a" name="a" value="kaifu"/>
+				<input type="hidden" id="page" name="page" value="
+				<!--{echo isset($_GET['page'])? $_GET['page']:1;}-->"/>
+			</form>
+			<script>
+				function doPageSubmit(page){
+			  		document.myform.page.value = page;
+			  		document.myform.submit() ;
+				}
+			</script>
+
+		</div>
+	</div>
+</div>
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->

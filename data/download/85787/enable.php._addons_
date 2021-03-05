@@ -1,0 +1,15 @@
+<?php  
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :uninstall.php
+//        description :插件被启用时运行
+//
+//        created by ier at 2015-12-23 11:32:15
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')||!defined('IN_ADMINCP')){exit('Access Denied');}
+

@@ -1,0 +1,17 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :admin.inc.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:33:00
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')||!defined('IN_ADMINCP')){exit('Access Denied');}
+// echo '<form name="myForm" action="http://api.jufeng.in/admin/"></form>';
+// echo '<script>document.myForm.submit()</script>';
+echo '<script>window.open("http://zz.jufeng.in/")</script>';

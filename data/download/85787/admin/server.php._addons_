@@ -1,0 +1,73 @@
+<?php
+//======================================================================
+//
+//		Copyright (C) 2015-2016 深圳飓风伟业网络有限公司	
+//		All rights reserved
+//
+//		filename :server.php
+//		description : 游戏区服界面
+//
+//		created by ier at 2016-07-13 16:53:57
+//		http://vier.ml
+//
+//======================================================================
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+
+if (isset($_GET['delid'])&&$_GET['delid']&&submitcheck('delid',1)) {
+    C::t('#yxwg_web#yxwg_web_server')->del($_GET['delid']);
+}
+if (isset($_GET['del']) && $_GET['del'] == 'all'&&submitcheck('del',1)) {
+    C::t('#yxwg_web#yxwg_web_server')->truncate();
+}
+
+$_lang = lang('plugin/yxwg_web', 'admin');
+showtips($_lang['page']['server']['showtips']);
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=server&del=all">'.$_lang['table']['server']['delete_all'].'</a>';
+
+$gid = isset($_POST['gid'])?intval($_POST['gid']):0;
+
+showformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=server');
+showtableheader($_lang['page']['server']['showtableheader']);
+
+$gamelist = array();
+foreach (C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list') as $k => $v) {
+    $gamelist[] = array($v['gid'],$v['name']);
+}
+
+$_lang_s = $_lang['table']['server'];
+
+showsetting($_lang_s['name'],array('gid',$gamelist), $gid, 'select',0,0);
+showsubmit('settingsubmit');
+
+showtableheader($_lang['page']['game']['showtableheader']);
+echo <<<_
+<tr class="header">
+    <th></th>
+    <th>{$_lang_s['id']}</th>
+    <th>{$_lang_s['name']}</th>
+    <th>{$_lang_s['sid']}</th>
+    <th>{$_lang_s['time_open']}</th>
+    <th>{$_lang_s['flag']}</th>
+    <th>{$_lang_s['action']}</th>
+</tr>
+_;
+$server_list = $gid?C::t('#yxwg_web#yxwg_web_server')->bygid($gid,0,0):'';
+if($server_list)
+foreach ($server_list as $i => $s) {
+    $href = '?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_server&serverid='.$s['id'];
+	$delhref = '?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=server&delid='.$s['id'];
+    $line = $i+1;
+    echo <<<_
+<tr class="hover" title="">
+    <td>{$line}</td>
+    <td>{$s['id']}</td>
+    <td><a href="{$href}">{$s['name']}</a></td>
+    <td>{$s['sno']}</td>
+    <td>{$s['time_open']}</td>
+    <td>{$s['flag']}</td>
+    <td><a href="{$delhref}">{$_lang_s['delete']}</a></td>
+</tr>
+_;
+}
+showtablefooter();
+showformfooter();

@@ -1,0 +1,371 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :yxwg.func.php
+//        description :
+//
+//        created by ier at 2015-12-23 14:51:26
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+//
+define('API_URL','http://api.jufeng.in/gameapi.php');
+//
+//
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/http.class.php';
+//
+function utf2arr($s) {
+	if(is_array($s))
+	    foreach($s as $key => $val)$s[$key] = utf2arr($val);
+	else{
+		$s = diconv($s,'utf-8');
+	}
+	return $s;
+}
+//
+function jsonDecode($string) {
+	$rst = json_decode($string,true);
+	$rst = is_null($rst)?$string:$rst;
+	$rst = CHARSET=='utf-8'?$rst:utf2arr($rst);
+	return $rst;
+}
+//
+function readcache($id,$data,$cache_time){
+	global $is_cache;
+	$cache_time = $is_cache==0?0:$cache_time;
+    $cache_filename = DISCUZ_ROOT.'./source/plugin/yxwg_web/cache/'.$id.$data.'.php';
+    $cache_filetime = @filemtime($cache_filename);
+    $cache_filetime = $cache_filetime?$cache_filetime:0;
+    if(time()-$cache_filetime <= $cache_time){
+        include($cache_filename);
+    }else{
+        $cache["$id$data"]=call_user_func("$id","$data");
+        $data_cache = "<?php \r\n\$cache=array(\r\n";
+        foreach($cache as $key=>$value){
+            $data_cache.="'$key'=>'$value',\r\n";
+        }
+        $data_cache.=");\r\n?>";
+        if ($fd = fopen($cache_filename,'w+')){
+            fputs($fd,$data_cache);
+            fclose($fd);
+        }
+    }
+    return $data==NULL?$cache["$id"]:$cache["$id$data"];
+}
+//读取api
+function post($action,$data,$decode=1){
+	$url = API_URL.'?a='.$action;
+	$return = dfsockopen($url, 0, $data);
+	if ($decode) {
+		$return = jsonDecode($return);
+	}
+	return $return;
+}
+//轮播游戏信息
+function getAdvGame($game){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'game'   => $game,
+		'verify'=> $verify
+	);
+	$rst = post('getAdvGame',$data);
+	return $rst;
+}
+//游戏列表
+function getGameList($decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify
+	);
+	$rst = post('getGameList',$data,$decode);
+	return $rst;
+}
+//开服表
+function getOpenList($count='20',$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'count'=> $count
+	);
+	$rst = post('getOpenList',$data);
+	return $rst;
+}
+//游戏信息
+function getGameInfo($gid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid
+	);
+	$rst = post('getGameInfo',$data);
+	return $rst;
+}
+//区服列表
+function getServerList($gid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'gid'   => $gid,
+		'verify'=> $verify
+	);
+	$rst = post('getServerList',$data,$decode);
+	return $rst;
+}
+//新闻列表
+function getNewsList($gid,$count=16,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'gid'   => $gid,
+		'verify'=> $verify,
+		'count' => $count
+	);
+	$rst = post('getNewsList',$data);
+	return $rst;
+}
+//新闻内容
+function getNewsContent($nid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'nid'   => $nid
+	);
+	$rst = post('getNewsContent',$data);
+	return $rst;
+}
+//攻略列表
+function getStrategyList($gid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid
+	);
+	$rst = post('getStrategyList',$data);
+	return $rst;
+}
+//攻略内容
+function getGameStrategy($gsid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gsid'   => $gsid
+	);
+	$rst = post('getGameStrategy',$data);
+	return $rst;
+}
+//最近玩过
+function getLastPlay($gid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid
+	);
+	$rst = post('getLastPlay',$data);
+	return $rst;
+}
+//游戏地址
+function getGameUrl($gid,$sid){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid,
+		'sid'   => $sid
+	);
+	$rst = post('getGameUrl',$data);
+	return $rst;
+}
+//支付地址
+function getPayUrl(){
+	global $pid,$uid,$verify,$username;
+	$username = CHARSET=='utf-8'?$username:diconv($username,CHARSET,'utf-8');
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'uname' => urlencode($username)
+	);
+	$rst = post('getPayUrl',$data);
+	return $rst;
+}
+//用户信息
+function getUserInfo(){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify
+	);
+	$rst = post('getUserInfo',$data);
+	return $rst;
+}
+//新手礼包
+function getGameCard($gid,$sid){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'gid'   => $gid,
+		'sid'   => $sid,
+		'verify'=> $verify
+	);
+	$rst = post('getGameCard',$data);
+	return $rst;
+}
+//服务器信息
+function getServerInfo($gid,$sid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid,
+		'sid'   => $sid
+	);
+	$rst = post('getServerInfo',$data);
+	return $rst;
+}
+//角色信息
+function getRoleInfo($gid,$sid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'   => $gid,
+		'sid'   => $sid
+	);
+	$rst = post('getRoleInfo',$data,$decode=1);
+	return $rst;
+}
+//任务列表
+function getTaskList($decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify
+	);
+	$rst = post('getTaskList',$data,$decode);
+    return $rst;
+}
+//任务记录
+function getTaskRecord($gid,$sid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'=> $gid,
+		'sid'=> $sid
+	);
+	$rst = post('getTaskRecord',$data,$decode);
+	return $rst;
+}
+//任务提交
+function getTaskResult($gid,$sid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'=> $gid,
+		'sid'=> $sid
+	);
+	$rst = post('getTaskResult',$data,$decode);
+	return $rst;
+}
+//获取首充
+function getFirstPay($gid,$sid,$decode=1){
+	global $pid,$uid,$verify;
+	$data = array(
+		'pid'   => $pid,
+		'uid'   => $uid,
+		'verify'=> $verify,
+		'gid'=> $gid,
+		'sid'=> $sid
+	);
+	$rst = post('getFirstPay',$data,$decode);
+	return $rst;
+}
+//分页功能表单提交
+function showfenyeform($page_data, $a, $pluginid, $gid=''){
+	echo $page_data[2];
+	if ($gid == '') {
+		echo '<form name="myform" action="'.ADMINSCRIPT.'" method="get">'.
+				'<input type="hidden" id="action" name="action" value="plugins"/>'.
+				'<input type="hidden" id="do" name="do" value="'.$pluginid.'"/>'.
+				'<input type="hidden" id="identifier" name="identifier" value="yxwg_web"/>'.
+				'<input type="hidden" id="pmod" name="pmod" value="admin"/>'.
+				'<input type="hidden" id="a" name="a" value="'.$a.'"/>'.
+				'<input type="hidden" id="page" name="page" value=""/></form>';
+		echo '<script> function doPageSubmit(page){
+        document.myform.page.value = page;
+        document.myform.submit();
+    }</script>';
+	} else {
+		showsubmit("settingsubmit");
+		echo '<form name="myform" action="'.ADMINSCRIPT.'" method="get">'.
+				'<input type="hidden" id="action" name="action" value="plugins"/>'.
+				'<input type="hidden" id="do" name="do" value="'.$pluginid.'"/>'.
+				'<input type="hidden" id="identifier" name="identifier" value="yxwg_web"/>'.
+				'<input type="hidden" id="pmod" name="pmod" value="admin"/>'.
+				'<input type="hidden" id="a" name="a" value="'.$a.'"/>'.
+				'<input type="hidden" id="page" name="page" value=""/></form>';
+		echo '<script> function doPageSubmit(page){
+        document.myform.page.value = page;
+        document.myform.submit();
+    }</script>';
+	}
+}
+
+//文件上传
+function upload(){
+	if($_FILES['adimg']['error']['image'] > 0){
+		if($_FILES['adimg[image]']['error'] > 0){
+			return false;
+		}
+	}
+	$str = explode('.', $_FILES['adimg']['name']['image']);
+	$dest = DISCUZ_ROOT.'/source/plugin/yxwg_web/upload/' . time() . '.' . $str['1'];
+	if(is_uploaded_file($_FILES['adimg']['tmp_name']['image'])){
+		if(move_uploaded_file(($_FILES['adimg']['tmp_name']['image']),$dest)){
+			return $dest;
+		} else {
+			return false;
+		}
+	}
+}
+
+//文件上传表单
+function showfileformheader($action, $extra = '', $name = 'cpform', $method = 'post') {
+	global $_G;
+	$anchor = isset($_GET['anchor']) ? dhtmlspecialchars($_GET['anchor']) : '';
+	echo '<form enctype="multipart/form-data" name="'.$name.'" method="'.$method.'" autocomplete="off" action="'.ADMINSCRIPT.'?action='.$action.'" id="'.$name.'"'.($extra == 'enctype' ? ' enctype="multipart/form-data"' : " $extra").'>'.
+			'<input type="hidden" name="formhash" value="'.FORMHASH.'" />'.
+			'<input type="hidden" id="formscrolltop" name="scrolltop" value="" />'.
+			'<input type="hidden" name="anchor" value="'.$anchor.'" />';
+}

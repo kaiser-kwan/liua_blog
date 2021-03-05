@@ -1,0 +1,63 @@
+<?php
+//======================================================================
+//
+//		Copyright (C) 2015-2016 深圳飓风伟业网络有限公司	
+//		All rights reserved
+//
+//		filename :table_yxwg_web_firstpay.php
+//		description :
+//
+//		created by ier at 2015-12-23 14:50:38
+//		http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_firstpay extends discuz_table{
+	
+	public function __construct() {
+		$this->_table = 'yxwg_web_firstpay';
+		$this->_pk = 'id';
+		parent::__construct();
+	}
+	public function byid($id){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+	}
+	public function bygid($gid){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('gid',$gid));
+	}
+	public function range($start = 0, $limit = 0, $where = '',$item='') {
+		return array_values(DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? $where : '').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, $this->_pk ? $this->_pk : ''));
+	}
+	
+	public function add($gid=0,$firstpayinfo='',$firststatus=''){
+		$pay = array();
+		$pay['gid']        			= $gid;
+		$pay['firstpayinfo']        = $firstpayinfo;
+		$pay['firststatus']       	= $firststatus;
+		return $this->insert($pay);
+	}
+	public function updbyid($id, $gid=0, $firstpayinfo='', $firststatus=''){
+		$pay = array();
+		$pay['gid']        		= $gid;
+		$pay['firstpayinfo']    = $firstpayinfo;
+		$pay['firststatus']     = $firststatus;
+		return $this->update($id,$pay);
+	}
+	public function updbygid($gid=0,$firstpayinfo='',$firststatus=''){
+		$pay = $this->bygid($gid);
+		return $pay['id']?$this->updbyid($pay['id'],$gid,$firstpayinfo,$firstpayinfo):0;
+	}
+	public function del($id){
+		return $this->delete($id);
+	}
+	public function getGameList(){
+		$tableA = DB::table("yxwg_web_game");
+		$tableB = DB::table("yxwg_web_firstpay");
+		$sql = "SELECT a.`gid` 'id',a.`name`,a.`list`,a.`host`,a.`info`,b.`firstpayinfo`,b.`firststatus` FROM {$tableA} a JOIN  {$tableB} b ON a.`gid` = b.`gid`";
+		return  DB::fetch_all($sql);
+	}
+	
+}
+
+

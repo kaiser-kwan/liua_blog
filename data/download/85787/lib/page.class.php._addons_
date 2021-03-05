@@ -1,0 +1,51 @@
+<?php
+
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+class Page {
+	//Page分页函数
+	public static function db_data_page($rows,$page_size,$subfun=''){
+		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+		 
+		$page_count = ceil($rows/$page_size);
+		$page_count = $page_count ? $page_count:1;
+		 
+		if($page <= 1 || $page == '') $page = 1;
+		if($page >= $page_count) $page = $page_count;
+		 
+		$limit_sql = ($page - 1) * $page_size.','.$page_size;
+
+		$pre_page = ($page == 1)? 1 : $page - 1;
+		$next_page= ($page == $page_count)? $page_count : $page + 1 ;
+
+		$pagenav  = "";
+		 
+		if($subfun == ''){
+			$pagenav .= lang('plugin/yxwg_web','page_first').$page.'/'.$page_count.lang('plugin/yxwg_web','page_page')."&nbsp;".lang('plugin/yxwg_web','page_all').$rows.lang('plugin/yxwg_web','page_count')."&nbsp; \n";
+			$pagenav .= "<a class='btn' href='?page=1'>".lang('plugin/yxwg_web','page_start')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='?page=$pre_page'>".lang('plugin/yxwg_web','page_first')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='?page=$next_page'>".lang('plugin/yxwg_web','page_next')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='?page=$page_count'>".lang('plugin/yxwg_web','page_end')."</a>&nbsp; \n";
+			$pagenav .= lang('plugin/yxwg_web','page_href')."<select name='topage' style='height:20px' onchange='window.location=\"?page=\"+this.value'>\n";
+		}else{
+			$pagenav .= lang('plugin/yxwg_web','page_first').$page.'/'.$page_count .lang('plugin/yxwg_web','page_page')."&nbsp;".lang('plugin/yxwg_web','page_all'). $rows. lang('plugin/yxwg_web','page_count')."&nbsp; \n";
+			$pagenav .= "<a class='btn' href='javascript:$subfun(1)'>".lang('plugin/yxwg_web','page_start')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='javascript:$subfun($pre_page)'>".lang('plugin/yxwg_web','page_pre')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='javascript:$subfun($next_page)'>".lang('plugin/yxwg_web','page_next')."</a>&nbsp;";
+			$pagenav .= "<a class='btn' href='javascript:$subfun($page_count)'>".lang('plugin/yxwg_web','page_end')."</a>&nbsp; \n";
+			$pagenav .= lang('plugin/yxwg_web','page_href')."<select name='topage' style='height:20px' onchange='javascript:$subfun(this.value)'>\n";
+		}
+		
+		for($i=1; $i<=$page_count; $i++){
+			if($i == $page){
+				$pagenav .= "\t<option value='$i' selected>$i</option>\n";
+			}else{
+				$pagenav .= "\t<option value='$i'>$i</option>\n";
+			}
+		}
+		$pagenav .= "</select>".lang('plugin/yxwg_web','page_page')."&nbsp;&nbsp;";
+		
+		$copyright = "PHP Page Class Power By Z.S.L";
+		
+		return array($page,$limit_sql,$pagenav,$copyright);
+	} // Page分页函数
+}

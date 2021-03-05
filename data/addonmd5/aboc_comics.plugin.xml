@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[aboc_comics.plugin]]></item>
+	<item id="RevisionID"><![CDATA[88913]]></item>
+	<item id="SN"><![CDATA[2021030210I1OMkp9P12]]></item>
+	<item id="RevisionDateline"><![CDATA[1597205388]]></item>
+	<item id="Data">
+		<item id="/discuz_plugin_aboc_comics_SC_UTF8.xml"><![CDATA[5ed057e43f85abcc0b6fa0baef5e8145]]></item>
+		<item id="/discuz_plugin_aboc_comics_TC_UTF8.xml"><![CDATA[7c696605a6e6137b16b969698c5ad5ef]]></item>
+		<item id="/index.html"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/static/lib/L2Dwidget.min.js"><![CDATA[094cbace49a39548bed64abff5988b05]]></item>
+		<item id="/static/lib/L2Dwidget.0.min.js"><![CDATA[32973883fcac0a9ae6cc79c0ea25fda2]]></item>
+		<item id="/static/lib/manifest.json"><![CDATA[63adb1a925db49e48b0cc167136be293]]></item>
+		<item id="/static/lib/L2Dwidget.0.min.js.map"><![CDATA[cc5d819f9493133b29fb0f8b122da8e9]]></item>
+		<item id="/static/lib/L2Dwidget.min.js.map"><![CDATA[197b9f592be83aa2d220430c5a6bbcba]]></item>
+		<item id="/static/lib/L2Dwidget.common.js"><![CDATA[45de4ff7ae9f74fe257ffa4e00c811cf]]></item>
+		<item id="/static/lib/stats.html"><![CDATA[609c3dfc3a2e18bba2a77c0394edb436]]></item>
+		<item id="/static/lib/L2Dwidget.common.js.map"><![CDATA[7a5a2125675359827897c062ee93af23]]></item>
+		<item id="/aboc_comics.class.php"><![CDATA[c01e4cbb65627b486b589961f8f53aa1]]></item>
+		<item id="/template/index.html"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/template/comics.htm"><![CDATA[593077a3bfa6d4c6cb894d1b982d9c7f]]></item>
+	</item>
+</root>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[wekei_free_acg_01.template]]></item>
+	<item id="RevisionID"><![CDATA[90341]]></item>
+	<item id="SN"><![CDATA[2021030210eivXsQVaEE]]></item>
+	<item id="RevisionDateline"><![CDATA[1610319545]]></item>
+	<item id="Data">
+		<item id="/preview.jpg"><![CDATA[9c1fef23f7c24e0de2e7749f54e47cfe]]></item>
+		<item id="/preview_large.jpg"><![CDATA[3e51138a82bec09749f5c4afdf5e2200]]></item>
+		<item id="/forum/discuz.htm"><![CDATA[75dcb6ab725643f331241b5047e02de5]]></item>
+		<item id="/forum/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/images/vk_switch_width.png"><![CDATA[f871a47fa4b043a09942316c70e50bce]]></item>
+		<item id="/images/vk_chart.png"><![CDATA[c72d446641185a0f96a6da1a1508c1f3]]></item>
+		<item id="/images/vlineb.png"><![CDATA[f6152756c08358f5864bbddba48c2056]]></item>
+		<item id="/images/bg_forum_vk_title.gif"><![CDATA[46ed8bb9322ed699dff6e41c26f798e8]]></item>
+		<item id="/images/pt_home.png"><![CDATA[7cfe119b8a0e1f97999f851116f5b983]]></item>
+		<item id="/images/pt_item.png"><![CDATA[8f42024bfdb1607efe233b5c8b4d910b]]></item>
+		<item id="/images/icon_search.png"><![CDATA[fb0bddd6ee02284c7d54e5c5b81e9a9e]]></item>
+		<item id="/images/vk_style_switch.png"><![CDATA[0c3d0092ca15c1b61982be0a3e064bca]]></item>
+		<item id="/images/bg_body.jpg"><![CDATA[869c5249040bb8876f9ccd3895f834fe]]></item>
+		<item id="/images/search_post.png"><![CDATA[cfdaee7003e89dda177f65feb576dead]]></item>
+		<item id="/images/logo.png"><![CDATA[4450ccb25b484a6f38b20255529caf23]]></item>
+		<item id="/images/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/images/bg_toptb.png"><![CDATA[e73871a67740f9b6243dd84da617d212]]></item>
+		<item id="/images/search_logo_r_icon.png"><![CDATA[5427729084020591c4d6ecfc73f818a9]]></item>
+		<item id="/images/bg_title_bbs.gif"><![CDATA[aac40a4bec452f0588d241050ef17880]]></item>
+		<item id="/common/widthauto.css"><![CDATA[5948068a779129a766c8b2304a401b36]]></item>
+		<item id="/common/header.htm"><![CDATA[4ff0e494df95bb1e92ecbf8f61c0b1c9]]></item>
+		<item id="/common/vk_search_bottom.htm"><![CDATA[ca4230a875fb9484d500787bf7d40cc0]]></item>
+		<item id="/common/footer.htm"><![CDATA[a6344d94d33ff585c89b8a5baa14b2b6]]></item>
+		<item id="/common/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/common/extend_common.css"><![CDATA[7d4031a924bbc447348d5807cee3cae5]]></item>
+		<item id="/common/extend_module.css"><![CDATA[507a560d4875d92d9afb28ae6d5993be]]></item>
+		<item id="/discuz_style_wekei_free_acg_01.xml"><![CDATA[822fb8e698261bcaf30b10f72c2a237e]]></item>
+		<item id="/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+	</item>
+</root>

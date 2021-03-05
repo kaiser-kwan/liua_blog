@@ -1,0 +1,16 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<iframe id="main_frame" src="{$pay_url}" style="width:100%; height:1000px" frameBorder="0"></iframe>
+<!--{eval include template("yxwg_web:$display/footer")}-->
+
+<!--{if $member_profile['idcard'] == '' || !$fcm}-->
+<script>
+	con = confirm("{lang yxwg_web:play_10}");
+	if (con == true) {
+		window.location.href = 'home.php?mod=spacecp&ac=profile&op=info';
+	}else{
+		window.location.href = 'plugin.php?id=yxwg_web';
+	}
+</script>
+<!--{/if}-->
+
+

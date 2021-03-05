@@ -1,0 +1,58 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/news.css" />
+<script>
+var len = gameJsons.length;
+$(function(){
+	var arr = new Array();
+	var hosts = '';
+	var num = parseInt(Math.random()*len);
+	for(var i=0;i<len;i++){
+		hosts = gameJsons[i]['host'];
+		arr.push(hosts);
+	}
+	$("body").css({'background':'url("https://img.5qwan.com/2686/{if $game['host']}{$game['host']}{else}'+arr[num]+'{/if}_bg.jpg") no-repeat  center 96px'});
+})
+</script>
+<div class="rightside">
+	<div class="newsList">
+		<div class="hd">
+			{if isset($_GET['gsid'])}
+			<h2>{lang yxwg_web:game_strategy}</h2>
+			<span>{lang yxwg_web:news_2}<a href="plugin.php?id=yxwg_web">{lang yxwg_web:news_3}</a>&gt;{lang yxwg_web:game_strategy}</span>
+			{else}
+			<h2>{lang yxwg_web:news_1}</h2>
+			<span>{lang yxwg_web:news_2}<a href="plugin.php?id=yxwg_web">{lang yxwg_web:news_3}</a>&gt;{lang yxwg_web:news_4}</span>
+			{/if}
+		</div>
+		<div class="bd">
+		<div class="article">
+			<div class="newsList">
+				<ul class="news">
+				{loop $news_list $i $item}
+					<li><a href="{echo isset($_GET['gsid'])?yxwgurl('gl',$item['nid']):yxwgurl('news',$item['nid'])}" title="{$item['title']}">{$item['title']}</a><span class="time">{echo substr($item['time_add'],0,10)}</span></li>
+				{/loop}
+				</ul>
+				<div class="m-pagination">
+		    		{$page_data[2]}
+				</div>
+				<form name="myform" action="plugin.php" method="get">
+					<input type="hidden" id="id" name="id" value="yxwg_web"/>
+					<input type="hidden" id="a" name="a" value="news"/>
+					{if $gid}
+					<input type="hidden" id="gid" name="gid" value="{$gid}"/>
+					{/if}
+					<input type="hidden" name="{if $isgl}gsid{/if}" value="" />
+					<input type="hidden" id="page" name="page" value=""/>
+				</form>
+				<script>
+					function doPageSubmit(page){
+			  			document.myform.page.value = page;
+			  			document.myform.submit();
+					}
+				</script>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->

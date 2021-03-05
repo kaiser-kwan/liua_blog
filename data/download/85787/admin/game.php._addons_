@@ -1,0 +1,75 @@
+<?php
+//======================================================================
+//
+//		Copyright (C) 2015-2016 深圳飓风伟业网络有限公司	
+//		All rights reserved
+//
+//		filename :game.php
+//		description : 游戏列表界面
+//
+//		created by ier at 2016-07-13 16:53:57
+//		http://vier.ml
+//
+//======================================================================
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+
+//引入分页功能
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/page.class.php';
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+$page=isset($_GET['page'])&&$_GET['page']?$_GET['page']:1;
+$pagesize = 20;
+
+if (isset($_GET['delid'])&&$_GET['delid']&&submitcheck('delid',1)) {
+    C::t('#yxwg_web#yxwg_web_game')->del($_GET['delid']);
+}
+if (isset($_POST['game'])&&$_POST['game'] && submitcheck('game')) {
+    $g = $_POST['game'];
+    if(isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest"){
+        $ghost = $_POST['game'];
+        $g = current(yeyou::game($ghost));
+        $g['gid'] = $g['id'];
+        unset($g['id']);
+        $g['html_title'] = $g['html_keywd'] = $g['html_desc'] = $g['name'];
+    }
+    if(isset($g['id'])&&$g['id']){
+        $rst = @C::t('#yxwg_web#yxwg_web_game')->updbyid($g['id'],$g['gid'],$g['name'],$g['host'],$g['type'],$g['info'],$g['coin_name'],$g['coin_rmb'],$g['list'],$g['flag'],$g['html_title'],$g['html_keywd'],$g['html_desc']);
+        set_url($g);
+    } else{
+        $rst = C::t('#yxwg_web#yxwg_web_game')->updbygid($g['gid'],$g['name'],$g['host'],$g['type'],$g['info'],$g['coin_name'],$g['coin_rmb'],$g['list'],$g['flag'],$g['html_title'],$g['html_keywd'],$g['html_desc']);
+        if(!$rst){
+            $rst = @C::t('#yxwg_web#yxwg_web_game')->add($g['gid'],$g['name'],$g['host'],$g['type'],$g['info'],$g['coin_name'],$g['coin_rmb'],$g['list'],$g['flag'],$g['html_title'],$g['html_keywd'],$g['html_desc']);
+        }
+        set_url($g);
+    }
+}
+
+$_lang = lang('plugin/yxwg_web', 'admin');
+showtips($_lang['page']['game']['showtips']);
+
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_game&gameid=-1">'.$_lang['table']['game']['insert'].'</a>&nbsp;&nbsp;';
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=yxwg_game">'.$_lang['page']['yxwg_game']['showtableheader'].'</a>&nbsp;';
+
+showformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=game');
+showtableheader($_lang['page']['game']['showtableheader']);
+$_lang_g = $_lang['table']['game'];
+echo '<tr class="header"><th>',$_lang_g['id'],'</th><th>',$_lang_g['name'],'</th><th>',$_lang_g['host'],'</th><th>'.$_lang_g['type'].'</th><th>'.$_lang_g['list'].'</th><th>'.$_lang_g['flag'].'</th><th>'.$_lang_g['action'].'</th></tr>';
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(($page-1)*$pagesize,$pagesize,0,'list');
+foreach ($game_list as $i => $g) {
+    $href = '?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_game&gameid='.$g['id'];
+	$delhref = '?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=game&delid='.$g['id'];
+	echo '<tr class="hover" title="',$g['info'],'"><td>',$g['id'],'</td><td><a href="',$href,'">',$g['name'],'</a></td><td>',$g['host'],'</td><td>',$g['type'],'</td><td>',$g['list'],'</td><td>',$g['flag'] == 1 ? $_lang_g['flag_yes'] : $_lang_g['flag_no'],'</td><td><a href="',$delhref,'">',$_lang_g['delete'],'</a></td></tr>';
+}
+showtablefooter();
+showformfooter();
+
+$game_list_count = C::t('#yxwg_web#yxwg_web_game')->count($gid);
+$page_data = Page::db_data_page($game_list_count, $pagesize, "doPageSubmit");
+showfenyeform($page_data, "game", $pluginid);
+
+function set_url($g){
+    yeyou::seturl($g['host'], 'site', $g['site']);
+    yeyou::seturl($g['host'], 'pay', $g['pay']);
+    yeyou::seturl($g['host'], 'card', $g['card']);
+    yeyou::seturl($g['host'], 'bbs', $g['bbs']);
+    yeyou::seturl($g['host'], 'fcm', $g['fcm']);
+}

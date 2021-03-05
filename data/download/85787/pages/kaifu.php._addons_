@@ -1,0 +1,41 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :kaifu.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:34:16
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+$page = isset($_GET['page'])&&$_GET['page']?intval($_GET['page']):1;
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//开服列表
+$pagesize = 40;
+$open_list_count = C::t('#yxwg_web#yxwg_web_server')->opencount();
+$open_list = C::t('#yxwg_web#yxwg_web_server')->openserv(0,($page-1)*$pagesize.','.$pagesize);
+//页面设置
+$page_data = Page::db_data_page($open_list_count, $pagesize, "doPageSubmit");
+//显示开服表页面
+include template('yxwg_web:'.$display.'/kaifu');

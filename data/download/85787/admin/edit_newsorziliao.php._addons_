@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2017/3/21
+ * Time: 14:48
+ */
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+
+
+$_lang = lang('plugin/yxwg_web', 'admin');
+if (isset($_GET['type'])) {
+    show_content($_lang, $pluginid, $_GET['type']);
+}
+
+function show_content($_lang, $pluginid, $type)
+{
+    $style = "style=\"width: 600px;height: 400px;\"";
+    $edit = 'edit_' . $type;
+    $option = array();
+    if (@$_GET['id']) {
+        $list = C::t('#yxwg_web#yxwg_web_'.$type)->get_msg_byid($_GET['id']);
+        $game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1);
+        if (empty($list['context'])) {
+            $content = current(yeyou::news($list['nid'],1));
+            $list['context'] = $content['context'];
+        }else{
+            $list['context'] = $list['context'];
+        }
+        for ($i = 0; $i < count($game_list); $i++) {
+            $option[] = array($game_list[$i]['gid'],$game_list[$i]['name']);
+        }
+    }
+    showtips($_lang['page'][$edit]['showtips']);
+    echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a='.$type.'">'.$_lang['page'][$type]['showtableheader'].'</a>&nbsp;';
+    showformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a='.$type);
+    showtableheader($_lang['page'][$edit]['showtableheader']);
+    $_lang_g = $_lang['table'][$type];
+    echo "<input type='hidden' name='list[id]' value='{$list['id']}'/>";
+    echo "<input type='hidden' name='list[nid]' value='{$list['nid']}'/>";
+    @showsetting($_lang_g['title'], 'list[title]', $list['title'], 'text',0,0);
+    @showsetting($_lang_g['type'], 'list[type]', $list['type'], 'text',0,0);
+    @showsetting($_lang_g['gid'], array('list[gid]',$option), $list['gid'], 'select');
+    @showsetting($_lang_g['time_add'], 'list[time_add]', $list['time_add'], 'text',true,0);
+    @showsetting($_lang_g['context'], 'list[context]', $list['context'], 'textarea',0,0,'',$style);
+    showsubmit('settingsubmit');
+    showtablefooter();
+    showformfooter();
+}

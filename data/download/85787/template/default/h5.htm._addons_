@@ -1,0 +1,549 @@
+
+<div class="n_img_banner">
+	<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][0]['appid']}" target="blank" id="top_ad">
+		<div class="n_img_img_bg"></div>
+		<div class="n_img_img" id="n_img_img" style="background-image: url({$adsList['items'][0]['image']}); display: block;"></div>
+	</a>
+	<div class=" n_img_delete"></div>
+	<div class="top_imgshow_b">
+		<div class="top_imgshow ng_t_i">
+			<div class="top_img_one">
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][1]['appid']}" target="_blank" class="showPf">
+					<img class="lazy_img" src="{$adsList['items'][1]['image']}" alt="{$adsList['items'][1]['title']}">
+					<span style="display: none;" class="t_i_bac"></span>
+					<div style="display: none;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][1]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][1]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="top_img_two">
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][2]['appid']}" class="img_h139 showPf" target="_blank">
+					<img class="img_h lazy_img" src="{$adsList['items'][2]['image']}" alt="{$adsList['items'][2]['title']}">
+					<span style="display: none; height: 0px;" class="t_i_bac"></span>
+					<div style="display: none; height: 0px;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][2]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][2]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][3]['appid']}" class="img_h170 showPf" target="_blank">
+					<img class="img_h lazy_img" src="{$adsList['items'][3]['image']}" alt="{$adsList['items'][3]['title']}">
+					<span style="display: none; height: 0px;" class="t_i_bac"></span>
+					<div style="display: none; height: 0px;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][3]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][3]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="top_img_one">
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][4]['appid']}" target="_blank" class="showPf">
+					<img class="lazy_img" src="{$adsList['items'][4]['image']}" alt="{$adsList['items'][4]['title']}">
+					<span style="display: none;" class="t_i_bac"></span>
+					<div style="display: none;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][4]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][4]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="top_img_two">
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][5]['appid']}" class="img_h139 showPf" target="_blank">
+					<img class="img_h lazy_img" src="{$adsList['items'][5]['image']}" alt="{$adsList['items'][5]['title']}">
+					<span style="display: none; height: 5px;" class="t_i_bac"></span>
+					<div style="display: none; height: 5px;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][5]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][5]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+				<a href="plugin.php?id=yxwg_web&a=detail&appid={$adsList['items'][6]['appid']}" class="img_h170 showPf" target="_blank">
+					<img class="img_h lazy_img" src="{$adsList['items'][6]['image']}" alt="{$adsList['items'][6]['title']}">
+					<span style="display: none; height: 0px;" class="t_i_bac"></span>
+					<div style="display: none; height: 0px;" class="t_i_hover">
+						<p class="t_i_h_title">{$adsList['items'][6]['title']}</p>
+						<p class="t_i_h_nums">{$adsList['items'][6]['downloadTimes']}</p>
+						<div class="t_i_h_xing">
+							<p style="width:100%"></p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!---->
+<div class="yui3-g sec-rec clearfix" style="width:998px; margin:30px auto;">
+    <div class="yui3-u rec-main big-app-wrap">
+        <div class="app-bd show" style="position:relative;z-index:999">
+            <ul>
+				<!--{eval for($i=0;$i<6;$i++):}-->
+                <li class="firrow">
+                    <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$toplist['items'][$i]['appid']}">
+                        <div class="app-detail">
+                            <div class="icon">
+                                <img class="imagefix" style="position:relative" src="{$toplist['items'][$i]['icons']['96']}" alt="{$toplist['items'][$i]['name']}">
+                                <div class="mask mask1 mask-110"></div>
+                            </div>
+                            <p class="name">{$toplist['items'][$i]['name']}</p>
+                            <p class="down-size">
+                                <span class="down">{$toplist['items'][$i]['downloadTimes']}{eval echo $lang['index'][$toplist['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+                                <span class="size">{eval if($toplist['items'][$i]['dtype']==1) echo sprintf('%.2fMB',$toplist['items'][$i]['apkSize']/(1024*1024));}</span>
+                            </p>
+                        </div>
+                        <div style="top:0;left: 0;" class="app-popover">
+                            <div class="appinfo clearfix">
+                                <div class="appinfo-left">
+                                    <p class="name" title="{$toplist['items'][$i]['name']}">{$toplist['items'][$i]['name']}</p>
+                                    <p class="tag">
+                                        <span class="res-tag-ok">{$lang['index']['official']}</span>
+                                        <span class="res-tag-ok">{$lang['index']['noadv']}</span>
+                                    </p>
+                                    <p class="star-wrap"><span class="star"><span style="width:100%"></span></span>
+                                    </p>
+                                    <p class="down-size">
+                                        <span class="down">{$toplist['items'][$i]['downloadTimes']}{eval echo $lang['index'][$toplist['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+                                        <span class="size">{eval if($toplist['items'][$i]['dtype']==1) echo sprintf('%.2fMB',$toplist['items'][$i]['apkSize']/(1024*1024));}</span>
+                                    </p>
+                                </div>
+                                <div class="appinfo-right">
+                                    <p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($toplist['items'][$i]['downloadUrl'])}" alt=""></p>
+                                </div>
+                            </div>
+                            <p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$toplist['items'][$i]['description']}</p>
+                        </div>
+                    </a>
+                </li>
+                <!--{eval endfor}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!---->
+<div class="good_recom wid1000 clearfix">
+	<div class="good_recom_div ng_r_d_left">
+		<div class="def_menu_line">
+			<div>&nbsp;{$lang['index']['JPTJH']}&nbsp;</div>
+		</div>
+		
+		<ul class="good_recom_ul">
+			<!--20������-->
+			<!--{eval for($i=0;$i<$h5list['num'];$i++):}-->
+			<li>
+				<div class="g_r_img">
+					<a href="plugin.php?id=yxwg_web&a=detail&appid={$h5list['items'][$i]['appid']}" target="_blank">
+						<img class="lazy_img" src="{$h5list['items'][$i]['icons'][96]}" height="96px" width="96px">
+					</a>
+				</div>
+				<p><a href="hsqj" target="_blank" title="{$h5list['items'][$i]['name']}">{$h5list['items'][$i]['name']}</a></p>
+				<a class="g_r_down" data_icon="{$h5list['items'][$i]['icons'][96]}" href="{$h5list['items'][$i]['downloadUrl']}">{eval echo $lang['index'][$h5list['items'][$i]['dtype']==1?'Download':'Enter']}</a>
+			</li>
+			<!--{eval endfor}-->
+		</ul>
+	</div>
+
+
+	<div class="new_service ng_n_s_right">
+		<div class="def_menu_line">
+			<div>{$lang['index']['NewServ']}</div>
+		</div>
+		<div class="new_service_title">
+			<div class="n_s_t_time">{$lang['index']['Time']}</div>
+			<div class="n_s_t_name">{$lang['index']['GameName']}</div>
+			<div class="n_s_t_state">{$lang['index']['Status']}</div>
+			<div class="n_s_t_down">{eval echo $lang['index']['Download']}</div>
+		</div>
+		<ul class="new_service_ul">
+			<!--12����¼-->
+			<!--{eval for($i=0;$i<12;$i++):}-->
+			<li>
+				<div class="n_s_t_time"><!--{eval echo date('m-d',$openList['items'][$i]['openTime'])}--></div>
+				<div class="n_s_t_name">
+					<a href="plugin.php?id=yxwg_web&a=detail&appid={$openList['items'][$i]['appid']}" title="{$openList['items'][$i]['appname']}">{$openList['items'][$i]['appname']}</a>
+				</div>
+				<div class="n_s_t_state">{$openList['items'][$i]['sname']}</div>
+				<div class="n_s_t_down">
+					<a href="plugin.php?id=yxwg_web&a=player&game={$openList['items'][$i]['appid']}">{eval echo $lang['index']['Enter']}</a>
+				</div>
+			</li>
+			<!--{eval endfor}-->
+		</ul>
+	</div>
+</div>
+
+<!--������Ϣ-->
+<div class="sec-caterec" style="width:1000px;margin:30px auto;">
+    <ul class="cate-name">
+		<li class="active">{$lang['index']['TypeJSBY']}</li>
+		<li>{$lang['index']['TypeDZMX']}</li>
+		<li>{$lang['index']['TypeMNJY']}</li>
+		<li>{$lang['index']['TypeQPZX']}</li>
+		<li>{$lang['index']['TypeZZCL']}</li>
+		<li>{$lang['index']['TypeXXYZ']}</li>
+	</ul>
+    <div class="app-bd ">
+        <ul>
+			<!--{eval for($i=0;$i<$jiaose['num'];$i++):}-->
+            <li>
+                <a class="app-box" style="position:relative;" href="plugin.php?id=yxwg_web&a=detail&appid={$jiaose['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$jiaose['items'][$i]['icons']['64']}" class="imagefix" alt="{$jiaose['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$jiaose['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$jiaose['items'][$i]['downloadTimes']}{eval echo $lang['index'][$jiaose['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$jiaose['items'][$i]['name']}">{$jiaose['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$jiaose['items'][$i]['downloadTimes']}{eval echo $lang['index'][$jiaose['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($jiaose['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$jiaose['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($jiaose['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$jiaose['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+		<div class="app-bd hide" style="position:relative">
+		<ul>
+            <!--{eval for($i=0;$i<$dongzuo['num'];$i++):}-->
+            <li>
+                <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$dongzuo['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$dongzuo['items'][$i]['icons']['64']}" class="imagefix" alt="{$dongzuo['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$dongzuo['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$dongzuo['items'][$i]['downloadTimes']}{eval echo $lang['index'][$dongzuo['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$dongzuo['items'][$i]['name']}">{$dongzuo['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$dongzuo['items'][$i]['downloadTimes']}{eval echo $lang['index'][$dongzuo['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($dongzuo['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$dongzuo['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($dongzuo['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$dongzuo['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+		<div class="app-bd hide" style="position:relative">
+		<ul>
+            <!--{eval for($i=0;$i<$qipai['num'];$i++):}-->
+            <li>
+                <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$qipai['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$qipai['items'][$i]['icons']['64']}" class="imagefix" alt="{$qipai['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$qipai['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$qipai['items'][$i]['downloadTimes']}{eval echo $lang['index'][$qipai['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$qipai['items'][$i]['name']}">{$qipai['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$qipai['items'][$i]['downloadTimes']}{eval echo $lang['index'][$qipai['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($qipai['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$qipai['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($qipai['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$qipai['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+		<div class="app-bd hide" style="position:relative">
+		<ul>
+           <!--{eval for($i=0;$i<$monijingying['num'];$i++):}-->
+            <li>
+                <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$monijingying['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$monijingying['items'][$i]['icons']['64']}" class="imagefix" alt="{$monijingying['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$monijingying['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$monijingying['items'][$i]['downloadTimes']}{eval echo $lang['index'][$monijingying['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$monijingying['items'][$i]['name']}">{$monijingying['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$monijingying['items'][$i]['downloadTimes']}{eval echo $lang['index'][$monijingying['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($monijingying['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$monijingying['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($monijingying['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$monijingying['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+		<div class="app-bd hide" style="position:relative">
+		<ul>
+            <!--{eval for($i=0;$i<$celue['num'];$i++):}-->
+            <li>
+                <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$celue['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$celue['items'][$i]['icons']['64']}" class="imagefix" alt="{$celue['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$celue['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$celue['items'][$i]['downloadTimes']}{eval echo $lang['index'][$celue['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$celue['items'][$i]['name']}">{$celue['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$celue['items'][$i]['downloadTimes']}{eval echo $lang['index'][$celue['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($celue['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$celue['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($celue['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$celue['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+		<div class="app-bd hide" style="position:relative">
+	    <ul>
+            <!--{eval for($i=0;$i<$xiuxian['num'];$i++):}-->
+            <li>
+                <a class="app-box" href="plugin.php?id=yxwg_web&a=detail&appid={$xiuxian['items'][$i]['appid']}">
+                <dl class="app-detail">
+                    <dt class="icon">
+                        <img src="{$xiuxian['items'][$i]['icons']['64']}" class="imagefix" alt="{$xiuxian['items'][$i]['name']}">
+                        <div class="mask mask1"></div>
+                    </dt>
+					<dd class="name">{$xiuxian['items'][$i]['name']}</dd>
+					<dd class="star-wrap"><span class="star"><span style="width:100%"></span></span></dd>
+					<dd class="down-num"><span>{$xiuxian['items'][$i]['downloadTimes']}{eval echo $lang['index'][$xiuxian['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span></dd>
+					<dd class="down-btn">
+						<span class="inst-btn inst-btn-small quickdown">
+							<em>{$lang['index']['PutINPhone']}</em>
+						</span>
+
+					</dd>
+				</dl>
+				<div class="app-popover">
+					<div class="appinfo clearfix">
+						<div class="appinfo-left">
+							<p class="name" title="{$xiuxian['items'][$i]['name']}">{$xiuxian['items'][$i]['name']}</p>
+										<p class="tag">
+											<span class="res-tag-ok">{$lang['index']['official']}</span>
+											<span class="res-tag-ok">{$lang['index']['HighQuality']}</span>
+										</p>
+										<p class="star-wrap"><span class="star"><span style="width:84%"></span></span></p>
+							<p class="down-size">
+								<span class="down">{$xiuxian['items'][$i]['downloadTimes']}{eval echo $lang['index'][$xiuxian['items'][$i]['dtype']==1?'downloadTimes':'onclickTimes']}</span>
+								<span class="size">{eval if($xiuxian['items'][$i]['dtype']==1)echo sprintf('%.2fMB',$xiuxian['items'][$i]['apkSize']/(1024*1024));}</span>
+							</p>
+						</div>
+						<div class="appinfo-right">
+							<p><img class="app-qrcode wsqrcode" src="http://www.5qwan.com/wxpay/native/qrcode.php?data={echo urlencode($xiuxian['items'][$i]['downloadUrl'])}"></p>
+						</div>
+					</div>
+					<p class="brief"><span class="comm">[{$lang['index']['GameIntr']}]</span>{$xiuxian['items'][$i]['description']}</p>
+				</div>
+                </a>
+			</li>
+			<!--{eval endfor}-->
+        </ul>
+        </div>
+  </div>
+<div class="ranks_list ng_r_l">
+	<div class="def_menu_line">
+		<div>{$lang['index']['SiteSelected']}</div>
+	</div>
+	<div class="rank_lists clearfix">
+		<div class="rank_list">
+			<div class="hot_recom_title">
+				<span class="bac30c"></span>
+				<div>{$lang['index']['NewArrival']}</div>
+			</div>
+			<ul class="rank_list_ul">
+			 <!--{eval for($i=0;$i<$newestlist['num'];$i++):}-->
+				<li class="r_l_first">
+					<span class="s_top">{echo $i+1}</span>
+					<a href="ugin.php?id=yxwg_web&a=detail&appid={$newestlist['items'][$i]['appid']}" class="r_l_img">
+						<img class="lazy_img" src="{$newestlist['items'][$i]['icons']['32']}" alt="{$newestlist['items'][$i]['name']}" height="32" width="32">
+					</a>&nbsp;
+					<a class="r_l_title" href="plugin.php?id=yxwg_web&a=detail&appid={$newestlist['items'][$i]['appid']}">{$newestlist['items'][$i]['name']}</a>
+					<a href="{$newestlist['items'][$i]['downloadUrl']}" class="r_l_down">{eval echo $lang['index']['Enter']}</a>
+				</li>
+			<!--{eval endfor}-->
+			</ul>
+		</div>
+		<div class="rank_list pl10">
+			<div class="hot_recom_title">
+				<span class="bacffc"></span>
+				<div>{$lang['index']['FirstNewGame']}</div>
+			</div>
+			<ul class="rank_list_ul">
+				 <!--{eval for($i=0;$i<$firstlist['num'];$i++):}-->
+				<li class="r_l_first">
+					<span class="s_top">{echo $i+1}</span>
+					<a href="ugin.php?id=yxwg_web&a=detail&appid={$firstlist['items'][$i]['appid']}" class="r_l_img">
+						<img class="lazy_img" src="{$firstlist['items'][$i]['icons']['32']}" alt="{$firstlist['items'][$i]['name']}" height="32" width="32">
+					</a>&nbsp;
+					<a class="r_l_title" href="plugin.php?id=yxwg_web&a=detail&appid={$firstlist['items'][$i]['appid']}">{$firstlist['items'][$i]['name']}</a>
+					<a href="{$firstlist['items'][$i]['downloadUrl']}" class="r_l_down">{eval echo $lang['index']['Enter']}</a>
+				</li>
+			<!--{eval endfor}-->
+
+			</ul>
+		</div>
+		<div class="rank_list pl10">
+			<div class="hot_recom_title">
+				<span class="bac30c"></span>
+				<div>{$lang['index']['DownRanking']}</div>
+			</div>
+			<ul class="rank_list_ul">
+				 <!--{eval for($i=0;$i<$boutique['num'];$i++):}-->
+				<li class="r_l_first">
+					<span class="s_top">{echo $i+1}</span>
+					<a href="ugin.php?id=yxwg_web&a=detail&appid={$boutique['items'][$i]['appid']}" class="r_l_img">
+						<img class="lazy_img" src="{$boutique['items'][$i]['icons']['32']}" alt="{$boutique['items'][$i]['name']}" height="32" width="32">
+					</a>&nbsp;
+					<a class="r_l_title" href="plugin.php?id=yxwg_web&a=detail&appid={$boutique['items'][$i]['appid']}">{$boutique['items'][$i]['name']}</a>
+					<a href="{$boutique['items'][$i]['downloadUrl']}" class="r_l_down">{eval echo $lang['index']['Enter']}</a>
+				</li>
+			<!--{eval endfor}-->
+
+			</ul>
+		</div>
+		<div class="rank_list pl10 r_l_last">
+			<div class="hot_recom_title">
+				<span class="bac359"></span>
+				<div>{$lang['index']['Recommend']}</div>
+			</div>
+			<ul class="rank_list_ul">
+				 <!--{eval for($i=0;$i<$recommended['num'];$i++):}-->
+				<li class="r_l_first">
+					<span class="s_top">{echo $i+1}</span>
+					<a href="ugin.php?id=yxwg_web&a=detail&appid={$recommended['items'][$i]['id']}" class="r_l_img">
+						<img class="lazy_img" src="{$recommended['items'][$i]['icons']['32']}" alt="{$recommended['items'][$i]['name']}" height="32" width="32">
+					</a>
+					<a class="r_l_title" href="plugin.php?id=yxwg_web&a=detail&appid={$recommended['items'][$i]['id']}">{$recommended['items'][$i]['name']}</a>
+					<a href="{$recommended['items'][$i]['downloadUrl']}" class="r_l_down">{eval echo $lang['index']['Enter']}</a>
+				</li>
+			<!--{eval endfor}-->
+			</ul>
+		</div>
+	</div>
+</div>

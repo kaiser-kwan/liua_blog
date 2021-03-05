@@ -1,0 +1,132 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<script>
+    $("#hd").css("opacity",0);
+    $(function(){
+        $("#hd").on('mouseenter',function(){
+            $("#hd").css("opacity",0.8);
+        });
+        $("#hd").on('mouseleave',function(){
+            $("#hd").css("opacity",0);
+        });
+    });
+</script>
+
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/game.css" />
+<script>
+    $(function(){
+        $("body").css("background","#fff url(https://img.5qwan.com/2686/{$game['host']}_bg.jpg) center 96px no-repeat");
+    })
+</script>
+<div style="width:100%;margin-bottom:80px;">
+	<div id="main1" class="lv2_main">
+		<input type="hidden" value="tologin" id="typecheck" name="typecheck">
+		<div style="display:block" id="server" class="lv2_login">
+			<div class="lv2_login_show">
+				<div class="lv2_radio lv2_show_radio"><s></s>
+					<span class="linl" id="news2" style="margin-top: 0px; width: 200px; display: inline-block; overflow: hidden; height: 17px; vertical-align: middle;">
+<span style="margin-top: 0px;">
+<p><marquee scrollAmount="3" width="240">
+<a style="color:red;" target="_blank" href="{echo yxwgurl('news',$news_list[0]['id'])}">{$news_list[0]['title']}</a>
+</marquee></p>
+</span>
+</span>
+				</div>
+
+				<div class="lv2_login_left">
+					<span class="name"><span style="color:#ccc">{lang yxwg_web:index_user_1}</span><span id="uname"><a href="home.php?mod=space&uid={$uid}" style="color:#f80;font-weight:700;">{$username}</a></span></span><br>
+					<span class="name"><span style="color:#ccc">{lang yxwg_web:index_user_3}</span><span id="ukk">{$uid}</span></span>
+					<div class="lv2_acc_s">
+						<p class="tit">{lang yxwg_web:index_user_5}</p>
+						<div class="recentServer" id="played">
+
+							{loop $last_play $item}
+							<span class="s"><a href="{echo yxwgurl('play',$item['host'],$item['sid'])}" target="_blank">{$item['gname']}{lang yxwg_web:index_user_6}{$item['sname']}{lang yxwg_web:index_user_7}</a></span>
+							{/loop}
+
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="lv2_login_cen">
+					<div class="tit"><s></s>{lang yxwg_web:game_newsrv_1}</div>
+					<div class="lv2_new_sev">
+						{if $item = current($server_list)}
+						<a target="_blank" href="{echo yxwgurl('play',$ghost,$item['sno'])}"><span>{$item['name']}</span></a>
+						{/if}
+
+					</div>
+					<div class="tit"><s></s>{lang yxwg_web:game_allsrv_1}</div>
+					<div class="lv2_all_sev">
+						<div class="lv2_all_sev_list">
+							{loop $server_list $item}
+							<a target="_blank" href="{echo yxwgurl('play',$ghost,$item['sno'])}"><span>{$item['name']}</span></a>
+							{/loop}
+						</div>
+					</div>
+				</div>
+
+				<div class="lv2_login_right">
+					<a href="forum.php" target="_blank" class="bbs">{lang yxwg_web:game_tab_1}</a>
+					<a href="tencent://message/?uin={$kfqq}" class="service">{lang yxwg_web:game_tab_2}</a>
+					<a class="pay" target="_blank" href="{echo yxwgurl('pay')}">{lang yxwg_web:game_tab_3}</a>
+					<a href="{echo yxwgurl('card',$gid)}" target="_blank" class="card" style="background:none">{lang yxwg_web:game_tab_4}</a>
+				</div>
+
+			</div>
+			<div class="lv2_show_bg"></div>
+
+		</div>
+		<div class="lv2_material">
+			<div class="lv2_material_show">
+				<div class="lv2_material_show_l">
+					<div class="activ">
+						<div class="lv2_material_show_tit"><em>{lang yxwg_web:game_news_1}</em></div>
+						<div class="list">
+							<ul>
+								{loop array_slice($news_list,0,18) $item}
+								<li><s></s><a target="_blank" href="{echo yxwgurl('news',$item['nid'])}">{$item['title']}</a></li>
+								{/loop}
+							</ul>
+						</div>
+					</div>
+
+					<div class="strategy">
+						<div class="lv2_material_show_tit"><em>{lang yxwg_web:game_news_2}</em></div>
+						<div class="strategy_list">
+							{loop array_slice($strategy_list,0,32) $item}
+							<a target="_blank" href="{echo yxwgurl('gl',$item['nid'])}" >{$item['title']}</a>
+							{/loop}
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="lv2_material_show_r">
+					<div class="lv2_material_show_tit"><em>{lang yxwg_web:game_other_1}</em></div>
+					<div class="lv2_recommend_list">
+						<ul>
+							{loop array_slice($game_list,0,8) $item}
+							<li>
+	<span class="img">
+		<a  href="{echo yxwgurl('game',$item['gid'])}">
+			<img width="162" height="70" src="https://img.5qwan.com/ckfinder/userfiles/game_images/{$item['host']}_hott.jpg">
+		</a>
+	</span>
+								<span class="type">{lang yxwg_web:game_other_type_1}<a class="class">{$item['type']}</a>
+		<a class="into" href="javascript:;">{$item['name']}</a>
+	</span>
+							</li>
+							{/loop}
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div class="lv2_material_bg"></div>
+		</div>
+	</div>
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->

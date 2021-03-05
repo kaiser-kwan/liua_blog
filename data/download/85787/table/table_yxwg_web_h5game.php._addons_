@@ -1,0 +1,144 @@
+<?php
+//======================================================================
+//
+//	  Copyright (C) 2015-2016 深圳飓风伟业网络有限公司
+//	  All rights reserved
+//
+//	  filename :table_yxwg_web_h5game.php
+//	  description :
+//
+//	  created by ier at 2016-07-22 17:19:40
+//	  http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_h5game extends discuz_table{
+
+	public function __construct() {
+		$this->_table = 'yxwg_web_h5game';
+		$this->_pk = 'id';
+		parent::__construct();
+	}
+	private static function icons($data){
+		if (empty($data)) {
+			return $data;
+		}
+		$iconpre = substr($data['iconUrl'],0,-9);
+		$data['rating'] = 10;
+		$data['icons'] = array();
+		$data['icons']['16'] = $iconpre.'16x16.png';
+		$data['icons']['32'] = $iconpre.'32x32.png';
+		$data['icons']['64'] = $iconpre.'64x64.png';
+		$data['icons']['96'] = $iconpre.'96x96.png';
+		$data['icons']['256'] = $iconpre.'256x256.png';
+		return $data;
+	}
+	private static function iconss($items){
+		foreach ($items as &$item)
+			$item = self::icons($item);
+		return $items;
+	}
+	public function byid($id){
+		$result = DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+		return self::icons($result);
+	}
+	public function byappid($appid){
+		$result = DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('appid',$appid));
+		return self::icons($result);
+	}
+	public function range($start = 0, $limit = 0, $where = '',$item='', $sort = 'DESC') {
+		// TODO...
+		$result = DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? ' WHERE `list`>=0 ':'').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, '');
+		return self::iconss($result);
+	}
+	public function bytype($pagesize = 20, $page = 1, $type = '',$dtype=0, $sort = 'DESC') {
+		$table = DB::table($this->_table);
+		$sql = "SELECT * FROM $table ".($type?" WHERE FIND_IN_SET('$type',categoryName) ":'').($dtype?(($type?' AND':' WHERE')." dtype='$dtype' "):'').($sort ? ' ORDER BY '.DB::order('sort', $sort) : '').DB::limit(($page-1)*$pagesize, $pagesize);
+		$result = DB::fetch_all($sql, null, '');
+		return self::iconss($result);
+	}
+	public function bytag($pagesize = 20, $page = 1, $tag = '',$dtype=0, $sort = 'DESC') {
+		$table = DB::table($this->_table);
+		$sql = "SELECT * FROM $table ".($tag?" WHERE tag='$tag' ":'').($dtype?(($tag?' AND':' WHERE')." dtype='$dtype' "):'').($sort ? ' ORDER BY '.DB::order('sort', $sort) : '').DB::limit(($page-1)*$pagesize, $page*$pagesize);
+		$result = DB::fetch_all($sql, null, '');
+		return self::iconss($result);
+	}
+	public function add($appid,$dtype,$packageName,$minVersion,$minVersionCode,$name,$categoryName,$description,$developer,$direction,$host,$iconUrl,$screenshotsUrl,$versionName,$tag,$downloadTimes,$downloadUrl,$apkSize,$createTime,$updateTime,$brief,$app_ad,$sort){
+		$item = array();
+		$item['appid']          = $appid;
+		$item['dtype']          = $dtype;
+		$item['packageName']    = $packageName;
+		$item['minVersion']     = $minVersion;
+		$item['minVersionCode'] = $minVersionCode;
+		$item['name']           = $name;
+		$item['categoryName']   = $categoryName;
+		$item['description']    = $description;
+		$item['developer']      = $developer;
+		$item['direction']      = $direction;
+		$item['host']           = $host;
+		$item['iconUrl']        = $iconUrl;
+		$item['screenshotsUrl'] = $screenshotsUrl;
+		// $item['rating']      = $rating;
+		$item['versionName']    = $versionName;
+		$item['tag']            = $tag;
+		$item['downloadTimes']  = $downloadTimes;
+		$item['downloadUrl']    = $downloadUrl;
+		$item['apkSize']        = $apkSize;
+		$item['createTime']     = $createTime;
+		$item['updateTime']     = $updateTime;
+		$item['brief']          = $brief;
+		$item['app_ad']         = $app_ad;
+		$item['sort']           = $sort;
+		return $this->insert($item);
+	}
+	public function updbyappid($appid,$dtype,$packageName,$minVersion,$minVersionCode,$name,$categoryName,$description,$developer,$direction,$host,$iconUrl,$screenshotsUrl,$versionName,$tag,$downloadTimes,$downloadUrl,$apkSize,$createTime,$updateTime,$brief,$app_ad,$sort){
+		$item = $this->byappid($appid);
+		// $item = array();
+		$item['dtype']          = $dtype;
+		$item['packageName']    = $packageName;
+		$item['minVersion']     = $minVersion;
+		$item['minVersionCode'] = $minVersionCode;
+		$item['name']           = $name;
+		$item['categoryName']   = $categoryName;
+		$item['description']    = $description;
+		$item['developer']      = $developer;
+		$item['direction']      = $direction;
+		$item['host']           = $host;
+		$item['iconUrl']        = $iconUrl;
+		$item['screenshotsUrl'] = $screenshotsUrl;
+		// $item['rating']      = $rating;
+		$item['versionName']    = $versionName;
+		$item['tag']            = $tag;
+		$item['downloadTimes']  = $downloadTimes;
+		$item['downloadUrl']    = $downloadUrl;
+		$item['apkSize']        = $apkSize;
+		$item['createTime']     = $createTime;
+		$item['updateTime']     = $updateTime;
+		$item['brief']          = $brief;
+		$item['app_ad']         = $app_ad;
+		$item['sort']           = $sort;
+		return $this->update($item['id'],array('id'=>$item['id']));
+	}
+	public function del($id){
+		return $this->delete($id);
+	}
+	public function bycategory($dtype=0, $type = '', $pagesize = 20, $page = 1){
+		$table = DB::table($this->_table);
+		$sql = "SELECT count(1) FROM $table ".($type?" WHERE FIND_IN_SET('$type',categoryName) ":'').($dtype?(($type?' AND':' WHERE')." dtype='$dtype' "):'');
+		$total = current(DB::fetch_first($sql));
+		$items = $this->bytype($pagesize, $page, $type, $dtype);
+		$num = count($items);
+		$start = ($page-1)*$pagesize;
+		return ['total'=>$total,'num'=>$num,'start'=>$start,'items'=>$items];
+
+	}
+	public function truncate(){
+		$table = DB::table($this->_table);
+		return DB::query("TRUNCATE TABLE $table");
+	}
+	public function count(){
+		$table = DB::table($this->_table);
+		return DB::query("SELECT COUNT(*) FROM $table");
+	}
+}

@@ -1,0 +1,71 @@
+	</div>
+<style type="text/css">
+#wg_footer {
+	background: #333;
+    width: 100%;
+    min-width: 1000px;
+    height: 166px;
+    text-align: center;
+    cursor: default;
+    margin: 0 auto;
+    margin-top: 20px;
+    color: #959595;
+    line-height: 20px;
+}
+#wg_footer .footer_div{
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+#wg_footer .footerLogo {
+    float: left;
+    margin-top: 50px;
+}
+#wg_footer .footer_content {
+    float: right;
+    width: 660px;
+    text-align: left;
+    margin-top: 35px;
+}
+#wg_footer .footer_content div a {
+    text-decoration: none;
+    color: #a4a4a4;
+    font-size: 12px;
+    font-family: "SimSun";
+    line-height: 21px;
+}
+#wg_footer .footer_content div a:hover {
+    color: #ff5930;
+}
+</style>
+<div id="wg_footer">
+	<div class="footer_div">
+		<div class="footerLogo">
+			<a href="/" target="_blank">
+				<img width="230" height="60" src="{$_G['cache']['style_default']['boardimg']}">
+			</a>
+		</div>
+		<div class="footer_content">
+			<div>
+				<a href="$_G['setting']['siteurl']" target="_blank">$_G['setting']['sitename']</a>
+				<!--{if $_G['setting']['icp']}-->
+				[<a href="http://www.miitbeian.gov.cn/" target="_blank">$_G['setting']['icp']</a>]
+				<!--{/if}-->
+				Copyright 2015-2016 <a href="$_G['setting']['siteurl']" target="_blank">$_G['setting']['sitename']</a>
+			</div>
+			<div>
+				{lang time_now}
+				<span id="debuginfo">
+				<!--{if debuginfo()}-->, Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries
+					<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo ucwords(C::memory()->type)}--> On<!--{/if}-->.
+				<!--{/if}-->
+				</span>
+			</div>
+			<div>{lang yxwg_web:footer_1}</div>
+			<div>{lang yxwg_web:footer_2}</div>
+			<div>{lang yxwg_web:footer_3}{$_G['setting']['sitename']}{lang yxwg_web:footer_4}</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

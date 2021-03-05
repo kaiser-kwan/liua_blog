@@ -1,0 +1,95 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_play.php
+//      description :
+//
+//      created by ier at 2016-07-27 11:43:40
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_play extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_play';
+        $this->_pk = 'id';
+        parent::__construct();
+    }
+    public function byid($id){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+    }
+    public function byuid($uid){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('uid',$uid));
+    }
+    public function getmaxsid($gid){
+        return current(DB::fetch_first('SELECT max(`sid`) FROM '.DB::table($this->_table)." WHERE gid='$gid'"));
+    }
+    public function bygid($gid=0,$count=999,$uid=0){
+        global $_G;
+        $table   = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        $table_s = DB::table('yxwg_web_server');
+        $table_h = DB::table('yxwg_web_h5game');
+        $uid = $uid?$uid:$_G['uid'];
+        $items = $this->range(0,$count,1);
+        foreach ($items as $k => $v) {
+            if($v['sid'] == 0){
+                $sql = "SELECT * FROM $table_h WHERE". DB::field('id',$v['gid']);
+                $items[$k] = DB::fetch_first($sql);
+            }else{
+                $sql = "SELECT r.`uid`,g.`name`gname,g.`gid`,g.`host`,s.`name`sname,r.`sid`,max(r.`play_time`)play_time FROM $table r LEFT JOIN $table_g g ON r.`gid`=g.`gid` LEFT JOIN $table_s s ON r.`gid`=s.`gid` AND r.`sid`=s.`sno` WHERE r.`id` = {$v['id']} AND g.`flag`>0 ".($gid?" AND r.`gid`='$gid'":'');
+                $items[$k] = DB::fetch_first($sql);
+            }
+        }
+        
+        return $items;
+    }
+    public function range($start = 0, $limit = 0, $where = '',$item='', $sort = 'DESC') {
+        global $_G;
+        $uid = $uid?$uid:$_G['uid'];
+        return DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? " WHERE `uid`={$uid} ":'').($item ? ' ORDER BY '.DB::order($item, $sort) : ' ORDER BY '.DB::order('play_time','DESC')).DB::limit($start, $limit), null, $this->_pk ? $this->_pk : '');
+    }
+    public function byhost($host='',$count=999,$uid=0){
+        $game = C::t('#yxwg_web#yxwg_web_game')->byhost($host);
+        return $this->bygid($game['gid'],$count);
+    }
+    public function count($where = ''){
+        
+    }
+    public function add($host,$sid){
+        global $_G;
+        $game = C::t('#yxwg_web#yxwg_web_game')->byhost($host);
+        $item = array();
+        $item['uid']       = $_G['uid'];
+        $item['gid']       = $game['gid'];
+        $item['sid']       = $sid;
+        $item['play_time'] = date('Y-m-d H:i:s',$_G['timestamp']);
+        return $this->insert($item);
+    }
+    public function h5_add($appid){
+        global $_G;
+        $game = C::t('#yxwg_web#yxwg_web_h5game')->byappid($appid);
+        $item = array();
+        $item['uid']       = $_G['uid'];
+        $item['gid']       = $game['id'];
+        $item['sid']       = 0;
+        $item['play_time'] = date('Y-m-d H:i:s',$_G['timestamp']);
+        return $this->insert($item);
+    }
+    public function del($id){
+        return $this->delete($id);
+    }
+
+    public function show_table($start, $limit){
+        $table_p = DB::table($this->_table);
+        $table_m = DB::table("common_member");
+        $table_g = DB::table("yxwg_web_game");
+        $table_s = DB::table("yxwg_web_server");
+        return DB::fetch_all("select m.username,p.play_time,s.name as sname,g.name as gname from (({$table_p} as p left join {$table_m} as m on p.uid = m.uid) left join {$table_g} as g on p.gid = g.gid) left join {$table_s} as s on p.sid = s.sno and p.gid = s.gid limit {$start},{$limit}");
+    }
+}

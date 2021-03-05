@@ -1,0 +1,76 @@
+<script>
+$(function(){
+	//ÏÔÊ¾¶þÎ¬Âë
+	$(".good_recom_ul li").find("a.g_r_down").hover(function(){
+		var li = $(this).parent();
+		var index = li.index();
+		var url = $(this).attr("href");
+		li.addClass("qr-show").siblings().removeClass();
+		//console.log(url);
+		li.find(".lazy_img").attr("src","http://www.5qwan.com/wxpay/native/qrcode.php?data="+escape(url));
+	},function(){
+		var img = $(this).attr("data_icon");
+		var li = $(this).parent();
+		li.find(".lazy_img").attr("src",img);
+	});
+})
+</script><style type="text/css">
+    .footer{height:auto;font-size:12px; border-top: 1px solid #444;background: #333; color:#c2c2c2;line-height: 24px;padding: 18px 0;text-align: center;}
+    .footer a{color:#efefef;padding:0 5px}
+    .footer a:hover{text-decoration:underline}
+</style>
+<div class="footer">
+	<div id="flk" class="y">
+		<p>
+			<!--{if $_G['setting']['site_qq']}--><a href="http://wpa.qq.com/msgrd?V=3&Uin=$_G['setting']['site_qq']&Site=$_G['setting']['bbname']&Menu=yes&from=discuz" target="_blank" title="QQ"><img src="{IMGDIR}/site_qq.jpg" alt="QQ" /></a><span class="pipe">|</span><!--{/if}-->
+			<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
+					!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav[code]<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
+					<strong><a href="$_G['setting']['siteurl']" target="_blank">$_G['setting']['sitename']</a></strong>
+			<!--{if $_G['setting']['icp']}-->( <a href="http://www.miitbeian.gov.cn/" target="_blank">$_G['setting']['icp']</a> )<!--{/if}-->
+			<!--{hook/global_footerlink}-->
+			<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+		</p>
+		<p class="xs0">
+			{lang time_now}
+			<span id="debuginfo">
+			<!--{if debuginfo()}-->, Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries
+				<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo ucwords(C::memory()->type)}--> On<!--{/if}-->.
+			<!--{/if}-->
+			</span>
+		</p>
+	</div>
+	<div id="frt">
+		<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>{$lang['footer']['edition']}</em></p>
+		<p class="xs0">&copy;{$lang['footer']['age']} <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a></p>
+	</div>
+</div>
+<script>
+$(function(){
+	$(".app-box").mousemove(function(e){	
+		var x = e.originalEvent.offsetX ;
+		var y = e.originalEvent.offsetY; 
+		//var x=e.screenX;
+		//var y=e.screenY-90;
+	
+		//console.log(x+"  ---  "+y);
+		//console.log(e.originalEvent);
+		$(this).find(".app-popover").css({'top':(y+50),'left':x,'position':'absolute'});
+		$(this).find(".app-popover").show();
+	
+		
+		//console.log(e);
+	});		
+	$(".app-box").mouseleave(function(){
+	  $(this).find(".app-popover").hide();
+	});
+	$(".cate-name li").click(function(){
+		//console.log("11");
+		var index = $(this).index();
+		$(".sec-caterec").find("div.app-bd").eq(index).css({'display':'inline-block'}).siblings().not(".cate-name").hide();
+	})
+
+	
+})
+
+</script>
+</body></html>

@@ -1,0 +1,26 @@
+
+
+<style type="text/css">
+	#mongolia{width: 100%;height: 100%;position: fixed;left:0;top:0;opacity: 0.3; background-color: #000;z-index: 999}
+	#progress{position: absolute; border-radius: 20px;background-color: #e2e2e2;line-height: 18px;height: 18px;width: 80%;z-index: 9999;left: 10%;top:50%;margin-top:-9px;}
+	.progress-bar{position: absolute;    left: 0;top: 0;    max-width: 100%;border-radius: 20px;text-align: right;background-color: #5FB878;height:  18px;width: 0%}
+	#progress_text{position: absolute; border-radius: 5px;background-color: #e2e2e2;line-height: 18px;height: 18px;z-index: 9999;left: 50%;top:50%;margin-top:-80px;font-size: 20px;z-index: 9999;width: 260px;height: 50px;background-color: #ddd;display: flex;align-items: center;justify-content: center;margin-left: -130px;}
+	#progress-box{display: none;}
+	.progress-type{transition:  all 2s;-moz-transition: all 2s;-webkit-transition: all 2s;-o-transition: all 2s;}
+</style>
+
+<div id="progress-box">
+	<div id="mongolia">
+	</div>
+	
+	<div id="progress">
+		<div class="progress-bar progress-type">0%</div>
+	</div>
+	<div id="progress_text">{lang yxwg_web:progress_0}</div>
+	<div id="game_show" style="display: none;">{lang yxwg_web:progress_2}</div>
+	<div id="serv_show" style="display: none;">{lang yxwg_web:progress_3}</div>
+	<div id="news_show" style="display: none;">{lang yxwg_web:progress_4}</div>
+	<div id="gl_show" style="display: none;">{lang yxwg_web:progress_5}</div>
+</div>
+
+<script src="./source/plugin/yxwg_web/template/js/progress.js?v=12"></script>

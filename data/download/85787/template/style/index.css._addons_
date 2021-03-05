@@ -1,0 +1,730 @@
+#wp_topbar div,
+#wp_topbar dl,
+#wp_topbar dt,
+#wp_topbar dd,
+#wp_topbar ul,
+#wp_topbar ol,
+#wp_topbar li,
+#wp_topbar h1,
+#wp_topbar h2,
+#wp_topbar h3,
+#wp_topbar form,
+#wp_topbar p,
+#wp_topbar button {
+    margin: 0;
+    padding: 0;
+}
+
+#wp_topbar {
+    background: #fafafa;
+    /*border-top:1px solid #3FB138;*/
+    height: 43px;
+    border-bottom: 1px solid #EEEEEE;
+    color: #4C4C4C;
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+    line-height: 1.6;
+    font-size: 14px;
+    color: #646464;
+}
+#wp_topbar li,
+#wp_topbar ul {
+    list-style: none;
+}
+
+#wp_topbar a,
+#wp_topbar a:link {
+    color: #646464;
+    text-decoration: none;
+    outline: none
+}
+
+#wp_topbar a:hover,
+#wp_topbar .Tlists dd a:hover {
+    color: #ff6600
+}
+
+#wp_topbar img {
+    border: none;
+}
+
+#wp_topbar em,
+i {
+    font-style: normal
+}
+
+#wp_topbar input:focus,
+#wp_topbar textarea:focus {
+    outline: none;
+}
+
+#wp_topbar .topbar {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+#wp_topbar .topbar .index {
+    width: 200px;
+}
+
+#wp_topbar .topbar ul.navlist {
+    float: left;
+    min-width: 520px;
+    width: auto;
+    height: 43px;
+    padding-left: 4px;
+    border: 0;
+}
+
+#wp_topbar .navlist li {
+    float: left;
+    padding: 0 10px 0 0;
+    height: 43px;
+    font-size: 14px;
+    line-height: 43px;
+    text-align: center;
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+    width: auto;
+    border: 0;
+}
+
+#wp_topbar .navlist li a {
+    display: block;
+    text-align: center;
+    height: 43px;
+    color: #4C4C4C;
+}
+
+#wp_topbar .navlist li a:hover {
+    text-decoration: underline
+}
+
+#wp_topbar .navlist .line {
+    margin-right: 10px;
+    padding: 0px;
+    border-right: 1px solid #cfcfcf;
+    height: 14px;
+    vertical-align: middle;
+    margin-top: 15px;
+}
+
+#wp_topbar .navlist li.Hdh {
+    cursor: pointer;
+    position: relative;
+}
+
+#wp_topbar .Hdh span.Htnav {
+    display: block;
+    padding: 1px 10px 0;
+    height: 42px;
+    line-height: 41px;
+    z-index: 20000;
+    position: relative
+}
+
+#wp_topbar .curr span.Htnav {
+    border: 1px solid #ddd;
+    border-bottom: none;
+    padding: 0 9px;
+    background: #fff;
+    height: 43px;
+}
+
+#wp_topbar .Hdh .maindh {
+    display: none
+}
+
+#wp_topbar .curr .maindh {
+    display: block;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    width: 360px;
+    padding: 10px 0;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: #fff;
+    z-index: 1999;
+}
+
+#wp_topbar .maindh dl.Toplists {
+    float: left;
+    width: 119px;
+    min-height: 100px;
+    line-height: 1.8em;
+    font-size: 12px;
+    border-right: 1px dotted #ccc
+}
+
+#wp_topbar .maindh dl.Toplists dt {
+    padding: 0 10px;
+    text-align: center;
+    height: 30px;
+    font-size: 14px;
+}
+
+#wp_topbar .maindh dl.Toplists dt i {
+    color: #ff6500;
+    height: auto;
+    height: auto
+}
+
+#wp_topbar .maindh dl.Toplists dd {
+    padding: 0 10px;
+    text-align: center;
+    line-height: 2.2em;
+    overflow: hidden;
+    height: 28px;
+}
+
+#wp_topbar .maindh dl.Toplists dd a {
+    color: #929292;
+    height: auto
+}
+
+#wp_topbar .navlist li.Hdh em {
+    display: inline-block;
+    width: 13px;
+    margin-left: 2px;
+    height: 20px;
+    background: url(source/plugin/yxwg_web/template/images/t015be05954a1533f45.png) no-repeat -42px -57px;
+    vertical-align: middle;
+}
+
+#wp_topbar .navlist li.phone {
+    width: 60px;
+    height: 30px;
+    text-align: right;
+    padding: 0 18px;
+}
+#wp_topbar .navlist li.shouchang {
+    width: 60px;
+    height: 30px;
+    text-align: right;
+    padding: 0 18px;
+}
+#wp_topbar .navlist li.zhuomian {
+    width: 60px;
+    height: 30px;
+    text-align: right;
+    padding: 0 18px;
+}
+
+#wp_topbar .navlist li.phone a {
+    color: #000;
+}
+
+#wp_topbar .Hlogin {
+    float: right;
+    font-size: 14px;
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+}
+
+#wp_topbar .Hlogin .name {
+    float: left;
+    width: 125px;
+    text-align: center;
+    position: relative;
+    color: #ff6500;
+}
+
+#wp_topbar .name span.txt,
+.messages span.txt {
+    display: inline-block;
+    height: 30px;
+    overflow: hidden;
+    padding: 13px 13px 0 13px;
+    cursor: pointer
+}
+
+#wp_topbar .name span.txt em.sico,
+.messages span.txt em {
+    display: inline-block;
+    width: 14px;
+    height: 10px;
+    background: url(source/plugin/yxwg_web/template/images/t015be05954a1533f45.png) no-repeat right 2px;
+    text-indent: 2000px;
+    line-height: 1;
+}
+
+#wp_topbar .Namecur span.txt,
+.newmes span.txt {
+    padding: 12px 12px 0 12px;
+    border: 1px solid #DDDDDD;
+    border-bottom: 1px solid #FCFCFC;
+    color: #ff6500;
+    background: #fff
+}
+
+#wp_topbar .Namecur span.txt em.sico,
+.newmes span.txt em {
+    background-position: right -12px
+}
+
+#wp_topbar .loginname {
+    display: none;
+}
+
+#wp_topbar .name span.txt i {
+    display: inline-block;
+    width: 84px;
+    height: 26px;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#wp_topbar .Namecur dl.loginname {
+    border: 1px solid #DDDDDD;
+    border-top: none;
+    font-size: 14px;
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+    background: #fff;
+    width: 260px;
+    height: 180px;
+    padding: 15px;
+    text-align: left;
+    position: absolute;
+    top: 44px;
+    right: 1px;
+    z-index: 1000;
+    display: block;
+}
+
+#wp_topbar .Namecur dl.loginname dt {
+    overflow: hidden;
+    height: 75px;
+    padding: 0 5px
+}
+
+#wp_topbar .loginname dt img {
+    float: left;
+    width: 54px;
+    height: 54px;
+    padding: 3px;
+    border: 1px solid #E7E7E7;
+    margin: 0 10px 10px 0
+}
+
+#wp_topbar .loginname dt .Dtuser {
+    font-size: 16px;
+    color: #404040;
+    height: 35px;
+}
+
+#wp_topbar .loginname dt .Dtuser em {
+    font-size: 12px;
+    color: #fd6a02;
+    margin: -2px 0 0 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#wp_topbar .loginname dt .Dtid {
+    color: #929292;
+}
+
+#wp_topbar .loginname dt .Dtid i {
+    padding: 0 8px;
+}
+
+#wp_topbar .loginname dt .Dtid a {
+    color: #0090eb;
+}
+
+#wp_topbar .loginname dt .Dtid a:hover {
+    text-decoration: underline;
+}
+
+#wp_topbar .Namecur dl.loginname dd {
+    color: #929292;
+    padding: 10px 5px;
+    border-top: 1px solid #EEEEEE;
+}
+
+#wp_topbar .loginname dd i {
+    color: #0090eb;
+    padding: 0 25px 0 3px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a {
+    display: inline-block;
+    margin: 0 0 8px 5px;
+    width: 116px;
+    color: #929292
+}
+
+#wp_topbar .loginname dd.Ddbtn a em {
+    display: inline-block;
+    width: 18px;
+    height: 16px;
+    background: url(source/plugin/yxwg_web/template/images/ico.png) no-repeat 0 -2000px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a:hover {
+    color: #fe6700;
+}
+
+#wp_topbar .loginname dd.Ddbtn a em.ico_user {
+    background-position: 0 -17px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a:hover em.ico_user {
+    background-position: 0 -1px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a em.ico_message {
+    background-position: -23px -18px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a:hover em.ico_message {
+    background-position: -23px -1px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a em.ico_myhome {
+    background-position: 0 -44px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a:hover em.ico_myhome {
+    background-position: 0 -62px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a em.ico_keep {
+    background-position: -23px -45px;
+}
+
+#wp_topbar .loginname dd.Ddbtn a:hover em.ico_keep {
+    background-position: -23px -63px;
+}
+
+#wp_topbar .Hlogin .messages {
+    float: left;
+    width: 70px;
+    position: relative
+}
+
+#wp_topbar .Hlogin .messages em.newsnow {
+    text-indent: 0;
+    background: none;
+    color: #FC575E;
+    font-size: 30px;
+    position: absolute;
+    right: 3px;
+    top: -1px;
+}
+
+#wp_topbar .Hlogin .newmes .loginMes {
+    display: block;
+}
+
+#wp_topbar .loginMes {
+    display: none;
+    position: absolute;
+    right: 2px;
+    top: 44px;
+    z-index: 2001;
+    background: #fff;
+    width: 90px;
+    height: 81px;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 10px;
+    border: 1px solid #DDDDDD;
+    border-top: none;
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+}
+
+#wp_topbar .loginMes dd {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #929292;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+#wp_topbar .loginMes dd a i {
+    color: #fe3700
+}
+
+#wp_topbar .loginMes dd a,
+.loginMes dd a:hover {
+    color: #929292;
+}
+
+#wp_topbar .loginMes dd a:hover i {
+    text-decoration: underline;
+}
+
+#wp_topbar .loginOut {
+    float: left;
+    width: 200px;
+    padding: 13px 0 0 0;
+    text-align: right;
+    color: #C8C8C8
+}
+
+#wp_topbar .loginOut a {
+    display: inline-block;
+    margin: 0 5px;
+    color: #4c4c4c
+}
+
+#wp_topbar .loginOut a:hover {
+    text-decoration: underline
+}
+
+#wp_topbar .Topgz {
+    float: right;
+    width: 145px;
+    line-height: 49px;
+    height: 43px;
+    color: #4c4c4c
+}
+
+#wp_topbar .Topgz span {
+    margin: 0 3px 0 5px;
+    position: relative;
+    cursor: pointer
+}
+
+#wp_topbar .Topgz span img {
+    vertical-align: middle;
+    margin-top: -8px;
+}
+
+#wp_topbar .Topgz .weibo {
+    display: none;
+    position: absolute;
+    left: -56px;
+    top: 18px;
+    background: url(source/plugin/yxwg_web/template/images/t01b885f70042433c07.png) no-repeat top center;
+    padding: 7px 0 0 0;
+    width: 126px;
+    font-size: 12px;
+    line-height: 0;
+    z-index: 2000;
+}
+
+#wp_topbar .Topgz .weibo a {
+    padding: 0 8px;
+    color: #666;
+    display: block;
+    line-height: 28px;
+    border: 1px solid #ddd;
+    border-top: none;
+    background: #fff;
+}
+
+#wp_topbar .Topgz .weibo a:hover {
+    background: #f5f7f9;
+    color: #ff6500
+}
+
+#wp_topbar .Topgz .Ma {
+    display: none;
+    position: absolute;
+    left: -92px;
+    top: 27px;
+    width: 130px;
+    text-align: center;
+    z-index: 2000;
+}
+
+#wp_topbar .curr .weibo,
+#wp_topbar .curr .Ma {
+    display: block;
+}
+
+.mod-qiuser-pop .find a {
+    margin-left: 0;
+}
+
+#mod_quc_pop .reg-new-account {
+    position: absolute;
+    top: -30px;
+    right: 94px;
+}
+
+#loginForm .other .title {
+    padding: 0;
+}
+
+#mod_quc_pop #other-login {
+    margin-left: 25px;
+    margin-top: 13px;
+    line-height: 30px;
+    height: 34px;
+    font-size: 16px;
+}
+
+#mod_quc_pop #other-login a,
+#mod_quc_pop #quick-login a {
+    color: #fff;
+}
+
+#regWays .ncur {
+    visibility: hidden;
+}
+
+#tb_tip {
+    color: red;
+}
+
+
+/*top*/
+
+#wp_search {
+    float: left;
+    width: 380px;
+    height: 41px;
+    background: #2B242F ;
+    margin: 32px 0 0 42px;
+    position: relative;
+    z-index: 99
+}
+
+#wp_search input {
+    font-family: Arial, Microsoft YaHei, tahoma, Verdana, Geneva, sans-serif;
+    float: left;
+    width: 316px;
+    height: 29px;
+    margin: 3px;
+    padding: 3px 5px;
+    border: none;
+    background: #fff;
+    font-size: 14px;
+    line-height: 2em;
+    color: #646464;
+}
+
+#wp_search .searchlist {
+    border: 3px solid #3EB137;
+    border-top: none;
+    width: 326px;
+    min-height: 20px;
+    _height: 20px;
+    background: #fff;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    z-index: 999
+}
+
+#wp_search .searchlist li {
+    border-top: 1px solid #F4F4F4;
+    overflow: hidden;
+    height: 48px;
+}
+
+#wp_search .searchlist li a {
+    display: block;
+    padding: 6px 15px 4px;
+    height: 38px
+}
+
+#wp_search .searchlist li img {
+    width: 33px;
+    height: 33px;
+    float: left;
+    margin: 2px 10px 0 0;
+}
+
+#wp_search .searchlist li strong {
+    font-size: 14px;
+    display: block;
+    font-weight: normal;
+    line-height: 1.4em;
+    color: #1c1c1c
+}
+
+#wp_search .searchlist li span {
+    display: block;
+    font-size: 12px;
+}
+
+#wp_search .searchlist li span em {
+    color: #ff6c2b;
+}
+
+#wp_search .searchlist li a:hover {
+    background: #F7F7F7;
+    font-weight: bold
+}
+
+#wp_search .searchlist li a:hover strong {
+    color: #ff6c2b;
+    font-weight: bold
+}
+
+#wp_hottag {
+    float: left;
+    width: 230px;
+    padding: 35px 20px 0;
+    font-size: 12px;
+    font-family: 宋体
+}
+
+#wp_hottag a,
+a:link {
+    color: #333;
+    text-decoration: none;
+    outline: none
+}
+
+#wp_hottag a:hover,
+.Tlists dd a:hover {
+    color: #ff6600
+}
+
+#wp_banner {
+    float: right;
+    background: white;
+    width: 250px;
+    border: 1px dashed #EFEFEF;
+    height: 48px;
+    margin: 15px 0 0 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#wp_banner img {
+    float: left;
+    margin-right: 5px;
+    width: 48px;
+    height: 48px;
+}
+
+#wp_banner strong {
+    font-size: 16px;
+    color: #333;
+    font-weight: normal;
+    line-height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#wp_banner span {
+    display: block;
+    font-size: 14px;
+    color: #999;
+    line-height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#wp_banner a {
+    width: 70px;
+    height: 24px;
+    text-align: center;
+    color: #fff;
+    padding: 1px 5px;
+    line-height: 24px;
+    background: #83CE63;
+    border-radius: 3px;
+    margin: 0 0 0 5px;
+}
+.n_img_img_bg{background: url(http://sj.5qwan.com/img/zzc.png) no-repeat; height: 300px; position: absolute;width: 100%;z-index: 901}

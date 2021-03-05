@@ -1,0 +1,24 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :download.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:33:38
+//        http://vier.ml
+//
+//======================================================================
+// if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//判断手游插件是否存在
+if(!empty($_G['cache']['plugin']['yxwg_shouji'])){
+    echo "<meta HTTP-EQUIV=refresh Content='0;url=plugin.php
+?id=yxwg_shouji'>";
+    exit();
+}else if(!empty($_G['adminid']) && $_G['adminid'] == 1){
+    echo "<a  href = 'https://addon.dismall.com/plugins/yxwg_shouji.html'>{$lang['shouji']['admin']}</a>";
+}else{
+	echo "<a  href = 'plugin.php?id=yxwg_web'>{$lang['shouji']['tips']}</a>";
+}

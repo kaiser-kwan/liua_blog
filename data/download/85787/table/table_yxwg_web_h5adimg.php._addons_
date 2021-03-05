@@ -1,0 +1,45 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_h5adimg.php
+//      description :
+//
+//      created by ier at 2016-07-22 17:19:40
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_h5adimg extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_h5adimg';
+        $this->_pk = 'id';
+        parent::__construct();
+    }
+    public function byid($id){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+    }
+    public function range($start = 0, $limit = 0, $where = '',$item='', $sort = 'DESC') {
+        // TODO...
+        return DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? ' WHERE `list`>=0 ':'').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, '');
+    }
+    public function add($appid,$title,$image,$type){
+        $item = array();
+        $item['appid'] = $appid;
+        $item['title'] = $title;
+        $item['image'] = $image;
+        $item['type']  = $type;
+        return $this->insert($item);
+    }
+    public function del($id){
+        return $this->delete($id);
+    }
+    public function truncate(){
+        $table = DB::table($this->_table);
+        return DB::query("TRUNCATE TABLE $table");
+    }
+}

@@ -1,0 +1,115 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/firstpay.css" />
+<div class="section clearfix mt38">
+    <div class="try-left">
+        <div id="panelGroup" class="clearfix row try-game">
+            <div class="panel active" id="panel_1">
+                <h2 class="h2"><span>{lang yxwg_web:task_8}</span><i>{lang yxwg_web:freepay_1}</i><b></b></h2>
+                <div class="con clearfix running_box">
+                    <!--{loop $game_pay $game}-->
+                    <div class="item">
+                        <div class="content">
+                            <a class="row normal clearfix" target="_blank" href="/plugin.php?id=yxwg_web&a=game&gid={$game['id']}">
+                                <img src="https://img.5qwan.com/img/{$game['host']}_list.jpg">
+                                <p class="adm">{lang yxwg_web:freepay_2} {echo 100*$creditpercent}<em>{$_G['setting']['extcredits'][$gamecredit]['title']}</em></p>
+                            </a>
+                            <div class="tasktitle">
+                                <h3><a uid="{$uid}" class="trade" data="{$game['id']}" gname="{$game['name']}">{lang yxwg_web:freepay_3}</a></h3>
+                                <div class="br">
+                                    <div class="reward">
+                                        <p>{$game['firstpayinfo']}</p>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--{/loop}-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--选择区服-->
+<div id="dialog">
+	<div id="gname" gid=""></div>
+	<div id="serverlist"></div>
+	<div><span id="true" class="fll">{lang yxwg_web:freepay_3}</span><span id="false" class="fll">{lang yxwg_web:freepay_4}</span></div>
+</div>
+
+
+<script>
+$(function(){
+	$(".reward p span").css({'font-size':'12px'});
+
+	$(".trade").click(function(){
+		var uid = $(this).attr("uid");
+		if(uid == '0'){
+			window.location.href = 'member.php?mod=logging&action=login';
+			return ;
+		}
+
+
+
+		var gid = $(this).attr("data");
+		var gname = $(this).attr("gname");
+		$.ajax({
+			url:'./plugin.php?id=yxwg_web&a=firstpay',
+			type:'post',
+			data:{'gid':gid,'getserverlist':'1'},
+			success:function(msg){
+				var server = eval(msg);
+				var len = server.length;
+				var html = '';
+				html += '<select name="sid" id="sid">';
+				for(var i=0;i<len;i++){
+					html += '<option value='+server[i]['sno']+'>'+server[i]['name']+'</option>';
+				}
+				html += '</select>';
+				$("#gname").html(gname);
+				$("#serverlist").html(html);
+				$("#gname").attr("gid",gid);
+				showDialog();
+			}
+		});
+	});
+
+
+	//提交兑换
+	$("#true").click(function(){
+		var sid = $("#sid").val();
+		var gid = $("#gname").attr("gid");
+		$.ajax({
+			url:'./plugin.php?id=yxwg_web&a=firstpay',
+			type:'post',
+			data:{'gid':gid,'sid':sid},
+			success:function(msg){
+				alert(eval('['+msg+']')[0]['msg']);
+			}
+		});
+
+
+	});
+
+
+
+
+	//取消兑换
+	$("#false").click(function(){
+		closeDialog();
+	});
+})
+
+//显示对话框
+function showDialog(){
+	$("body").append('<div class="bg"></div>');
+	$("#dialog").show();
+}
+
+//隐藏对话框
+function closeDialog(){
+	$(".bg").remove();
+	$("#dialog").hide();
+}
+</script>
+
+<!--{eval include template("yxwg_web:$display/footer")}-->

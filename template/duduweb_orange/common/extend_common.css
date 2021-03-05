@@ -1,0 +1,194 @@
+﻿@charset "utf-8";
+* { padding:0; margin:0; border: 0; }
+ol, ul, li { list-style:none; }
+img { border:0;}
+a { text-decoration:none;}
+a:hover { text-decoration:none; color: #ff7e00;}
+.wp { width: 1200px; }
+.ct2_a .mn { width: 1040px; }
+.ct2 .mn { width: 960px; }
+.xl2 li { width: 500px !important; }
+.biduser { width: 1030px !important;  }
+.ct1 { box-sizing: border-box;}
+.bm_c { padding:10px 3px; }
+body{background: #f4f4f4;font-family: Arial, Helvetica, sans-serif; color: #666;}
+/* header.htm */
+#hd .du_header { width: 100%;height: 100px;background: #fff; overflow: hidden;}
+#hd .du_header_inner { width: 1200px;height: 100%;margin: 0 auto;}
+#hd .du_header_logo { width: 200px; height: 40px;float: left; margin-top:30px; margin-right:50px; background: #fff;}
+#hd .du_header_logo img { background: #fff; }
+#hd .du_nav { width: 520px; height: 40px; margin-top: 30px; overflow: hidden; }
+#hd .du_nav li {width: 90px; height:40px; line-height: 40px;text-align: center;float: left; }
+#hd .du_nav li a { height:40px;font-size:16px;color: #333;float: left; box-sizing: border-box;}
+#hd .du_nav li a span { display: none; }
+#hd .du_nav li a:hover { border-bottom: 2px solid #ff7e00; }
+#hd .du_nav li.a a { border-bottom: 2px solid #ff7e00; }
+#hd #scbar { border:1px solid #ff7e00; width: 230px; height:35px; line-height: 35px; background:none;margin-top:32.5px; }
+#scbar .du_scbar_txt { width:140px; height:35px; overflow: hidden;}
+#scbar_txt { height:35px; line-height: 35px; padding-left: 10px; }
+#scbar .du_scbar_type{ width:50px; height:35px; overflow: hidden;}
+#scbar_type {  height:35px; line-height: 36px; text-align: center;padding-left:5px; cursor:pointer; position:relative; background:url({STYLEIMGDIR}/arrow.png) no-repeat left; opacity: 0.8; } 
+#scbar_btn { box-sizing: border-box; width: 40px;height: 35px; background:#ff7e00 url({STYLEIMGDIR}/sc.png) no-repeat center; float: right; }
+.flb { padding: 10px 10px 8px; height: 38px; line-height: 38px;}
+.du_login_all {width: 90px;height: 40px; margin-top: 30px; }
+.du_login { width: 100%;height: 100%;line-height: 40px;text-align: right;color:#fff}
+.du_login a { font-size: 15px;color: #ff7e00; overflow: hidden;padding-left: 5px;}
+#um { padding: 0 0 0 0;}
+#du_login_menu { width: 150px;box-shadow:1px 1px 1px #ff7e00;border:1px solid #ff7e00;margin-top: 5px;border-radius: 3px; padding: 5px; }
+#du_login_menu li { float: left;width: 75px;text-align: center;}
+#du_login_menu li a { display: block; font-size: 12px; padding: 6px 0;}
+.vwmy { background: url({IMGDIR}/user_online.gif) no-repeat 5px 12px; border: none; }
+#du_login_menu li a:hover { color: #fff;background-color:#ff7e00; }
+#um .du_user_img { width: 50px;height: 40px;line-height: 40px; }
+#um .du_user_img img { width: 30px;height: 30px;border-radius: 15px;margin-top: 5px; }
+#um .du_header_arrow { width: 20px; height: 40px; background: url({STYLEIMGDIR}/arrow.png) no-repeat center; opacity: 0.5;}
+.du_hd_nv { width: 90px; line-height: 40px; font-weight: normal; margin-top:30px; position: unset !important; margin-left:10px ;}
+#qmenu { width: 90px; height: 40px; margin:0 auto; background: none; line-height: 40px;font-size: 15px; font-weight: normal; text-align: center; color: #ff7e00;}   
+/* footer.htm */
+#ft { background: #fff; width: 100%; border:none; }
+#frt,#flk { height: 40px; line-height: 40px;color:#666; }
+#frt,#flk p { color:#666 !important;}
+/* portal.htm */
+.du_mn { width: 1200px;  margin: 0 auto; margin-top: 20px;margin-bottom: 20px;}
+.du_sd_l { width: 880px; }
+.du_sd_r { width: 300px; }
+.du_tit { font-size: 20px;}
+.du_content { font-size: 13px;}
+.du_template { border-bottom:2px solid #999}
+.du_banner { width: 880px; height:370px;background: #fff; }
+.du_banner_4 {width:880px; margin-top: 20px;  background: #fff;}
+.du_banner_4  .du_four_inner { width: 860px; margin:0 auto ; }
+.du_banner_4  .du_four_loop { width:215px; padding: 10px 0; }
+.du_banner_4  .du_four_loop img {margin-left: 7.5px; cursor: pointer; transition: all 0.8s;}
+.du_banner_4  .du_four_loop img:hover {transform: scale(1.1);}
+.du_swiper {width: 860px;height: 350px;overflow: hidden;position: relative;}
+.du_swiper_1 ul li{width: 860px;height: 350px;position: relative;overflow: hidden;}
+.du_swiper_1 ul li img{display:block;width: 860px; height: 350px;}
+.du_swiper_1 ul li h2{position: absolute;left: 0;bottom: 0;height: 40px;width:400px;background: rgba(125,125,120,.4);text-indent: 2em; padding-right:500px ;font-size: 15px;line-height: 40px;text-overflow: ellipsis;overflow: hidden; white-space: nowrap;font-weight: normal;color: ghostwhite}
+.du_swiper_2 {position: absolute;right: 10px;bottom: 14px;}
+.du_swiper_2  ul li{float:left;width: 12px;height: 12px;overflow: hidden; margin: 0 5px; border-radius: 50%; background: rgba(0,0,0,0.5);text-indent: 100px;cursor: pointer;}
+.du_swiper_2 ul .on{background: rgba(255,255,255,0.6);}
+.du_swiper_arrow span{position: absolute;color: white;background: rgba(125,125,120,.3);width: 50px;height: 80px; top:50%; font-family: "宋体";line-height: 80px;font-size:60px;margin-top: -40px; text-align: center;cursor: pointer;}
+.du_swiper_arrow .prev{left: 10px;}
+.du_swiper_arrow .next{right: 10px;}
+.du_swiper_arrow span::selection{background: transparent;}
+.du_swiper_arrow span:hover{background: rgba(125,125,120,.8);}
+.du_latest { width: 880px; margin: 10px 0;  background: #fff; }
+.du_latest .frame { border: none }
+.du_latest_inner { width:860px; margin:0 auto; }
+.du_latest_main { width: 860px;  height:210px; margin: 10px 0; border-bottom: 1px solid #e6e6e6; padding: 10px 0 10px 0;}
+.du_latest_info { width: 450px;}
+.du_latest_tit { width:450px; height: 20px; line-height: 20px; font-size: 16px;margin-bottom: 20px; }
+.du_latest .du_latest_tit a{ color: #ff7e00;}
+.du_latest_content {width: 100%;height: 130px; font-size: 14px;}
+.du_latest_oth { width: 100%; height: 26px; color: #666;}
+.du_latest_oth img { width: 26px; height: 26px; border-radius: 13px; float: left; }
+.du_latest_author a { font-size: 15px; font-weight: 600; line-height: 26px; padding-left: 8px; }
+.du_latest_author a img { width: 26px; height: 26px; border-radius: 13px; }
+.du_latest_author span { margin-left: 20px;font-size: 12px; line-height: 26px; }
+.du_latest_act { width:110px; font-size: 10px; float: right; }
+.du_latest_act .du_latest_re { margin-right: 10px; padding-left: 25px; box-sizing: border-box; background: url({STYLEIMGDIR}/reply.png) no-repeat left;}
+.du_latest_act .du_latest_vi { padding-left: 25px; box-sizing: border-box; background: url({STYLEIMGDIR}/view.png) no-repeat left;}
+.du_latest_main .m { overflow: hidden;float:left}
+.du_latest_main .m a img { cursor: pointer; transition: all 0.8s;}
+.du_latest_main .m a img:hover {transform: scale(1.1);}
+.du_sec { width:300px; background: #fff;  }
+.du_sec_inner { width: 280px;  margin: 0 auto; }
+.du_sec_name { width:280px; height:25px; line-height: 25px; font-size: 18px; font-weight: 500; color: #666; }
+.du_sec_list { width: 280px; margin: 10px 0;}
+.du_sec_list a { width:130px; height:30px;line-height:30px; font-size: 13px;float: left;color:#fff;  text-align: center;background: #ff7e00;margin: 7px 5px;}
+.du_sec_view a:hover, .du_sec_list a:hover { background: #ff7e00; color:#fff }  
+.du_sec_view { width:280px; height:35px; text-align: center;line-height: 35px;margin-bottom: 10px;}
+.du_sec_view a { font-size: 15px; font-weight: 600; color: #fff; padding: 10px 105px; background: #ff7e00;}
+.du_ran { width:300px; background: #fff; margin: 20px 0; }
+.du_ran_inner { width: 280px;  margin: 0 auto; background: url({STYLEIMGDIR}/ranking.png) no-repeat 0 20px ;}
+.du_ran_name { width:280px; height:25px; line-height: 25px; font-size: 18px; font-weight: 500; color: #666; }
+.du_ran .du_ran_inner li{ height: 40px; line-height:40px;font-size: 13px; font-weight: 500; color: #444; letter-spacing: 0.5px ; padding-left: 35px; }
+.du_ran .du_ran_inner li a:hover{ color:#ff7e00; }
+.du_hot { width: 300px; background: #fff; margin: 20px 0;}
+.du_hot_inner { width:280px; margin:0 auto;}
+.du_hot_name { width: 280px; height: 25px; line-height: 25px; font-size: 18px; font-weight: 500;color: #666;}
+.du_hot_main { width: 280px; height: 220px; margin: 10px 0; }
+.du_hot_tit { width:280px; height: 20px; line-height: 20px; font-size: 10px;}
+.du_hot_tit a:hover { color: #ff7e00;}
+.du_hot_info { width: 100%; height: 20px; line-height: 20px;}
+.du_hot_info a, .du_hot_info span { margin-right:15px; }
+.du_hot_author { font-size: 10px; font-weight: 600; }
+.du_hot_main .m { overflow: hidden;}
+.du_hot_main .m a img {cursor: pointer; transition: all 0.8s;}
+.du_hot_main .m a img:hover {transform: scale(1.2);}
+.du_adv { width: 300px;  background: #fff; margin-bottom: 20px; }
+.du_adv_inner { width:280px; }
+/* discuz.htm */
+#ct .du_forum_container { width: 1200px; margin-bottom: 20px;}
+#ct .du_forum_container .du_forum_mn ,.boardnav .du_fd_mn { width: 880px; float: left; }
+.boardnav .du_fd_mn { background:#fff; }
+#ct .du_forum_container .du_bm { width: 860px; margin: 0 auto; }
+#ct .du_top_info { height: 70px; line-height: 70px; background: #fff; margin: 20px 0px; padding: 0 10px; }
+#ct .du_forum_sd { width: 300px; float: right; }
+.du_post_new, .du_fd_nav, .du_fd_mem, .du_fd_hotI {width: 100%;background: #fff;overflow: hidden; margin-bottom: 20px;}
+.du_post_btn {width: 260px;height: 40px; margin: 20px 20px ; line-height: 40px; background: #ff7e00 url({STYLEIMGDIR}/new-post.png) no-repeat 75px 10px; }
+.du_post_btn a  {display: block; font-size: 18px; color: #fff; letter-spacing: 2px; line-height: 40px;padding-left: 105px;}
+.du_post_btn a:hover { background: #ff7e00 url({STYLEIMGDIR}/new-post.png) no-repeat 75px 10px; }
+#ct .du_post_rec, #ct .du_post_ran { width: 100%; background: #fff; margin: 20px 0; }
+#ct .du_post_inner { width: 270px;  margin: 0 auto; margin-bottom: 10px;}
+#ct .du_post_tit { width: 100%; height: 50px;line-height: 50px; font-size: 20px; color: #333;}
+#ct .du_post_ran .du_post_inner li{ height: 40px; line-height:40px;font-size: 13px; font-weight: 500; color: #444; letter-spacing: 0.5px ;  background: url({STYLEIMGDIR}/po-li.png) no-repeat left; padding-left: 20px;}
+#ct .du_post_ran .du_post_inner li a:hover{ color:#ff7e00; }
+#ct .du_fl { background: none }
+#ct .du_d_tit {height: 35px; line-height: 35px; background:none ; border:none; }
+#ct .du_d_tit a{font-size: 18px; color:#333;font-weight: normal; }
+#ct .du_forum_li{width: 300px ;float: left; }
+#chart .du_chart { height: 70px;line-height: 70px; padding-left: 30px;}
+#chart .du_chart li { margin-right: 40px;float: left; }
+.fl, .bm { border: none; }
+.du_dt,.du_dd { padding: 3px 0;}
+.chart {  background: url({STYLEIMGDIR}/today.png) no-repeat 0 45% !important;}
+/* forumdisplay.htm */
+#pt { margin: 10px 0; }
+#atarget {margin-top:20px; }
+.du_wp { width: 1200px !important; }
+.tl .tf { padding: 20px 0 !important; }
+.du_fd_ttp { padding:10px; }
+.du_fd_sd {width: 300px; }
+.du_fd_sd .sd { width: 100%; }
+.du_fd_sd .sd .du_fd_bmh {font-size: 15px; padding: 10px 0 0 10px; background:#FFF; border: none; font-weight: normal !important;}
+.du_fd_sd .sd .du_fd_bmc ul li { width: 100px !important; height: 30px;line-height: 30px; margin: 10px 23px; text-align: center;  background: #ff7e00; border-radius: 3px;}
+.du_fd_sd .sd .du_fd_bmc ul li a { color: #fff;}
+.du_fd_bm { margin-bottom: 20px; }
+.du_fd_flag  { text-align: center; margin: 10px 0;}
+.du_fd_info { height: 100%; }
+.du_fd_tit, .du_fd_to { width: 280px; margin:0 auto; text-align: center;}
+.du_fd_tit a { font-size: 20px; color: #ff7e00 ; text-align: center;}
+.du_fd_to ul li { width: 80px; height: 40px; line-height: 40px; float: left; font-size: 14px; }
+.du_fd_use {width: 280px; height: 40px;  margin:0 auto; text-align: center;}
+.du_fd_use a { margin-right: 10px; }
+.du_fd_pbn { padding: 10px; }
+.du_mem_inner { width: 280px; margin: 0 auto; }
+.du_mem_inner li {float: left; padding: 10px; text-align: center;}
+.du_mem_inner li img {border-radius: 24px;}
+/* forumdisplay_list.htm */
+.tl td, .tl th { padding-top: 15px !important; padding-bottom: 5px !important; }
+.tf { line-height: 60px;}
+.tl .icn { width: 45px !important; }
+#threadlist .du_fd_th { line-height: 60px; font-size: 14px;  background: #fff; border: none;}
+#threadlist .du_fd_th td, #threadlist .du_fd_th th { padding-top: 10px !important;padding-bottom: 10px !important;}
+#waterfall { width: 860px !important; margin-left: 8px; }
+#atarget { line-height: 60px; }
+#threadlist .tf a { margin-right: 30px; }
+#threadlist .du_fdl_t { height:60px; }
+#threadlist .du_fdl_t a { font-size: 16px; color: #777; font-weight: 500; }
+#threadlist .du_fdl_icn {display: block;}
+#threadlist .du_fdl_auth { width:55px}
+#threadlist .du_fdl_auth a img{ width:38px; height: 38px; border-radius:19px; display: block;}
+#threadlist .du_fdl_b { height: 30px; line-height: 30px; }
+#threadlist .du_fdl_au, #threadlist .du_fdl_revi, #threadlist .du_fdl_la { width: 200px; margin-right: 10px; line-height: 30px; }
+#threadlist .du_fdl_au{ padding-left: 17px; background: url({STYLEIMGDIR}/author.png) no-repeat left; }
+#threadlist .du_fdl_b .du_fdl_re { width: 50px; background: url({STYLEIMGDIR}/reply.png) no-repeat left; padding: 0 20px; }
+#threadlist .du_fdl_b .du_fdl_vi { width: 50px; background: url({STYLEIMGDIR}/view.png) no-repeat left; padding: 0 25px; }
+/* forumdisplay_fastpost.htm */
+#f_pst .bm_h {height: 50px; line-height: 50px; font-size: 20px; color: #333;}
+#f_pst .pnpost .pn { width: 120px; height: 35px; background: #ff7e00; font-size: 15px; letter-spacing: 1px; font-weight: normal; border: none; }
+
+
+

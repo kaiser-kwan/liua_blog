@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="{$_G['siteurl']}">
+<meta charset="{$_G['charset']}">
+<title>{$navtitle}</title>
+</head>
+<body style="overflow-x:hidden;overflow-y:hidden;background:#000;">
+<div class="top_bg">
+	<div style="height:30px" class="float">
+		<a target="_blank" href="plugin.php?id=yxwg_web"><img height="30" border="0" src="{$logopath}"></a>
+	</div>
+	<div class="float l_h_30">&nbsp;&nbsp;{$server_info['gname']}<span class="color_c"></span><span class="color_c">{lang yxwg_web:play_1}
+		<select style="background-color: #073664;color: #ffffff"  class="select_server">
+			<option  value="./plugin.php?id=yxwg_web&a=play&game={$server_info['host']}&sid={$server_info['sid']}">{$server_info['sname']}</option>
+			{loop $servers_info $item}
+				{if $item['sid'] != $server_info['sid']}
+					<option value="./plugin.php?id=yxwg_web&a=play&game={$item['host']}&sid={$item['sid']}">{$item['sname']}</option>
+				{/if}
+			{/loop}
+		</select>{lang yxwg_web:play_2}</span></div>
+	<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/jquery-1.7.min.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$(".select_server").change(function(){
+				var url=$(this).val();
+				window.open(url);
+			});
+		});
+	</script>
+	<div class="float l_h_30 taskinfo">
+	<!--{if $task && $role }-->
+		<span class="float l_h_30 roleinfo">{$role['name']}[{$role['level']}]</span>
+		<!--{if $taskresult['nextlevel']}-->
+		<div class="float l_h_30 nexttask" >
+			<span class="nextlevel">{$taskresult['nextlevel']}</span>
+			<span>{lang yxwg_web:task_2}{lang yxwg_web:task_3} </span>
+			<a style="color:#0f0">
+				<span class="netxcredit">{echo $taskresult['nextcredit']*$creditpercent}</span>{$_G['setting']['extcredits'][$gamecredit]['unit']}{$_G['setting']['extcredits'][$gamecredit]['title']}
+			</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a id="award_btn" href="javascript:posttask();" onmouseover="change_over()" onmouseout="change_out()" style="padding: 4px 8px;background-color: red;color: #ffffff;border-radius: 5px;cursor: pointer">{lang yxwg_web:reward_btn}</a>
+		</div><!--{/if}-->
+		<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/jquery-1.7.min.js"></script>
+		<script type="text/javascript">
+			function posttask(){
+				$.post('plugin.php?id=yxwg_web&a=task&gid={$gid}&sid={$sid}',{"posttask":1},function(data){
+					data = JSON.parse(data);
+					if (data.msg) {alert(data.msg)};
+					$(".taskinfo .roleinfo").text(data.role.name+'['+data.role.level+']');
+					$(".taskinfo .nextlevel").text(data.nextlevel);
+					$(".taskinfo .netxcredit").text(data.nextcredit*{$creditpercent});
+					console.log(data);
+					if (!data.nextlevel) {$(".nexttask").remove()};
+				});
+			}
+			function change_over() {
+                $("#award_btn").css('background-color', '#ed8484');
+            }
+            function change_out() {
+                $("#award_btn").css('background-color', 'red');
+            }
+		</script>
+	<!--{/if}-->
+	</div>
+	<div class="float_r l_h_30">
+		<a style="color:#ff0" target="_blank" href="{echo yxwgurl('pay',$host,$sid)}&fast=1">{lang yxwg_web:play_fast}</a> | <a style="color:#f0f" target="_blank" href="{echo yxwgurl('pay')}"><strong>{lang yxwg_web:play_3}</strong></a> | <a style="color:#fff" href="javascript:showCard();">{lang yxwg_web:play_6}</a> | <a style="color:#0f0" target="_blank" href="plugin.php?id=yxwg_web&a=game&gid={$gid}">{lang yxwg_web:play_5}</a> | <a style="color:#0f0" href="tencent://message/?fromId=50&fromSubId=1&subcmd=all&uin={$kfqq}" target="_blank">{lang yxwg_web:play_4}</a>
+	</div>
+</div>
+<iframe id="main_frame" name="main_frame" src="{$gameurl}" style="widht:100%;height:100%;float:left;" marginheight="0" frameBorder="0" scrolling="no"></iframe>
+<style>
+*{ margin:0; padding:0;}
+.top_bg{ width:100%;height:30px; background:#333;padding-left:20px;}
+.float{float:left;}
+.l_h_30{ color:#fff;margin-right:50px;line-height:30px; font-size:12px;}
+.float_r{ float:right;}
+a{text-decoration:none;}
+</style>
+<script type="text/javascript">
+window.onresize = function () {
+	document.getElementById("main_frame").style.width = document.documentElement.clientWidth+'px';
+	document.getElementById("main_frame").style.height = document.documentElement.clientHeight-30+'px';
+}
+window.onresize();
+function showCard () {
+	prompt("{lang yxwg_web:play_6}","{$game_card}");
+}
+</script>
+<body>
+<!--{if $member_profile['idcard'] == '' || !$fcm}-->
+<script>
+    con = confirm("{lang yxwg_web:play_10}");
+    if (con == true) {
+        window.location.href = 'home.php?mod=spacecp&ac=profile&op=info';
+    }else{
+        window.location.href = 'plugin.php?id=yxwg_web';
+    }
+</script>
+<!--{elseif $fcm == -1}-->
+    <script>
+        alert("{$lang['player']['verify_fcm_1']}");
+        window.location.href = 'plugin.php?id=yxwg_web';
+    </script>
+<!--{/if}-->
+</html>

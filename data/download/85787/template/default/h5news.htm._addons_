@@ -1,0 +1,46 @@
+<div class="nd_nowplace n_nd_nowplace">
+    {$lang['news']['DangQianWeiZhi']}<a href="plugin.php?id=yxwg_web&a=h5">{$lang['news']['Home']}</a>&gt;
+    <a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $appinfo['items'][0]['appid']}-->" target="_blank"><!--{eval echo $appinfo['items'][0]['name']}--></a>&gt;
+    <!--{eval echo $news['items'][0]['title']}--></div>
+	
+	<div class="news_detail n_news_detail clearfix">
+    <div class="nd_left n_nd_left">
+        <div class="nd_l_info">
+            <p class="nd_l_title"><!--{eval echo $news['items'][0]['title']}--></p>
+            <p class="nd_l_time">
+                {$lang['news']['ReleaseTime']}<!--{eval echo $news['items'][0]['createTime']}-->&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="nd_l_conts">
+			<!--{eval echo html_entity_decode(html_entity_decode($news['items'][0]['context']));}-->
+		</div>
+    </div>
+    <div class="nd_right n_nd_right">
+        <p class="nd_r_title">{$lang['news']['GameDownload']}</p>
+        <ul>
+            <li class="nd_r_li">
+                <div class="nd_r_game clearfix">
+                    <a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $appinfo['items'][0]['appid']}-->" class="nd_r_g_img" target="_blank">
+                        <img src="<!--{eval echo $appinfo['items'][0]['iconUrl']}-->" class="lazy_img" alt="">
+                    </a>
+                    <div class="nd_r_g_info">
+                        <a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $appinfo['items'][0]['appid']}-->" class="nd_r_g_ititle" target="_blank"><!--{eval echo $appinfo['items'][0]['name']}--></a>
+                        <div class="s_l_c_r_xing"><p style="width:{echo $appinfo['items'][0]['rating']*10}%;"></p></div>
+                        <p class="nd_r_g_ifen"><!--{eval echo $appinfo['items'][0]['rating']}-->&nbsp;{$lang['news']['Rating']}</p>
+                        <p class="nd_r_g_i_cont"><!--{eval echo $appinfo['items'][0]['categoryName']}-->
+						|<!--{eval echo $appinfo['items'][0]['apkSize']}-->
+						|<!--{eval echo $appinfo['items'][0]['downloadTimes']}--></p>
+                        <a class="nd_r_g_i_down" href="<!--{eval echo $appinfo['items'][0]['downloadUrl']}-->">{$lang['news']['player']}</a>
+                    </div>
+                </div>
+            <div class="qr-div"><canvas height="100" width="100"></canvas></div></li> 
+        </ul>
+        <p class="nd_r_title">{$lang['news']['Gonglue']}</p>
+		<div>
+			<!--12����¼-->
+			<!--{eval for($i=0;$i<$newslist['num'];$i++):}-->  
+				<a href="plugin.php?id=yxwg_web&a=h5news&nid=<!--{eval echo $newslist['items'][$i]['id']}-->" class="new_other" target="_blank"><!--{eval echo $newslist['items'][$i]['title']}--></a>  
+			<!--{eval endfor}-->			
+        </div>
+    </div>
+</div>

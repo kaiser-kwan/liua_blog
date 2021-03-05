@@ -1,0 +1,17 @@
+@charset "utf-8";
+.mg-topheader {background:#fff;}
+.mg-topheader ul, .mg-topheader li {list-style: none outside none;}
+.mg-topheader a {color: #646464;text-decoration: none;outline: medium none;}
+.mg-topheader a:hover {color:#ff6600}
+.mg-topheader .header{clear: both;height:98px; width:1000px; margin:0 auto;}
+.mg-topheader .header a.logo{ float:left; margin:20px 0 0 0}
+.mg-topheader .nav{ clear:both;height:45px; background:#2B242F;}
+.mg-topheader .menu{ height:45px;overflow:hidden; width:1000px; margin:0 auto;box-sizing:border-box;-o-box-sizing:border-box;ms-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+.mg-topheader .menu li{float:left; width:110px; height:45px; color:#fff; font-size:16px; line-height:2.8em; text-align:center; }
+.mg-topheader .menu li a{color:#fff; display:block; height:45px;}
+.mg-topheader .menu li a:hover,.menu li.now a,.mg-topheader .menu li a.on{background:#6A2466;}
+.mg-footer{font-size:12px; border-top: 1px solid #D0D0D0;background: #333; color:#c2c2c2;line-height: 24px;padding: 18px 0;text-align: center;}
+.mg-footer a{color:#efefef;padding:0 5px;text-decoration: none;}
+.mg-footer a:hover{text-decoration:underline}
+#wp_hottag{ float:left; width:230px; padding:35px 10px 0 20px; font-size:12px; font-family:宋体}
+#wp_hottag,.sideLists dt{ display:none;}

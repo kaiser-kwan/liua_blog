@@ -1,0 +1,78 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :firstpay.php
+//        description :
+//
+//        created by vier at 2015-12-31 15:12:05
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//判断未开启首充
+if (!$freepay){showmessage(lang('plugin/yxwg_web','freepayoff'),'plugin.php?id=yxwg_web');}
+//获取参数
+$gid = intval(isset($_POST['gid']) ? $_POST['gid'] : '0');
+$sid = intval(isset($_POST['sid']) ? $_POST['sid'] : '0');
+//获取服务器列表
+if (isset($_POST['getserverlist'])) {
+    //区服列表
+    // $server_list = getServerList($gid,0);
+    $server_list = C::T('#yxwg_web#yxwg_web_server')->bygid($gid, 0, 1, 'DESC', 1);
+    foreach ($server_list as $k => $v) {
+        unset($v['id']);
+        unset($v['gid']);
+        unset($v['flag']);
+        unset($v['sid']);
+        $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+        $gserver_json[] = $v;
+}
+    $server_list = json_encode($gserver_json);
+    echo $server_list;
+    exit;
+}
+
+$freepay_5 = lang('plugin/yxwg_web','freepay_5');
+//获取首充
+if (!empty($sid)) {
+    if( checklowerlimit(array('extcredits'.$gamecredit => "-".(100*$creditpercent)), $uid, 1, 0, 1)===true ){
+        $firstpayresult = yeyou::getFirstPay($gid, $sid);
+        $rst = json_decode($firstpayresult, true);
+        $rst['code']=='10000' && updatemembercount($uid, array('extcredits'.$gamecredit => '-'.(100*$creditpercent)), true, '', 0,'-'.(100*$creditpercent),lang('plugin/yxwg_web','firstpay'),'gid: '.$gid.' sid: '.$sid);
+    }else{
+        $firstpayresult = "{'code':-1,'msg':'$freepay_5'}";
+    }
+    echo $firstpayresult;
+    exit;
+}
+
+
+//游戏大全
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,0,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//首充列表
+$game = C::T("#yxwg_web#yxwg_web_firstpay")->getGameList();
+
+//过滤首充
+$game_pay = array_filter($game,create_function('$v','if($v["firststatus"] == 1) return $v;'));
+
+//显示模版
+include template('yxwg_web:'.$display.'/firstpay');

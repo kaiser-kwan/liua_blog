@@ -1,0 +1,54 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_syscache.php
+//      description :
+//
+//      created by ier at 2016-07-30 11:19:55
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_syscache extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_syscache';
+        $this->_pk = 'cname';
+        parent::__construct();
+    }
+    public function bycname($cname){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('cname',$cname));
+    }
+
+    public function byvalue($cname,$time=7200){
+        $rst = DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('cname',$cname));
+        if((time() - $rst['dateline']) > $time){
+           return '';
+        }
+        return unserialize($rst['data']);
+    }
+
+    public function add($cname,$value){
+        return $this->insert(['cname'=>$cname,'ctype'=>'1','dateline'=>time(),'data'=>serialize($value)]);
+    }
+
+    public function reupdate($cname, $value) {
+        $rst = $this->bycname($cname);
+        if(empty($rst)){
+            $ret = $this->add($cname, $value);
+            return ret;
+        }
+        $data['data'] = serialize($value);
+        $data['dateline'] = time();
+        $ret =  $this->update($cname, $data);
+        return $ret;
+    }
+   
+    public function del($cname){
+        return $this->delete($cname);
+    }
+}

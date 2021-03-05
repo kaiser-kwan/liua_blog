@@ -1,0 +1,55 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :index.php
+//        description :
+//
+//        update by ier at 2015-12-23 15:31:59
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//用户信息
+$user_info = getUserInfo();
+
+//轮播游戏
+$adv_game = C::t('#yxwg_web#yxwg_web_adimg')->range(0,6,1,'list');
+$adv_game_count = count($adv_game);
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,0,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//开服列表
+$open_list = C::t('#yxwg_web#yxwg_web_server')->openserv(0,20);
+$open_list_count = count($open_list);
+//新闻列表
+$news_list = C::t('#yxwg_web#yxwg_web_news')->range(0,10);
+$news_list_count = count($news_list);
+//攻略列表
+$strategy_list = array();//getStrategyList(0);
+for ($i=0; $i < 8; $i++) { 
+    $strategy_list[] = array_values(C::t('#yxwg_web#yxwg_web_ziliao')->range(0,21,$game_list[$i]['gid']));
+}
+//最近玩过
+$last_play = C::t('#yxwg_web#yxwg_web_play')->bygid(0,3);
+$last_play_count = count($last_play);
+//显示游戏大厅页
+include template('yxwg_web:'.$display.'/index');
+

@@ -1,0 +1,142 @@
+<link rel="stylesheet" type="text/css" href="./source/plugin/yxwg_web/template/style/card.css">
+<script type="text/javascript" src="./source/plugin/yxwg_web/template/js/layer.js"></script>
+<div class="warpper main">
+	<div id="content">
+		<div class="sidebar fl">
+			<div class="la_sidebar">
+				<div class="item fl s1">
+					<div class="tit">
+						<h4>{$lang['card']['HotGame']}</h4>
+					</div>
+					<div class="c">
+						<!--{eval for($i=0;$i<5;$i++):}--> 
+						<a href="plugin.php?id=yxwg_web&a=h5card&appid=<!--{eval echo $applist['items'][$i]['id']}-->"><!--{eval echo $applist['items'][$i]['name']}--></a><span>|</span>
+						<!--{eval endfor}-->
+						<div class="clear"></div>
+					</div>
+					<div class="c">
+						<!--{eval for($i=5;$i<10;$i++):}--> 
+						<a href="plugin.php?id=yxwg_web&a=h5card&appid=<!--{eval echo $applist['items'][$i]['id']}-->"><!--{eval echo $applist['items'][$i]['name']}--></a><span>|</span>
+						<!--{eval endfor}-->
+						<div class="clear"></div>
+					</div>
+					<div class="c"></div>
+				</div>
+				<div class="item fl s2" style="border-right: none;">
+					<div class="tit">
+						<h4>{$lang['card']['HotGift']}</h4>
+					</div>
+					<div class="c">
+						<!--{eval for($i=10;$i<15;$i++):}--> 
+						<a href="plugin.php?id=yxwg_web&a=h5card&appid=<!--{eval echo $applist['items'][$i]['id']}-->"><!--{eval echo $applist['items'][$i]['name']}--></a><span>|</span>
+						<!--{eval endfor}-->
+						<div class="clear"></div>
+					</div>
+					<div class="c">
+						<!--{eval for($i=15;$i<20;$i++):}--> 
+						<a href="plugin.php?id=yxwg_web&a=h5card&appid=<!--{eval echo $applist['items'][$i]['id']}-->"><!--{eval echo $applist['items'][$i]['name']}--></a><span>|</span>
+						<!--{eval endfor}-->
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="hr_10"></div>
+		<div class="re_title re_title6">
+			<h4> <i></i>
+				{$lang['card']['CardList']}
+				<div class="clear"></div>
+			</h4>
+		</div>
+		<div class="giftbag_list">
+			<div class="giftbag_tab" id="tab1">
+
+				<div style="display: block;" class="tab_main" id="yw0">
+					<ul class="re_gift_list">
+					<!--{eval for($i=0;$i<$cardlist['num'];$i++):}--> 
+						<li>
+							<dl>
+								<dt>
+									<a title="<!--{eval echo $cardlist['items'][$i]['gname']}--><!--{eval echo $cardlist['items'][$i]['name']}-->">
+										<img src="<!--{eval echo $cardlist['items'][$i]['iconUrl']}-->">
+									</a>
+									<div class="bben">
+										<span class="android"></span>
+									</div>
+								</dt>
+								<dd>
+									<h4>
+										<a title="<!--{eval echo $cardlist['items'][$i]['gname']}--><!--{eval echo $cardlist['items'][$i]['name']}-->"><!--{eval echo $cardlist['items'][$i]['name']}--></a>
+									</h4>
+									<a href="javascript:;" data="<!--{eval echo $cardlist['items'][$i]['cardid']}-->" class="lq le">{$lang['card']['GetGift']}</a>
+									<div class="xg">
+										<a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $cardlist['items'][$i]['appid']}-->" target="_blank" title="{$cardlist['items'][$i]['gname']}"><!--{eval echo $cardlist['items'][$i]['gname']}--></a>
+										<span>|</span>
+										<a href="plugin.php?id=yxwg_web&a=player&game=<!--{eval echo $cardlist['items'][$i]['appid']}-->" target="_blank">{$lang['card']['player']}</a>
+									</div>
+								</dd>
+							</dl>
+							<div class="clear"></div>
+						</li>
+						<!--{eval endfor}-->
+					</ul>
+					<div class="hr_10"></div>
+					<!--��ҳ-->
+					<!--{eval echo $nav}-->				
+				</div>
+			</div>
+		</div>
+		<div class="hr_15"></div>
+	</div>
+	<!-- content -->
+</div>
+
+<script>
+$(function(){	
+	$(".lq").click(function(){
+		var index = layer.load(0, {shade: false}); //0������صķ��֧��0-2
+		var cardid = $(this).attr("data");			
+		$.ajax({
+			url:'plugin.php?id=yxwg_web&a=ajax',
+			type:'post',
+			async:false,
+			data:{'cardid':cardid,'inajax':'4','opt':'card'},
+			beforeSend: function(){
+				var index = layer.load(0, {shade: false}); //0������صķ��֧��0-2
+				//$(".loadImg").show();
+			},			
+			success:function(json){
+				var json = eval('['+json+']');		
+				if(json[0].errmsg){
+					alert(json[0].errmsg);
+				}else{
+					lay_dialog(json[0].items[0]['card']);
+				}
+			},
+			 complete: function () {
+				$(".layui-layer-loading1").remove();
+				$(".layui-layer-loading0").remove();
+			}, 
+		});
+	});
+})
+
+function lay_dialog(msg){
+	var div = '';
+	div += '<div style="width:350px;margin:10px auto;text-align:center;">';
+	div += "<div style='padding:5px;'>{$lang['card']['getCard']}"+msg+"</div><img src='http://www.5qwan.com/wxpay/native/qrcode_setw.php?w=7&data="+msg+"'>";
+	div += '</div>';
+	layer.open({
+	    type: 1,
+	    skin: 'layui-layer-rim', //���ϱ߿�
+	    area: ['420px', '320px'], //���
+	    content: div  //��ʾ����
+	});
+}
+</script>
+
+<div class="loadImg" style="display:none;position:fixed;left:49%;top:50%;z-index:999;width:60px;height:24px;background:url('source/plugin/yxwg_web/template/js/skin/default/loading-0.gif') no-repeat center;"></div>
+
+

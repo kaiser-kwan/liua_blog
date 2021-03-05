@@ -1,0 +1,247 @@
+<script src="source/plugin/yxwg_web/template/js/app.js"></script>
+<script src="source/plugin/yxwg_web/template/js/app2.js"></script>
+<div class="app-intro" style="width:1000px; margin:10px auto;">
+    <div class="intro-top">
+        <div class="content-left">
+            <div class="app-pic">
+                    <img src="{$appinfo['items'][0]['iconUrl']}" alt="{$appinfo['items'][0]['name']}">
+                <div class="mask"></div>
+            </div>
+        </div>
+        <div class="content-right">
+            <h1 class="app-name">
+                <span>{$appinfo['items'][0]['name']}</span>
+            </h1>
+            <div class="app-feature">
+                <span class="star-xbig"><span class="star-percent" style="width:<!--{eval echo ($appinfo['items'][0]['rating'])*10}-->%"></span></span>
+                <span class="app-feature-detail">
+					<span class="res-tag-ok">{$lang['detail']['Safe']}</span>
+					<span class="res-tag-ok">{$lang['detail']['noadv']}</span>
+                </span>
+            </div>
+            <div class="detail">
+                <span class="version">{$lang['detail']['version']}: {$appinfo['items'][0]['minVersion']}</span>
+                <span class="download-num">{eval echo $lang['detail']['onclickTimes']}: {$appinfo['items'][0]['downloadTimes']}</span>
+                <div class="origin-wrap">
+					<span>
+                        <span>{$lang['detail']['cat']}</span>
+                        <span><!--{eval echo $appinfo['items'][0]['categoryName']}--></span>
+						&nbsp;&nbsp;
+                    </span>
+
+                    <span>{$lang['detail']['from']}:</span>
+                    <a href="javascript:;" class="origin"><!--{eval echo $appinfo['items'][0]['developer']}--></a>
+                </div>
+            </div>
+        </div>
+        <div class="area-qrcode">
+            <div class="qrcode">
+                <img src="http://www.5qwan.com/wxpay/native/qrcode_setw.php?w=4&data={echo urlencode($appinfo['items'][0]['downloadUrl'])}">
+            </div>
+            <div class="how-to">
+                <a href="javascript:;">{$lang['detail']['qrins']}</a>
+                <div class="tipsinfo_show" style="display:none;">
+                    <div class="tip-top"></div>
+                    <div class="tip-left"></div>
+                    <div class="tip-right">{$lang['detail']['qrinfo']}</div>
+                    <div class="tip-bottom"></div>
+                </div>
+            </div>
+        </div>
+        <div class="area-download">
+            <a target="_blank" href="{$appinfo['items'][0]['downloadUrl']}" class="apk"><em>{eval echo $lang['detail']['Play']}</em></a>
+        </div>
+    </div>
+</div>
+
+<div class="ngame_libao clearfix">
+	<div class="ng_l_left">
+		<div class="ng_lb_box">
+			<div class="ng_lb_b_details">
+				<div class="def_menu_line">
+					<div style="padding:0px;">{$lang['detail']['Pictures']}</div>
+				</div>
+				<div class="h5-left-banner mt-15">
+					<div id="snapShotWrap" class="snapShotWrap mt15" style="height: 360px;">
+                        <a id="shotNext" class="snap-shot-btn next" title="{$lang['detail']['Prev']}" href="javascript:void(0);">
+                            <i></i>
+                        </a>
+                        <a id="shotPrev" class="snap-shot-btn prev" title="{$lang['detail']['Next']}" href="javascript:void(0);">
+                          <i></i>
+                        </a>
+                       	<div style="height: 360px;" class="snapShotCont">
+						<!--{eval $arr = explode(',',$appinfo['items'][0]['screenshotsUrl'])  }-->
+
+						<!--{eval for($i=0;$i<count($arr);$i++):}-->
+							<div  class="snopshot" id="snopshot<!--{eval echo $i+1}-->">
+                                <img src="<!--{eval echo $arr[$i]}-->" alt="<!--{eval echo $appinfo['items'][0]['name']}-->">
+                                <span class="elementOverlay"></span>
+                            </div>
+						<!--{eval endfor}-->
+                        </div>
+                    </div>
+		      	</div>
+
+				<div class="def_menu_line">
+					<div style="padding:0px;">{$lang['detail']['GameDetail']}</div>
+				</div>
+				<div class="ng_lb_b_d_conts">
+					<div class="ng_lb_b_d_c_div" style="font-size: 16px;line-height:33px;">
+						<a href="#game-snap" class="first-snap"><img class="game-snap-img" src="" alt=""></a>
+						<!--{eval echo $appinfo['items'][0]['description']}--></div>
+				</div>
+				<div class="def_menu_line">
+					<div style="padding:0px;">{$lang['detail']['Gonglue']}</div>
+				</div>
+				<ul class="ng_lb_b_gl">
+					<!--{eval for($i=0;$i<$news['num'];$i++):}-->
+					<li class="<!--{eval if($i%2!=0) echo 'mg25'}-->">
+						<a href="plugin.php?id=yxwg_web&a=h5news&nid=<!--{eval echo  $news['items'][$i]['id']}-->" target="_blank"><!--{eval echo  $news['items'][$i]['title']}--></a>
+						<span><!--{eval echo substr($news['items'][$i]['createTime'],5,5) }--></span>
+					</li>
+					<!--{eval endfor}-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="ng_l_right">
+		<div class="ng_l_r_box">
+			<div class="def_menu_line">
+				<div style="padding:0px;">{$lang['detail']['More']}</div>
+			</div>
+			<style>
+                .rc-cont{ height:auto;min-height:80px; _height:80px; overflow:hidden;}
+                .rc-loading{ height:80px; }
+                .rc-reload{ display:block; text-align:center; font-size:14px; line-height:80px; height:80px; color:#666;}
+                .rc-reload:hover{ color:#46b035;}
+				.ng_lb_b_gl li a{width:270px;height:17px;line-height:17px;overflow:hidden;display:block;text-align:left;}
+
+            </style>
+			<div class="rc-cont" id="rc-cont">
+				<!-- ����ҳ����ϲ��������Ƽ�ajax����ģ��  -->
+				<div class="hot_recom_title" style="margin:20px 0 12px -7px;">
+					<span class="bacff6"></span>
+					<div>{$lang['detail']['GuessLike']}</div>
+				</div>
+				<ul class="h_g_ul ng_l_r_ul">
+                    <!--{loop $applist['items'] $app}-->
+                    <li>
+                        <div class="h_g_li_l">
+                            <a href="plugin.php?id=yxwg_web&a=detail&appid={$app['appid']}" target="_blank">
+                                <img class="lazy_img" alt="" src="{$app['iconUrl']}"></a>
+                        </div>
+                        <div class="h_g_li_r">
+                            <a class="h_g_li_title" href="plugin.php?id=yxwg_web&a=detail&appid={$app['appid']}" target="_blank">{$app['name']}</a>
+                            <div class="g_d_t_sec">
+                                <div class="s_l_c_r_xing">
+                                    <p style="width:100%;"></p>
+                                </div>
+                                <div class="g_d_t_bq s_l_c_r_thr">
+                                    <span class="g_d_t_nobac">{$app['rating']}{$lang['detail']['Rating']}</span>
+                                </div>
+                            </div>
+                            <p>
+                                {$app['categoryName']}<span>|</span>{$applist['items'][$i]['apkSize']}</p>
+                            <a class="h_g_li_down" href="{$app['downloadUrl']}">{$lang['detail']['player']}</a>
+                        </div>
+                    </li>
+					<!--{/loop}-->
+                </ul>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+<!--3DЧ�� ��ʽ-->
+<style>
+.h5-left-banner {
+	width: 100%;
+	margin:0 auto;
+	position: relative;
+	padding: 20px 0;
+}
+.snapShotWrap {
+    overflow: hidden;
+    position: relative;
+}
+#shotNext {
+    top: 0;
+    right: 0;
+}
+.snap-shot-btn {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    opacity: 0.7;
+    z-index: 10;
+}
+.snapShotCont {
+    position: relative;
+    overflow: hidden;
+}
+.snopshot {
+    position: absolute;
+    overflow: hidden;
+    zoom: 1;
+}
+.snapShotCont img {
+    position: relative;
+    width: 100%;
+}
+#snopshot1 .elementOverlay {
+    opacity: 0;
+}
+.elementOverlay {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    filter: alpha(opacity=0);
+}
+#shotNext i {
+    background-image: url(source/plugin/yxwg_web/template/images/zixun_23.png);
+    right: 30px;
+}
+.snap-shot-btn i {
+    background: url(source/plugin/yxwg_web/template/images/zixun_14.png) no-repeat;
+    position: absolute;
+    width: 57px;
+    height: 57px;
+    top: 50%;
+    margin: -28px 0 0 0;
+}
+</style>
+<script type="text/javascript">
+	(function(){
+		var sst=$(".snopshot");
+		if(sst.length==1){
+			sst.css({"position":"relative","text-align":"center"}).find("img").css("max-width","600px").next(".elementOverlay").hide();
+			$(".snap-shot-btn").hide();
+		}
+		else if(sst.length==2){
+			sst.css({"position":"relative","float":"left"}).find("img").css("max-width","430px").next(".elementOverlay").hide();
+			$(".snap-shot-btn").hide();
+		}
+		else{
+		  var img = new Image();
+		  img.src = "http://img.5qwan.com/sy/screenshots/qmgdw_1.png";
+		  img.onload=function(){
+			var imgWidth = img.width;
+			var imgHeight = img.height;
+			var snapShotWrap = new posterTvGrid(
+			  'snapShotWrap',
+			  {
+				imgHeight : imgHeight,
+				imgWidth : imgWidth,
+				imgP : parseInt(imgWidth/1.2)
+			  }
+			);
+		  };
+		}
+	})();
+</script>

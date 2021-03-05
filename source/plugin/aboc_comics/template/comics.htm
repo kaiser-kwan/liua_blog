@@ -1,0 +1,25 @@
+<!--{block return}-->
+<script src="./source/plugin/aboc_comics/static/lib/L2Dwidget.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    L2Dwidget
+        .on('*', (name) => {
+            // console.log('%c EVENT ' + '%c -> ' + name, 'background: #222; color: yellow', 'background: #fff; color: #000')
+        })
+        .init({
+            model: {
+                jsonPath: '{$jsonPath}',
+                scale: 1,
+            },
+            dialog: {
+                // 开启对话框
+                enable: {$actionFeedback},
+                script: {
+                    // 当触摸到角色身体
+                    'tap body': '{$tap_body}',
+                    // 当触摸到角色头部
+                    'tap face': '{$tap_face}'
+                }
+            }
+        });
+</script>
+<!--{/block}-->

@@ -1,0 +1,361 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<!--{eval include template("yxwg_web:$display/progess")}-->
+
+<div class="yxwg_main">
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/index.css" />
+<div class="scroll">
+	<div style="width:1240px; margin:0 auto; overflow:hidden;">
+	<div class="user">
+	<!--{if $_G['uid']}-->
+		<div class="usertop">
+			<div class="imgico">
+				<a href="home.php?mod=space&uid={$_G['uid']}">{avatar($_G['uid'],small)}</a>
+			</div>
+			<div class="txt">
+				<p>{lang yxwg_web:index_user_1}<a href="home.php?mod=space&uid={$_G['uid']}" style="color:#000;font-weight:700;">{$username}</a><a style="color:#f00;" href="member.php?mod=logging&action=logout&formhash=<?php echo FORMHASH;?>">{lang yxwg_web:index_user_login_7}</a></p>
+				<p>{lang yxwg_web:index_user_3}<strong>{$_G['uid']}</strong></p>
+				<p style="overflow:hidden"><span style="float:left">{lang yxwg_web:index_user_4}{$user_info['userid']}</span> <a style="margin-left:60px;float:left;background:#03b4f5;color:#fff;width:40px;height:20px;line-height20:px;text-align:center;" href="<!--{echo yxwgurl('pay')}-->">{lang yxwg_web:index_user_2}</a></p>
+			</div>
+		</div>
+		<div class="userbom">
+			<b>{lang yxwg_web:index_user_5} </b>
+{if $last_play_count == 0}
+			<p>{lang yxwg_web:noplay}</p>
+{else}
+		{loop $last_play $item}
+			<p>
+				<!--{if $item['sid']}-->
+				<span class="width25"><img width="28px" height="28px" alt="" class="lazy_load" _src="https://img.5qwan.com/ckfinder/userfiles/game_images/{$item['host']}_sm.gif"></span>
+				<a class="width25"  href="{echo yxwgurl('game',$item['gid'])}">{$item['gname']}</a>
+				<a class="width25" href="{echo yxwgurl('play',$item['host'],$item['sid'])}">{$item['sname']}</a>
+				<span class="width25"><a class="abgcolor"  href="{echo yxwgurl('play',$item['host'],$item['sid'])}">{lang yxwg_web:index_firegame_3}</a></span>
+				<!--{else}-->
+				<span class="width25"><img width="28px" height="28px" alt="" class="lazy_load" _src="{$item['iconUrl']}"></span>
+				<a class="width25"  href="{echo yxwgurl('game',$item['gid'])}">{$item['name']}</a>
+				<a class="width25" href="{echo yxwgurl('play',$item['host'],$item['sid'])}">{lang yxwg_web:h5_game}</a>
+				<span class="width25"><a class="abgcolor"  href="plugin.php?id=yxwg_web&a=player&game={$item['appid']}">{lang yxwg_web:index_firegame_3}</a></span>
+				<!--{/if}-->
+			</p>
+		{/loop}
+{/if}
+		</div>
+	<!--{else}-->
+		<form style="margin-top:60px;" method="post" autocomplete="off" action="member.php?mod=logging&amp;action=login&amp;loginsubmit=yes&amp;infloat=yes&amp;lssubmit=yes">
+			<table cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr>
+						<td><span class="nameico spanico">{lang yxwg_web:index_user_login_1}</span><input class="user_input" type="text" name="username" id="ls_username" autocomplete="off" data-form-un="1442369209581.286" ></td>
+					</tr>
+					<tr>
+						<td><span class="passico spanico">{lang yxwg_web:index_user_login_2}</span><input class="user_input pass" type="password" name="password" id="ls_password" autocomplete="off" data-form-pw="1442369209581.286" ></td>
+					</tr>
+					<tr  style="height: 30px; line-height: 30px;">
+						<td><input type="checkbox" name="cookietime" id="ls_cookietime" value="2592000">{lang yxwg_web:index_user_login_5}</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;"><button type="submit" class="login_btn"  data-form-sbm="1442369209581.286"><em>{lang yxwg_web:index_user_login_3}</em></button></td>
+					</tr>
+					<tr style="text-align:center;">
+						<td><a class="reg_btn" href="member.php?mod={$_G['setting']['regname']}" style="margin-top:10px; color:#fff">{lang yxwg_web:index_user_login_4}<i></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	<!--{/if}-->
+	</div>
+	</div>
+	<ul style=" position: relative;">
+{loop $adv_game $item}
+		<li><a href="{$item['url']}"><img width="1920" height="300" alt="{$item['title']}" src="{$item['image']}" style="opacity: 1;"></a></li>
+{/loop}
+	</ul>
+	<ol class="txt1">
+{loop $adv_game $item}
+		<li></li>
+{/loop}
+	</ol>
+</div>
+<div class="scrolldiv clear"></div>
+<div class="content">
+	<div class="gleft">
+		<p class="gtitle game-fire-title">{lang yxwg_web:index_firegame_1}</p>
+		<div class="game-fire">
+{loop array_slice($game_list,0,4) $i $item}
+			<div class="game-fire-item"{if $i==3}style='margin-right:0'{/if}>
+				<i class="tuijianico"></i>
+				<div class="img pngfiximg">
+					<img width="216" height="220" title="{$item['name']}" alt="{$item['name']}" _src="https://img.5qwan.com/2686/{$item['host']}_tuijian.jpg" class="lazy_load pngfiximg">
+				</div>
+				<div class="btns pngfix" style="display: none;">
+					<a href="{echo yxwgurl('game',$item['gid'])}" class="home pngfix" target="_blank">{lang yxwg_web:index_firegame_2}</a>
+					<a href="{echo yxwgurl('play',$item['host'])}" class="server pngfix" target="_blank">{lang yxwg_web:index_firegame_3}</a>
+				</div>
+				<div class="title" style="padding:0">
+					<a href="{echo yxwgurl('game',$item['gid'])}">{$item['name']}</a>
+				</div>
+			</div>
+{/loop}
+			<div class="clear"></div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				$(".game-fire-item").hover(function(){
+					$(this).find(".btns").show();
+				},function(){
+					$(this).find(".btns").hide();
+				});
+			});
+		</script>
+
+		<p class="gtitle game-hot-title">{lang yxwg_web:index_hotgame_1}</p>
+		<div class="game-hot">
+
+{loop array_slice($game_list,4,8) $i $item}
+			<div class="game-hot-item"{if $i%4==3}style='margin-right:0'{/if}>
+					<i class="newgameico"></i>
+					<div class="game-hot-img">
+						<a href="{echo yxwgurl('game',$item['gid'])}">
+							<img width="225" height="130" class="lazy_load" _src="https://img.5qwan.com/ckfinder/userfiles/game_images/{$item['host']}_hot.jpg" alt="{$game['name']}" title="{$game['name']}">
+						</a>
+					</div>
+					<div class="game-hot-info">
+						<a class="name" href="{echo yxwgurl('game',$item['gid'])}">{$item['name']}</a>
+						<p class="">{$item['type']}</p>
+						<a class="btn" href="{echo yxwgurl('play',$item['host'])}" target="_blank">{lang yxwg_web:index_firegame_3}</a>
+						<p class="gwandcard"><a href="{echo yxwgurl('game',$item['gid'])}">{lang yxwg_web:play_5}</a> &nbsp <a href="{echo yxwgurl('card',$item['gid'])}">{lang yxwg_web:game_tab_4}</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+{/loop}
+		</div>
+			<div style="" class="game-all">
+				<div class="game-all-search">
+					<p style="position: relative;" id="_types" class="game-all-style">
+						<span class="ico">{lang yxwg_web:index_allgame_type_1}</span>
+						<a>{lang yxwg_web:index_allgame_type_2}</a>
+						<a>{lang yxwg_web:index_allgame_type_3}</a>
+						<a>{lang yxwg_web:index_allgame_type_4}</a>
+						<a>{lang yxwg_web:index_allgame_type_5}</a>
+						<a>{lang yxwg_web:index_allgame_type_6}</a>
+						<a>{lang yxwg_web:index_allgame_type_7}</a>
+						<a>{lang yxwg_web:index_allgame_type_8}</a>
+						<a class="hover">{lang yxwg_web:index_allgame_type_9}</a>
+					</p>
+					<p id="_letters" class="game-all-letter">
+						<span class="ico">{lang yxwg_web:index_allgame_host_1}</span>
+						{loop str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ') $v}
+						<a>{$v}</a>
+						{/loop}
+					</p>
+				</div>
+				<div id="_allgames_list" class="game-all-con" >
+					<div class="clear"></div>
+				</div>
+			</div>
+		<p class="gtitle game-guide-title">{lang yxwg_web:index_gonglue_1}</p>
+		<div class="game-guide">
+			<div id="_gameguide_title" class="title2">
+{loop array_slice($game_list,0,8) $i $item}
+				<a class="{if $i==0}hover{/if}" to="_gameguide_202">{$item['name']}</a>
+{/loop}
+				<div class="clear"></div>
+			</div>
+			<div id="_gameguide_con" class="news">
+{loop str_split('01234567') $j $g}
+				<ul style="overflow:hidden;{if $j>0}display:none;{/if}">
+					{loop $strategy_list[$j] $i $item}
+						<li >
+							<span>[{eval echo substr($item['time_add'],5,5)}]</span>
+							<a href="{echo yxwgurl('gl',$item['nid'])}">{$item['title']}</a>
+						</li>
+					{/loop}
+					<div class="clear"></div>
+				</ul>
+{/loop}
+			</div>
+		</div>
+	</div>
+
+	<div class="gright">
+		<div class="serverbox">
+			<div class="title">
+				<div id="__tabs_1" class="left lefthover" style="color:#333;position:absolute;line-height:40px;top:-4px;z-index:2552;width:130px;">{lang yxwg_web:index_open_1}</div>
+				<div class="clear"></div>
+			</div>
+			<div id="_tabs_1" class="zxkfdt">
+				<div class="tb-thead">
+					<table>
+						<tbody><tr>
+							<td>{lang yxwg_web:index_open_2}</td>
+							<td>{lang yxwg_web:index_open_3}</td>
+							<td>{lang yxwg_web:index_open_4}</td>
+							<td>{lang yxwg_web:index_open_5}</td>
+						</tr>
+					</tbody></table>
+				</div>
+				<div id="_serverlist" class="tb-body" style="overflow:hidden;">
+				{loop $open_list $i $item}
+					<div style="{if $i>9}display:none{/if}" class="server-list">
+						<p class="date">{echo substr($item['time_open'],5,5)}</p>
+						<p class="time">{echo substr($item['time_open'],11,5)}</p>
+						<p class="game"><a target="_blank" href="{echo yxwgurl('game',$item['gid'])}">{$item['gname']}</a></p>
+						<p style="height:28px" class="server">
+						<a href="{echo yxwgurl('play',$item['host'],$item['sid'])}" class="">{$item['sname']}</a>
+						</p>
+					</div>
+				{/loop}
+					<div class="clear"></div>
+				</div>
+				<div id="_jpage" class="jspage">
+					<a class="on pngfix aleft" href="javascript:">1</a>
+					<a class="pngfix aright" href="javascript:">2</a>
+				</div>
+			</div>
+		</div>
+		<div class="newsbox">
+			<div class="navtitle">{lang yxwg_web:index_news_1}</div>
+			<div id="navcon" class="navcontent">
+				<strong>
+					{eval $item = current($news_list)}
+					<a style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" target="_blank" href="{echo yxwgurl('news',$item['nid'])}" title="{$item['title']}">{$item['title']}</a>
+				</strong>
+				<ul style="display: block;">
+				{loop array_slice($news_list,1) $item}
+					<li>
+						<em>{echo substr($item['time_add'],5,5)}</em>
+						<a href="{echo yxwgurl('news',$item['nid'])}" title="{$item['title']}">{$item['title']}</a>
+					</li>
+				{/loop}
+				</ul>
+			</div>
+		</div>
+		<div class="kefubox">
+		<p class="title" style="padding:0">{lang yxwg_web:index_kf_1}</p>
+		<div class="con">
+			<p class="tel"><a href="{echo yxwgurl('kefu')}"></a></p>
+			<p class="email"><em>{lang yxwg_web:index_kf_2}</em><a href="mailto:{$kfmail}" class="hover">{$kfmail}</a></p>
+			<p class="ol"><em class="kefushang"><b>{lang yxwg_web:quick_zone_9}</b><i>{lang yxwg_web:quick_zone_10}</i></em><span class="kefushang kefuxia">{$kftel}</span></p>
+			<p class="QQqun"><a href="javascript:;">{lang yxwg_web:quick_zone_11}</a></p>
+		</div>
+		</div>
+
+		<div class="quick_zone">
+			<h2>{lang yxwg_web:quick_zone}</h2>
+			<ul class="clearfix">
+				<li><a rel="nofollow" target="_blank" href="home.php?mod=space" class="q0"><span></span>{lang yxwg_web:quick_zone_1}</a></li>
+				<li><a rel="nofollow" target="_blank" href="member.php?mod=logging&amp;action=login&amp;viewlostpw" class="q1"><span></span>{lang yxwg_web:quick_zone_2}</a></li>
+				<li><a rel="nofollow" target="_blank" href="home.php?mod=space" class="q2"><span></span>{lang yxwg_web:quick_zone_3}</a></li>
+				<li><a rel="nofollow" target="_blank" href="home.php?mod=space" class="q3"><span></span>{lang yxwg_web:quick_zone_4}</a></li>
+				<li><a rel="nofollow" target="_blank" href="member.php?mod={$_G['setting']['regname']}" class="q4"><span></span>{lang yxwg_web:quick_zone_5}</a></li>
+				<li><a rel="nofollow" target="_blank" href="{echo yxwgurl('pay')}" class="q5"><span></span>{lang yxwg_web:quick_zone_6}</a></li>
+				<li><a rel="nofollow" target="_blank" href="home.php?mod=space" class="q6"><span></span>{lang yxwg_web:quick_zone_7}</a></li>
+				<li><a rel="nofollow" target="_blank" href="home.php?mod=space" class="q7"><span></span>{lang yxwg_web:quick_zone_8}</a></li>
+			</ul>
+		</div>
+
+
+		<div class="mmbox">
+			<p class="title" style="padding:0">{lang yxwg_web:index_girl_1}</p>
+			<div id="_mminfo" class="con">
+				<div style="display: block;" class="item i1">
+					<div class="img" id="imags">&nbsp;</div>
+					<div class="info">
+						<p>{lang yxwg_web:index_girl_2}{lang yxwg_web:index_girl_2_1}</p>
+						<p>{lang yxwg_web:index_girl_3}{lang yxwg_web:index_girl_3_1}</p>
+						<p>{lang yxwg_web:index_girl_4}166cm</p>
+						<p>{lang yxwg_web:index_girl_5}B90G-W58-H83</p>
+						<p>{lang yxwg_web:index_girl_6}46kg</p>
+						<p>{lang yxwg_web:index_girl_7}{lang yxwg_web:index_girl_7_1}</p>
+						<p>{lang yxwg_web:index_girl_8}{lang yxwg_web:index_girl_8_1}</p>
+						<p class="fav">{lang yxwg_web:index_girl_9}</p>
+						<p><a href="{echo yxwgurl('pay',$game_list[0]['gid'])}">{$game_list[0]['name']}</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="item i2">
+					<div class="img">&nbsp;</div>
+					<div class="info">
+						<p>{lang yxwg_web:index_girl_2}{lang yxwg_web:index_girl_2_2}</p>
+						<p>{lang yxwg_web:index_girl_3}{lang yxwg_web:index_girl_3_2}</p>
+						<p>{lang yxwg_web:index_girl_4}166cm</p>
+						<p>{lang yxwg_web:index_girl_5}B85G-W58-H78</p>
+						<p>{lang yxwg_web:index_girl_6}45kg</p>
+						<p>{lang yxwg_web:index_girl_7}{lang yxwg_web:index_girl_7_2}</p>
+						<p>{lang yxwg_web:index_girl_8}{lang yxwg_web:index_girl_8_2}</p>
+						<p class="fav">{lang yxwg_web:index_girl_9}</p>
+						<p><a href="{echo yxwgurl('pay',$game_list[1]['gid'])}">{$game_list[1]['name']}</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="item i3">
+					<div class="img">&nbsp;</div>
+					<div class="info">
+						<p>{lang yxwg_web:index_girl_2}{lang yxwg_web:index_girl_2_3}</p>
+						<p>{lang yxwg_web:index_girl_3}{lang yxwg_web:index_girl_3_3}</p>
+						<p>{lang yxwg_web:index_girl_4}165cm</p>
+						<p>{lang yxwg_web:index_girl_5}B87G-W55-H75</p>
+						<p>{lang yxwg_web:index_girl_6}47kg</p>
+						<p>{lang yxwg_web:index_girl_7}{lang yxwg_web:index_girl_7_3}</p>
+						<p>{lang yxwg_web:index_girl_8}{lang yxwg_web:index_girl_8_3}</p>
+						<p class="fav">{lang yxwg_web:index_girl_9}</p>
+						<p><a href="{echo yxwgurl('pay',$game_list[2]['gid'])}">{$game_list[2]['name']}</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="item i4">
+					<div class="img">&nbsp;</div>
+					<div class="info">
+						<p>{lang yxwg_web:index_girl_2}{lang yxwg_web:index_girl_2_4}</p>
+						<p>{lang yxwg_web:index_girl_3}{lang yxwg_web:index_girl_3_4}</p>
+						<p>{lang yxwg_web:index_girl_4}168cm</p>
+						<p>{lang yxwg_web:index_girl_5}B90G-W60-H78</p>
+						<p>{lang yxwg_web:index_girl_6}48kg</p>
+						<p>{lang yxwg_web:index_girl_7}{lang yxwg_web:index_girl_7_4}</p>
+						<p>{lang yxwg_web:index_girl_8}{lang yxwg_web:index_girl_8_4}</p>
+						<p class="fav">{lang yxwg_web:index_girl_9}</p>
+						<p><a href="{echo yxwgurl('pay',$game_list[3]['gid'])}">{$game_list[3]['name']}</a></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div id="_mm" class="mm">
+				<a href="javascript:;" to="i1" class="m1">&nbsp;</a>
+				<a href="javascript:;" to="i2" class="m2">&nbsp;</a>
+				<a href="javascript:;" to="i3" class="m3">&nbsp;</a>
+				<a href="javascript:;" to="i4" class="m4">&nbsp;</a>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="friendlink">
+	<div class="linktop">
+		<p>{lang yxwg_web:index_friendly_1}</p>
+	</div>
+	<div class="bm lk" style="border:0">
+		<div id="category_lk" class="bm_c ptm">
+			<!--{if $_G['cache']['forumlinks'][0]}-->
+				<ul class="m mbn cl">$_G['cache']['forumlinks'][0]</ul>
+			<!--{/if}-->
+			<!--{if $_G['cache']['forumlinks'][1]}-->
+				<ul class="mbn cl">$_G['cache']['forumlinks'][1]</ul>
+			<!--{/if}-->
+			<!--{if $_G['cache']['forumlinks'][2]}-->
+				<ul class="x mbm cl">$_G['cache']['forumlinks'][2]</ul>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+<!---->
+<div style="display:none;">
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4556d5c06640fa03d4cdb97ae51ba9c' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+</div>
+<!---->
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->

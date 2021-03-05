@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[wekei_free_game_10.template]]></item>
+	<item id="RevisionID"><![CDATA[89629]]></item>
+	<item id="SN"><![CDATA[2021030210ktcLr22L2r]]></item>
+	<item id="RevisionDateline"><![CDATA[1603954553]]></item>
+	<item id="Data">
+		<item id="/preview.jpg"><![CDATA[fbbb3fb26428dd16864a795dc9e841af]]></item>
+		<item id="/preview_large.jpg"><![CDATA[93375bb219dd8fe8133975548b320a33]]></item>
+		<item id="/forum/discuz.htm"><![CDATA[75dcb6ab725643f331241b5047e02de5]]></item>
+		<item id="/forum/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/discuz_style_wekei_free_game_10.xml"><![CDATA[753f1bdf45dde7934d32388b287a03e8]]></item>
+		<item id="/images/vk_switch_width.png"><![CDATA[f871a47fa4b043a09942316c70e50bce]]></item>
+		<item id="/images/vk_chart.png"><![CDATA[c72d446641185a0f96a6da1a1508c1f3]]></item>
+		<item id="/images/vlineb.png"><![CDATA[f6152756c08358f5864bbddba48c2056]]></item>
+		<item id="/images/bg_forum_vk_title.gif"><![CDATA[46ed8bb9322ed699dff6e41c26f798e8]]></item>
+		<item id="/images/pt_home.png"><![CDATA[7cfe119b8a0e1f97999f851116f5b983]]></item>
+		<item id="/images/pt_item.png"><![CDATA[8f42024bfdb1607efe233b5c8b4d910b]]></item>
+		<item id="/images/icon_search.png"><![CDATA[fb0bddd6ee02284c7d54e5c5b81e9a9e]]></item>
+		<item id="/images/vk_style_switch.png"><![CDATA[0c3d0092ca15c1b61982be0a3e064bca]]></item>
+		<item id="/images/bg_body.jpg"><![CDATA[7505cd9fece0d49870062cfddd5923e8]]></item>
+		<item id="/images/search_post.png"><![CDATA[cfdaee7003e89dda177f65feb576dead]]></item>
+		<item id="/images/logo.png"><![CDATA[323fd7b38a9020b488f4130da98fa612]]></item>
+		<item id="/images/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/images/bg_toptb.png"><![CDATA[e73871a67740f9b6243dd84da617d212]]></item>
+		<item id="/images/search_logo_r_icon.png"><![CDATA[5427729084020591c4d6ecfc73f818a9]]></item>
+		<item id="/images/bg_title_bbs.gif"><![CDATA[aac40a4bec452f0588d241050ef17880]]></item>
+		<item id="/common/widthauto.css"><![CDATA[5948068a779129a766c8b2304a401b36]]></item>
+		<item id="/common/header.htm"><![CDATA[4ff0e494df95bb1e92ecbf8f61c0b1c9]]></item>
+		<item id="/common/vk_search_bottom.htm"><![CDATA[ca4230a875fb9484d500787bf7d40cc0]]></item>
+		<item id="/common/footer.htm"><![CDATA[a6344d94d33ff585c89b8a5baa14b2b6]]></item>
+		<item id="/common/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+		<item id="/common/extend_common.css"><![CDATA[9a2136d62f8e767ea8bac6460eed3de3]]></item>
+		<item id="/common/extend_module.css"><![CDATA[0920b3dc6c00c32a5d61f4af140cf4f8]]></item>
+		<item id="/index.htm"><![CDATA[d41d8cd98f00b204e9800998ecf8427e]]></item>
+	</item>
+</root>

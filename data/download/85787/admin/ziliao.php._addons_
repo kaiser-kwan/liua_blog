@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2017/3/17
+ * Time: 14:25
+ */
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+//引入分页功能
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/page.class.php';
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+$_lang = lang('plugin/yxwg_web', 'admin');
+$page=isset($_GET['page'])&&$_GET['page']?$_GET['page']:1;
+$pagesize = 20;
+
+if (isset($_GET['del'])&&submitcheck('del',1)) {
+    switch ($_GET['del']) {
+        case 'all':
+            C::t('#yxwg_web#yxwg_web_ziliao')->truncate();
+            break;
+        case 'context':
+            C::t('#yxwg_web#yxwg_web_ziliao')->del_all_context();
+            break;
+    }
+}
+
+if (isset($_POST['list'])&&$_POST['list'] && submitcheck('list')) {
+    $g = $_POST['list'];
+    if (!empty($g['title']) && !empty($g['type']) && !empty($g['gid'])) {
+        $time = date("Y-m-d H:i:s",time());
+        $rst = @C::t('#yxwg_web#yxwg_web_ziliao')->updbyid($g['id'],$g['nid'],$g['title'],$g['context'],$g['type'],$g['gid'],$time);
+    } else {
+        echo "<script>alert('{$_lang['table']['ziliao']['error']}');</script>";
+    }
+}
+
+showtips($_lang['page']['ziliao']['showtips']);
+echo '<a class="btn_big" href="?action=plugins&operation=config&do={$pluginid}&identifier=yxwg_web&pmod=admin&a=ziliao&del=context">'.$_lang['table']['ziliao']['delete_context'].'</a>&nbsp;&nbsp;';
+echo '<a class="btn_big" href="?action=plugins&operation=config&do={$pluginid}&identifier=yxwg_web&pmod=admin&a=ziliao&del=all">'.$_lang['table']['ziliao']['delete_all'].'</a>';
+showtableheader($_lang['page']['ziliao']['showtableheader']);
+$_lang_g = $_lang['table']['ziliao'];
+echo '<tr class="header"><th>'.$_lang_g['id'].'</th><th>'.$_lang_g['title'].'</th><th>'.$_lang_g['type'].'</th><th>'.$_lang_g['gid'].'</th><th>'.$_lang_g['time_add'].'</th><th>'.$_lang_g['operation'].'</th></tr>';
+$ziliao_list = C::t('#yxwg_web#yxwg_web_ziliao')->range(($page-1)*$pagesize,$pagesize,$gid);
+foreach ($ziliao_list as $g) {
+    $href_upd = '<a href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_newsorziliao&id='.$g['id'].'&type=ziliao">'.$_lang_g['update'].'</a>';
+    echo '<tr class="hover" ><td>'.$g['id'].'</td><td>'.$g['title'].'</td><td>'.$g['type'].'</td><td>'.$g['name'].'</td><td>'.$g['time_add'].'</td><td>'.$href_upd.'</td></tr>';
+}
+showtablefooter();
+showformfooter();
+$ziliao_list_count = C::t('#yxwg_web#yxwg_web_ziliao')->count($gid);
+$page_data = Page::db_data_page($ziliao_list_count, $pagesize, "doPageSubmit");
+showfenyeform($page_data, "ziliao", $pluginid);

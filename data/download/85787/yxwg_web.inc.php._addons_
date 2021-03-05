@@ -1,0 +1,126 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司
+//        All rights reserved
+//
+//        filename :index.inc.php
+//        description :
+//
+//        update by vier at 2016-07-22 15:13:14
+//        http://vier.ml
+//
+//======================================================================
+
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+//调试开关
+
+
+define('DEBUG',false);
+ini_set('display_errors',DEBUG?'on':'off');
+error_reporting(DEBUG?E_ALL:0);
+//安全过滤
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/safe.func.php';
+//引入分页功能
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/page.class.php';
+//引入api
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg.func.php';
+//引入新的api
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';
+//引入h5类
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/h5game.php';
+
+//加载友情链接
+if (!isset($_G['cache']['forumlinks'])) loadcache('forumlinks');
+//加载插件配置
+if (!isset($_G['cache']['plugin'])) loadcache('plugin');
+//导出插件变量
+
+@extract($_G['cache']['plugin']['yxwg_web']);
+$display = $display?$display:'default';
+$username = $_G['username'];
+$uid = !empty($_G['uid']) ? $_G['uid'] : 0;
+$verify = !empty($uid) ?  md5($pid . $uid . $skey) : "";
+
+function yxwgurl($page,$p1='',$p2='',$p3=''){
+    $url = 'plugin.php?id=yxwg_web&a='.$page;
+    switch ($page) {
+        case 'game':
+            $url.=is_numeric($p1)?"&gid=$p1":"&game=$p1";
+            break;
+        case 'news':
+            $url.=$p1?(is_numeric($p1)?"&nid=$p1":"&game=$p1"):'';
+            break;
+        case 'h5news':
+            $url.=is_numeric($p1)?"&nid=$p1":"";
+            break;
+        case 'player':
+            $url.=$p1?(is_numeric($p1)?"&game=$p1":""):'';
+            break;
+        case 'gl':
+            $url = 'plugin.php?id=yxwg_web&a=news';
+            $url.= $p1?(is_numeric($p1)?"&gsid=$p1":"&game=$p1"):'';
+            break;
+        case 'play':
+            $url.=is_numeric($p1)?"&gid=$p1":"&game=$p1";
+            $url.=$p2?"&sid=$p2":'';
+            break;
+        case 'pay':
+            $url.=$p1?"&game=$p1":'';
+            $url.=$p2?"&sid=$p2":'';
+            break;
+        case 'detail':
+            $url.=$p1?"&appid=$p1":'';
+            break;
+        case 'card':
+            $url.=$p1?(is_numeric($p1)?"&gid=$p1":"&game=$p1"):'';
+            break;
+        case 'kefu':
+            global $kfqq;
+            $url ="tencent://message/?&uin={$kfqq}";
+            break;
+        case 'file':
+            global $display;
+            $url ="source/plugin/yxwg_web/template/$display/$p1/$p2";
+            break;
+        case 'sfile':
+            global $display;
+            $url ="https://img.5qwan.com/attachment/s/dzweb/$display/$p1/$p2";
+            break;
+        case 'download':
+            $url.="&s=$p1";
+            break;
+    }
+    return $url;
+}
+
+//分流
+$pagearray = array(
+    'index',//游戏大厅
+    'game',//游戏官网
+    'kaifu',//开服表
+    'news',//新闻公告
+    'h5',//h5游戏
+    'detail',//h5详情页
+    'card',//新手礼包
+    'play',//游戏界面
+    'player',//h5游戏界面
+    'app',//h5所有游戏
+    'shouji',//手游插件
+    'h5news',//h5新闻页面
+    'h5card',//h5游戏礼包
+    'ajax',//h5领取礼包的接口
+    'pay',//游戏充值
+    'task',//游戏任务
+    'taskDetail',//任务详情页
+    'download',//保存游戏大厅快捷方式到桌面
+    'progress'//进度条
+);
+//从xml取出数据
+$lang = lang('plugin/yxwg_web','lang');
+
+if($freepay)$pagearray[]='firstpay';//首充
+$mod = @in_array($_GET['a'], $pagearray) ? $_GET['a'] : 'index';
+
+require 'pages/'.$mod.'.php';
+

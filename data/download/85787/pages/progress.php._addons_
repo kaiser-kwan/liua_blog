@@ -1,0 +1,205 @@
+<?php
+
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+$mod = $_GET['d'];
+
+if($mod == 'game'){
+	// =======================更新页游游戏========================
+	$items = yeyou::game();
+	foreach (array_reverse($items) as $i => $v) {
+	    $g = C::t('#yxwg_web#yxwg_web_game')->bygid($v['id']);
+		if (empty($g)&&$v['flag']) {
+			$rst = @C::t('#yxwg_web#yxwg_web_game')->add($v['id'],$v['name'],$v['host'],$v['type'],$v['info'],$v['coin_name'],$v['coin_rmb'],$v['list'],$v['flag'],$v['html_title'],$v['html_keywd'],$v['html_desc']);
+		}elseif(!empty($g)){
+	        $rst = @C::t('#yxwg_web#yxwg_web_game')->updbyid($g['id'],$g['gid'],$v['name'],$v['host'],$v['type'],$v['info'],$v['coin_name'],$v['coin_rmb'],$v['list'],$v['flag'],$v['html_title'],$v['html_keywd'],$v['html_desc']);
+	    }
+	   
+	}
+	$items = NULL;
+
+	//更新H5的轮播
+	C::t('#yxwg_web#yxwg_web_h5adimg')->truncate();
+
+	$items = HG::adsList();
+
+
+	foreach ($items['items'] as $k => $v) {
+	    $rst = C::t('#yxwg_web#yxwg_web_h5adimg')
+	                ->add($v['appid'],
+	                        $v['title'],
+	                        $v['image'],
+	                        $v['type']);
+	}
+	$items = NULL;
+	//h5游戏更新
+	$items = HG::appList(0,1,9999);
+	foreach (array_reverse($items['items']) as $i => $v) {
+	    $g = C::t('#yxwg_web#yxwg_web_h5game')->byappid($v['id']);
+	    $v['downloadUrl'] = $_G['siteurl'].'plugin.php?id=yxwg_web&a=player&game='.$v['id'];
+	    if (empty($g)) {
+	        $rst = C::t('#yxwg_web#yxwg_web_h5game')
+	                    ->add($v['id'],
+	                            $v['dtype'],
+	                            $v['packageName'],
+	                            $v['minVersion'],
+	                            $v['minVersionCode'],
+	                            $v['name'],
+	                            $v['categoryName'],
+	                            $v['description'],
+	                            $v['developer'],
+	                            $v['direction_screen'],
+	                            $v['host'],
+	                            $v['iconUrl'],
+	                            $v['screenshotsUrl'],
+	                            $v['versionName'],
+	                            $v['tag'],
+	                            $v['downloadTimes'],
+	                            $v['downloadUrl'],
+	                            $v['apkSize'],
+	                            $v['createTime'],
+	                            $v['updateTime'],
+	                            $v['brief'],
+	                            $v['app_ad'],
+	                            $v['sort']);
+	    }elseif(!empty($g)){
+	       $rst = C::t('#yxwg_web#yxwg_web_h5game')
+	                    ->updbyappid( $v['id'],
+	                                    $v['dtype'],
+	                                    $v['packageName'],
+	                                    $v['minVersion'],
+	                                    $v['minVersionCode'],
+	                                    $v['name'],
+	                                    $v['categoryName'],
+	                                    $v['description'],
+	                                    $v['developer'],
+	                                    $v['direction_screen'],
+	                                    $v['host'],
+	                                    $v['iconUrl'],
+	                                    $v['screenshotsUrl'],
+	                                    $v['versionName'],
+	                                    $v['tag'],
+	                                    $v['downloadTimes'],
+	                                    $v['downloadUrl'],
+	                                    $v['apkSize'],
+	                                    $v['createTime'],
+	                                    $v['updateTime'],
+	                                    $v['brief'],
+	                                    $v['app_ad'],
+	                                    $v['sort']);
+	    }
+	}
+	$items = NULL;
+	// ==================获取允许首充的游戏====================
+	$itmes = yeyou::isfirstpay();
+	foreach($itmes as $k => $v){
+	    $g = C::t('#yxwg_web#yxwg_web_firstpay')->bygid($v['gid']);
+	    if (empty($g)) {
+	        $rst = C::t('#yxwg_web#yxwg_web_firstpay')
+	                    ->add($v['gid'], $v['info'], $v['status']);
+	    }elseif(!empty($g)){
+	       $rst = C::t('#yxwg_web#yxwg_web_firstpay')
+	                    ->updbygid($v['gid'], $v['info'], $v['status']);
+	    }
+	}
+
+	echo 0;
+}else if($mod == 'adv'){
+	$dir = DISCUZ_ROOT . '/source/plugin/yxwg_web/upload/';
+	function deldir($dir, $flag = 0){
+	    $dh=opendir($dir);
+	    while ($file=readdir($dh))
+	    {
+	        if($file!="." && $file!="..")
+	        {
+	            $fullpath=$dir."/".$file;
+	            if(!is_dir($fullpath)) {
+	                unlink($fullpath);
+	            }
+	            else {
+	                deldir($fullpath, 1);
+	            }
+	        }
+	    }
+	    if($flag ==1){
+	        rmdir($dir);
+	    }
+
+	}
+	deldir($dir);
+	//更新网页的轮播
+	C::t('#yxwg_web#yxwg_web_adimg')->truncate();
+	$items = yeyou::adv();
+
+	foreach (array_reverse($items) as $k => $v) {
+		$rst = @C::t('#yxwg_web#yxwg_web_adimg')->add($v['aid'],$v['title'],$v['image'],"plugin.php?id=yxwg_web&a=game&gid={$v['id']}",1);
+	}
+	echo 0;
+
+}else if($mod == 'serv'){
+	$total = 67000;//模拟条数，无须准确值
+	$lastid = intval(C::t('#yxwg_web#yxwg_web_server')->getmaxsid());
+
+	$items = yeyou::serv('',$lastid,2000);
+
+	foreach ($items as $i => $v) {
+	    if ($v['id']>$lastid) {
+	        $rst = @C::t('#yxwg_web#yxwg_web_server')->add($v['id'],$v['name'],$v['gid'],$v['sno'],$v['time_open'],$v['flag']);
+	    }
+	}
+	if(count($items) < 1000){
+		echo json_encode(array('code'=>0,'progress'=>100));
+	}else{
+		$count = C::t('#yxwg_web#yxwg_web_server')->count();
+		$progress = floor($count / $total * 100);
+		$progress  = $progress > 100 ? 100 : $progress;
+		echo json_encode(array('code'=>1,'progress'=>$progress));
+	}
+
+}else if($mod == 'news'){
+	$total = 101000;//模拟条数，无须准确值
+	$lastid = intval(C::t('#yxwg_web#yxwg_web_news')->getmaxnid());
+	$items = yeyou::news($lastid,2000);
+
+
+	foreach ($items as $i => $v) {
+	    if ($v['id']>$lastid && $v['gid']) {
+	        $rst = @C::t('#yxwg_web#yxwg_web_news')->add($v['id'],$v['title'],$v['context'],$v['type'],$v['gid'],$v['time_add']);
+	    }
+	}
+	if(count($items) < 1000){
+		echo json_encode(array('code'=>0,'progress'=>100));
+	}else{
+		$count = C::t('#yxwg_web#yxwg_web_news')->count();
+		$progress = floor($count / $total * 100);
+		$progress  = $progress > 100 ? 100 : $progress;
+		echo json_encode(array('code'=>1,'progress'=>$progress));
+	}
+}else if($mod == 'gl'){
+	$total = 20000;//模拟条数，无须准确值
+	$lastid = intval(C::t('#yxwg_web#yxwg_web_ziliao')->getmaxnid());
+
+	$items = yeyou::gl($lastid,2000);
+
+	foreach ($items as $i => $v) {
+	    if ($v['id']>$lastid && $v['gid']) {
+	        $rst = @C::t('#yxwg_web#yxwg_web_ziliao')->add($v['id'],$v['title'],$v['context'],$v['type'],$v['gid'],$v['time_add']);
+	    }
+	}
+	if(count($items) < 1000){
+		echo json_encode(array('code'=>0,'progress'=>100));
+	}else{
+		$count = C::t('#yxwg_web#yxwg_web_ziliao')->count();
+		$progress = floor($count / $total * 100);
+		$progress  = $progress > 100 ? 100 : $progress;
+		echo json_encode(array('code'=>1,'progress'=>$progress));
+	}
+
+}else if($mod == 'verification'){
+	$items = C::t('#yxwg_web#yxwg_web_ziliao')->range();
+	if(count($items) < 3000){
+		echo 0;
+	}else{
+		echo 1;
+	}
+}
+

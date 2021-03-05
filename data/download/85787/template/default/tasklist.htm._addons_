@@ -1,0 +1,60 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/task.css" />
+<div class="section clearfix mt38">
+    <div class="try-left">
+        <div id="panelGroup" class="clearfix row try-game">
+            <div class="panel active" id="panel_1">
+                <h2 class="h2"><span>{lang yxwg_web:task_8}</span><i>{lang yxwg_web:task_9}</i><b></b></h2>
+                <div class="con clearfix running_box">
+                    <!--{loop $task_list $task}-->
+                    <div class="item">
+                        <div class="content">
+                            <a class="row normal clearfix" target="_blank" href="plugin.php?id=yxwg_web&a=taskDetail&tid={$task['id']}">
+                                <img src="https://img.5qwan.com/img/{$task['host']}_list.jpg">
+                                <p class="adm">{lang yxwg_web:task_4}: {lang yxwg_web:task_5}{echo floor($task['expiretime']/(24*3600))}{lang yxwg_web:task_7}{echo floor($task['expiretime']%(24*3600)/3600)}{lang yxwg_web:task_11}</p>
+                            </a>
+                            <div class="tasktitle">
+                                <h3><a target="_blank" href="plugin.php?id=yxwg_web&a=play&gid={$task['gid']}&sid={$task['sid']}">{$task['name']} {lang yxwg_web:task_10}</a></h3>
+                                <div class="br">
+                                    <div class="reward">
+                                        <p>{lang yxwg_web:task_6}<em>{echo $task['points']*$task['count']*$creditpercent}</em><!--span class="diamond-icon"></span--></p>
+										<span class="icon7">{$_G['setting']['extcredits'][$gamecredit]['img']}</span>
+									</div>
+                                    <!--div class="partake">
+                                        ��ֵ������<em>0%</em>
+                                    </div-->
+                                </div>
+                            </div>
+
+                            <!--{eval if (strtotime($task['time_open']) + $task['expiretime'] < time()){ }-->
+                            <div style="background-color: #000000;filter: Alpha(Opacity=70); /*IE*/-moz-opacity: 0.7; /*FF*/opacity: 0.7;text-align: center;" class="content">
+                                <div style="width: 211px;height: 40px;margin-top: 70px">
+                                    <p style="color: #ffffff">{lang yxwg_web:dead_line_task_list}<!--{eval echo date('Y-m-d H:i:s', strtotime($task['time_open']) + $task['expiretime'])}--></p>
+                                    <p style="color: #ffffff">{lang yxwg_web:over_time_task_list}</p>
+                                </div>
+                            </div>
+                            <!--{eval } }-->
+                        </div>
+                    </div>
+                    <!--{/loop}-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="try-right">
+        <img style="margin-bottom:20px" class="stept" src="https://img.5qwan.com/attachment/s/dzweb/default/images/stept.png">
+        <div class="server">
+            <h2>{lang yxwg_web:index_gonglue_1}<a target="_blank" href="/plugin.php?id=yxwg_web&a=news&gsid">more&gt;&gt;</a></h2>
+            <div class="content">
+                <!--{loop $task_list $task}-->
+                <a target="_blank" href="/plugin.php?id=yxwg_web&a=news&gsid&gid={$task['gid']}" title="{lang yxwg_web:index_user_6}{$task['name']}{lang yxwg_web:index_user_7}{lang yxwg_web:index_gonglue_1}">{lang yxwg_web:index_user_6}{$task['name']}{lang yxwg_web:index_user_7}{lang yxwg_web:index_gonglue_1}</a>
+                <!--{/loop}-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var gameJsons = {$game_json};
+</script>
+<!--<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/index1.js"></script>-->
+<!--{eval include template("yxwg_web:$display/footer")}-->

@@ -1,0 +1,18 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+$nid = isset($_GET['nid']) ? $_GET['nid'] : '';
+
+if(empty($nid)){
+	echo "<meta HTTP-EQUIV=refresh Content='0;url=plugin.php
+?id=yxwg_web&a=h5'>";
+	exit();
+}
+
+$news = HG::newsGet($nid);
+
+$appinfo['items'][] = C::t('#yxwg_web#yxwg_web_h5game')->byappid($news['items'][0]['appid']);
+$newslist = HG::newsList($news['items'][0]['appid'],1);
+
+include template('yxwg_web:'.$display.'/h5head');
+include template('yxwg_web:'.$display.'/h5news');
+include template('yxwg_web:'.$display.'/h5footer');

@@ -1,0 +1,35 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+
+$appid = isset($_GET['appid']) ? $_GET['appid'] : '';
+if(empty($appid)){
+	echo "<meta HTTP-EQUIV=refresh Content='0;url=plugin.php?id=yxwg_web&a=h5'>";
+	exit();
+}
+
+$appinfo['items'][] = C::t('#yxwg_web#yxwg_web_h5game')->byappid($appid);
+
+//判断游戏宣传图是否可用
+$arr = @explode(',', $appinfo['items'][0]['screenshotsUrl']);
+if ($arr) {
+    $str = '';
+    foreach ($arr as $k => $v) {
+        if (@!fopen($v, 'r')) {
+            $arr[$k] = str_replace('.png', '.jpg', $v);
+        } else {
+            continue;
+        }
+    }
+    $appinfo['items'][0]['screenshotsUrl'] = @implode(',', $arr);
+}
+
+$news = HG::newsList($appid,$type=0,$keyword='',$page=1,$pagesize=14,$starttime=0,$endtime=0);
+
+
+$applist['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(6,1);
+$applist['num'] = count($applist['items']);
+
+
+include template('yxwg_web:'.$display.'/h5head');
+include template('yxwg_web:'.$display.'/detail');
+include template('yxwg_web:'.$display.'/h5footer');

@@ -1,0 +1,79 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<link rel="stylesheet" id="css_extstyle" type="text/css" href="https://img.5qwan.com/attachment/s/dzweb/default/css/news.css" />
+<script>
+var len = gameJsons.length;
+$(function(){
+	var arr = new Array();
+	var hosts = '';
+	var num = parseInt(Math.random()*len);
+	for(var i=0;i<len;i++){
+		hosts = gameJsons[i]['host'];
+		arr.push(hosts);
+	}
+	$("body").css({'background':'url("https://img.5qwan.com/2686/'+arr[num]+'_bg.jpg") no-repeat  center 96px'});
+
+	//获取当前文档的高度
+	var docheight = $(document).height();
+	var wh = $(window).height();
+	var i = 1;
+	//console.log(len);
+
+	$(window).scroll(function(event){
+		var wh = $(window).height(); //  窗口的高度
+		var height = $("body").height()-$(document).scrollTop();  //可见的高度
+		if(height <= wh){  //滚动条到底部 加载更多
+			loadmore((12*i),24+(12*(i-1)));
+			i++;
+
+		}
+
+	});
+
+
+})
+</script>
+<div class="rightside fr ">
+<div class="newsList">
+<div class="hd">
+<h2>{lang yxwg_web:card_title_1}</h2>
+<span>{lang yxwg_web:card_title_2}<a href="javascript:;">{lang yxwg_web:card_title_3}</a>&gt;{lang yxwg_web:card_title_4}</span> </div>
+<div class="bd">
+<div class="article">
+	<h2 class="tit"><b></b>{lang yxwg_web:card_list}</h2>
+	<div class="articleInfo">
+		<div class="share">
+		</div>
+	</div>
+	<ul class="list_games" id="cardlist">
+	</ul>
+	<a id="more" class="zg-btn-white zu-button-more" aria-role="button" >loading...</a>
+	<span id='cardtop'></span>
+
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+	var html = '';
+	$(function(){
+		 load(0,12);
+		$("#cardlist").html(html);
+	})
+	function loadmore(start,end){
+		end = end > len ? len : end ;
+		load(start,end);
+		if(len == end){
+			$("#more").html("over ...");
+		}
+		$("#cardlist").html(html);
+	}
+	function load(start,end){
+		for(var j=start;j<end;j++){
+			html += '<li><img src="https://img.5qwan.com/2686/'+gameJsons[j]['host']+'_cdk1.jpg" width="220" height="120">';
+			html += '<h4>'+gameJsons[j]['name']+'</h4><a href="plugin.php?id=yxwg_web&a=card&host='+gameJsons[j]['host']+'" class="newcard">{lang yxwg_web:card_title_1}</a></li>';
+		}
+
+	}
+
+</script>
+<!--{eval include template("yxwg_web:$display/footer")}-->

@@ -1,0 +1,50 @@
+<?php
+//======================================================================
+//
+//		Copyright (C) 2015-2016 深圳飓风伟业网络有限公司	
+//		All rights reserved
+//
+//		filename :edit_game.php
+//		description : 游戏编辑界面
+//
+//		created by ier at 2016-07-13 16:53:39
+//		http://vier.ml
+//
+//======================================================================
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+
+if (@$_GET['gameid']) {
+	$game = C::t('#yxwg_web#yxwg_web_game')->byid($_GET['gameid']);
+}
+$_lang = lang('plugin/yxwg_web', 'admin');
+showtips($_lang['page']['edit_game']['showtips']);
+
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=game">'.$_lang['page']['game']['showtableheader'].'</a>&nbsp;';
+
+showformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=game');
+showtableheader($_lang['page']['edit_game']['showtableheader']);
+$_lang_g = $_lang['table']['game'];
+$arr = yeyou::geturl($game['host']);
+
+@$game['id']>0 && showsetting($_lang_g['id'], 'game[id]', $game['id'], 'text',0,0);
+echo "<input type='hidden' name='game[gid]' value='{$game['gid']}'/>";
+@showsetting($_lang_g['name'], 'game[name]', $game['name'], 'text',0,0);
+@showsetting($_lang_g['host'], 'game[host]', $game['host'], 'text',0,0);
+@showsetting($_lang_g['type'], 'game[type]', $game['type'], 'text',0,0);
+@showsetting($_lang_g['list'], 'game[list]', $game['list'], 'text',0,0);
+@showsetting($_lang_g['info'], 'game[info]', $game['info'], 'text',0,0);
+@showsetting($_lang_g['coin_name'], 'game[coin_name]', $game['coin_name'], 'text',0,0);
+@showsetting($_lang_g['coin_rmb'], 'game[coin_rmb]', $game['coin_rmb'], 'text',0,0);
+@showsetting($_lang_g['flag'], 'game[flag]', $game['flag'], 'radio',0,0);
+@showsetting($_lang_g['html_title'], 'game[html_title]', $game['html_title'], 'text',0,0);
+@showsetting($_lang_g['html_keywd'], 'game[html_keywd]', $game['html_keywd'], 'text',0,0);
+@showsetting($_lang_g['html_desc'], 'game[html_desc]', $game['html_desc'], 'text',0,0);
+@showsetting($_lang_g['site'], 'game[site]', $arr['site_url'], 'text',0,0);
+@showsetting($_lang_g['pay'], 'game[pay]', $arr['pay_url'], 'text',0,0);
+@showsetting($_lang_g['card'], 'game[card]', $arr['card_url'], 'text',0,0);
+@showsetting($_lang_g['bbs'], 'game[bbs]', $arr['bbs_url'], 'text',0,0);
+@showsetting($_lang_g['fcm'], 'game[fcm]', $arr['fcm_url'], 'text',0,0);
+
+showsubmit('settingsubmit');
+showtablefooter();
+showformfooter();

@@ -1,0 +1,127 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_server.php
+//      description :
+//
+//      created by ier at 2016-07-22 20:26:05
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_server extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_server';
+        $this->_pk = 'id';
+        parent::__construct();
+    }
+    public function byid($id){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+    }
+    public function bysid($sid){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('sid',$sid));
+    }
+    public function bysno($sno,$gid){
+        $table_s = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        return DB::fetch_first("SELECT s.`sno`sid,g.`gid`,s.`name`sname,g.`name`gname,g.`host` FROM $table_s s LEFT JOIN $table_g g ON s.`gid`=g.`gid` WHERE s.`sno`='$sno' AND s.`gid`='$gid' ");
+    }
+    public function get_servers($gid){
+        $table_s = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        return DB::fetch_all("SELECT s.`sno`sid,g.gid,s.`name`sname,g.`name`gname,g.`host` FROM $table_s s LEFT JOIN $table_g g ON s.`gid`=g.`gid` WHERE s.`gid`='$gid' ");
+    }
+    public function getmaxsid(){
+        return current(DB::fetch_first('SELECT max(`sid`) FROM '.DB::table($this->_table)));
+    }
+    public function getmaxsno($host){
+        $game = C::t('#yxwg_web#yxwg_web_game')->byhost($host);
+        return $this->getmaxsnobygid($game['gid']);
+    }
+    public function getmaxsnobygid($gid){
+        global $_G;
+        $time = date('Y-m-d H:i:s',$_G['timestamp']);
+        return current(DB::fetch_first('SELECT max(`sno`) FROM '.DB::table($this->_table)." WHERE gid='{$gid}' AND time_open<'$time' "));
+    }
+    public function bygid($gid,$limit=0,$flag=1,$sort='DESC',$onlyopen=0){
+        $table = DB::table($this->_table);
+        $game = $gid?" gid='$gid'":'1=1';
+        $flag = $flag?' AND `flag`>0':'';
+        $onlyopen = $onlyopen?' AND `time_open`<now() ':'';
+        $order = ' ORDER BY sno '.$sort;
+        $limit = DB::limit(0,$limit);
+        return DB::fetch_all("SELECT * FROM $table WHERE $game $flag $onlyopen $order $limit",NULL,'');
+    }
+    public function count($gid = ''){
+        $table = DB::table($this->_table);
+        $where_game = $gid?" WHERE `gid`='$gid' ":'';
+        return current(DB::fetch_first("SELECT count(1) FROM $table $where_game "));
+    }
+    public function openserv($gid=0,$count=20){
+        global $_G;
+        $table_s = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        $where_game = $gid?" AND g.`id`='$gid' ":'';
+        $where_today = " AND s.`time_open`>='".date('Y-m-d H:00:00',$_G['timestamp'])."'";
+        $sql = "SELECT s.`name`sname,s.`sno`sid,g.`name`gname,g.`gid`gid,g.`host`,s.`time_open` 
+                FROM $table_s s LEFT JOIN $table_g g ON s.`gid`=g.`gid` 
+                WHERE s.`flag`>0 AND g.`flag`>0 $where_game $where_today 
+                ORDER BY s.`time_open` LIMIT $count ";
+        return array_values(DB::fetch_all($sql));
+    }
+    public function opencount($gid=0){
+        global $_G;
+        $table_s = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        $where_game = $gid?" AND g.`id`='$gid' ":'';
+        $where_today = " AND s.`time_open`>='".date('Y-m-d H',$_G['timestamp'])."'";
+        $sql = "SELECT count(1)
+                FROM $table_s s LEFT JOIN $table_g g ON s.`gid`=g.`gid` 
+                WHERE s.`flag`>0 AND g.`flag`>0 $where_game $where_today";
+        return current(DB::fetch_first($sql));
+    }
+    public function add($sid,$name,$gid,$sno,$time_open='',$flag=1){
+        $item = array();
+        $item['sid']       = $sid;
+        $item['name']      = $name;
+        $item['gid']       = $gid;
+        $item['sno']       = $sno;
+        $item['time_open'] = $time_open;
+        $item['flag']      = $flag;
+        return $this->insert($item);
+    }
+    public function updbyid($id,$sid=0,$name='',$gid=0,$sno=0,$time_open='',$flag=1){
+        $item = array();
+        $item['sid']       = $sid;
+        $item['name']      = $name;
+        $item['gid']       = $gid;
+        $item['sno']       = $sno;
+        $item['time_open'] = $time_open;
+        $item['flag']      = $flag;
+        return $this->update($id,$item);
+    }
+    public function updbysid($sid,$name='',$gid=0,$sno=0,$time_open='',$flag=1){
+        $item = $this->bysid($sid);
+        return $item['id']?$this->updbyid($item['id'],$sid,$name,$gid,$sno,$time_open,$flag):0;
+    }
+    public function del($id){
+        return $this->delete($id);
+    }
+    public function truncate(){
+        $table = DB::table($this->_table);
+        return DB::fetch_first("TRUNCATE TABLE $table");
+    }
+
+    public function getNewsSid($gid,$time)
+    {
+        $table = DB::table($this->_table);
+        $sql = "SELECT * FROM {$table} WHERE gid = '{$gid}' AND time_open < '{$time}' ORDER BY id DESC limit 1";
+        $server = DB::fetch_all($sql);
+        return $server[0];
+    }
+}

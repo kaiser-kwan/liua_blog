@@ -1,0 +1,76 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_adimg.php
+//      description :
+//
+//      created by ier at 2016-07-22 17:19:40
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_adimg extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_adimg';
+        $this->_pk = 'id';
+        parent::__construct();
+    }
+    public function byid($id){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+    }
+    public function byaid($aid){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('aid',$aid));
+    }
+    public function getmaxaid(){
+        return current(DB::fetch_first('SELECT max(`aid`) FROM '.DB::table($this->_table)));
+    }
+    public function range($start = 0, $limit = 0, $where = '',$item='', $sort = 'DESC') {
+        if($sort) {
+            $this->checkpk();
+        }
+        return DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? ' WHERE `list`>=0 ':'').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, $this->_pk ? $this->_pk : '');
+    }
+    public function count($where = ''){
+        $gname ='';
+        if($where['name']){
+            $gname = $where['name'];
+            unset($where['name']);
+        }
+        $count = (int) DB::result_first("SELECT count(*) FROM ".DB::table($this->_table).($where||$gname ? ' WHERE '.($gname?DB::field('name','%'.$gname.'%','like'):'').($where&&$gname?' AND ':'').DB::implode($where, ' AND ') : ''));
+        return $count;
+    }
+    public function add($aid=0,$title='',$image='',$url='',$list=0){
+        $item = array();
+        $item['aid']   = $aid;
+        $item['title'] = $title;
+        $item['image'] = $image;
+        $item['url']   = $url;
+        $item['list']  = $list;
+        return $this->insert($item);
+    }
+    public function updbyid($id,$aid=0,$title='',$image='',$url='',$list=0){
+        $item = array();
+        $item['aid']   = $aid;
+        $item['title'] = $title;
+        $item['image'] = $image;
+        $item['url']   = $url;
+        $item['list']  = $list;
+        return $this->update($id,$item);
+    }
+    public function updbyaid($aid=0,$title='',$image='',$url='',$list=0){
+        $item = $this->byaid($aid);
+        return $item['id']?$this->updbyid($item['id'],$aid,$title,$image,$url,$list):0;
+    }
+    public function del($id){
+        return $this->delete($id);
+    }
+    public function truncate(){
+        $table = DB::table($this->_table);
+        return DB::query("TRUNCATE TABLE $table");
+    }
+}

@@ -1,0 +1,72 @@
+$(function(){
+	$(".weixin").hover(function(){
+		$(".Ma").show();
+	},function(){
+		$(".Ma").hide();
+	});
+	//加载广告
+	showAds(2000);
+	//关闭广告
+	$("#n_img_delete").click(function(){
+		$(".n_img_banner").attr({style: ''});
+		$("#top_ad").hide();
+		$(".top_imgshow_b").animate({'top':'0'});
+		$(this).hide();
+	});
+
+	$(".showPf").hover(function(){
+		$(this).find(".t_i_bac,.t_i_hover").show();
+		$(this).find(".t_i_bac,.t_i_hover").animate({'height':'100'});
+	},function(){
+		$(this).find(".t_i_bac,.t_i_hover").hide();
+		$(this).find(".t_i_bac,.t_i_hover").animate({'height':'0'});
+	});
+	
+	
+	//显示二维码
+	$(".good_recom_ul li").find("a.g_r_down").hover(function(){
+		var li = $(this).parent();
+		var index = li.index();
+		var url = $(this).attr("href");
+		li.addClass("qr-show").siblings().removeClass();
+		//console.log(url);
+		li.find(".lazy_img").attr("src","http://www.5qwan.com/wxpay/native/qrcode_setw.php?w=4&data="+escape(url));
+		
+	},function(){
+		var img = $(this).attr("data_icon");
+		var li = $(this).parent();
+		li.find(".lazy_img").attr("src",img);
+	});
+	
+	
+	//顶部6个推荐
+/*
+	$(".app-box").mousemove(function(e){		
+		var x=e.screenX;
+		var y=e.screenY-90;
+		//console.log(x+","+y );
+		$(this).find(".app-popover").css({'top':y,'left':x,'position':'fixed'});
+		$(this).find(".app-popover").show();
+		//console.log(e.relatedTarget.nodeName);
+	});
+	
+	
+	$('.app-box').mousemove(function(e) { 
+		var xx = e.originalEvent.x || e.originalEvent.layerX || 0; 
+		var yy = e.originalEvent.y || e.originalEvent.layerY || 0; 
+		//console.log(xx+","+yy );
+		$(this).find(".app-popover").css({'top':yy,'left':xx});
+		$(this).find(".app-popover").show();
+	}); 
+	*/
+	
+
+})
+
+
+
+function showAds(time){
+	$(".n_img_banner").animate({'height': '610'},time);
+	$(".top_imgshow_b").animate({'top':'300'},time);
+	$(this).show();
+}

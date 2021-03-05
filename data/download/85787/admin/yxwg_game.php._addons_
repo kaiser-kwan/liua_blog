@@ -1,0 +1,59 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司
+//        All rights reserved
+//
+//        filename :yxwg_game.php
+//        description : 接口游戏列表界面
+//
+//        created by ier at 2016-07-13 16:53:57
+//        http://vier.ml
+//
+//======================================================================
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/page.class.php';
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+$page=isset($_GET['page'])&&$_GET['page']?$_GET['page']:1;
+$pagesize = 20;
+
+$_lang = lang('plugin/yxwg_web', 'admin');
+showtips($_lang['page']['yxwg_game']['showtips']);
+
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=game">'.$_lang['page']['game']['showtableheader'].'</a>&nbsp;';
+
+showformheader('plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=yxwg_game');
+showtableheader($_lang['page']['yxwg_game']['showtableheader']);
+$_lang_g = $_lang['table']['game'];
+echo '<tr class="header"><th>',$_lang_g['id'],'</th><th>'.$_lang_g['action'].'</th><th>',$_lang_g['name'],'</th><th>',$_lang_g['host'],'</th><th>'.$_lang_g['type'].'</th><th>'.$_lang_g['list'].'</th><th>'.$_lang_g['info'].'</th><th>'.$_lang_g['sid'].'</th><th>'.$_lang_g['flag'].'</th><th>'.$_lang_g['firstpaystatus'].'</th></tr>';
+$game_list = yeyou::game();
+$show_list = array_slice($game_list, ($page - 1) * $pagesize, $pagesize);
+foreach ($show_list as $i => $g) {
+    echo '<tr class="hover" title="',$g['info'],'"><td>',$g['id'],'</td><td><a class="btn" data-host="',$g['host'],'">',$_lang_g['insert'],'</a></td><td>',$g['name'],'</td><td>',$g['host'],'</td><td>',$g['type'],'</td><td>',$g['list'],'</td><td>',$_lang_g['info'],'</td><td>',$g['sid'],'</td><td>',$g['flag'] == 1 ? $_lang_g['flag_yes'] : $_lang_g['flag_no'],'</td><td>',$g['firstpaystatus'] == 1 ? $_lang_g['first_yes'] : $_lang_g['first_no'],'</td></tr>';
+}
+showtablefooter();
+
+echo <<<_
+<script src="https://img.5qwan.com/attachment/s/dzweb/default/js/jquery-1.7.min.js"></script>
+<script>
+$(function(){
+    $("table.tb tr.hover td a.btn").click(function(){
+        var game=$(this).attr("data-host");
+        $.post("?action=plugins&operation=config&do=$pluginid&identifier=yxwg_web&pmod=admin&a=game",
+            {"game":game},
+            function(rst){
+                console.log(rst);
+                alert(rst?"{$_lang_g['succ']}":"{$_lang_g['fail']}");
+            }
+        );
+    });
+});
+</script>
+_;
+
+showformfooter();
+
+$game_list_count = count($game_list);
+$page_data = Page::db_data_page($game_list_count, $pagesize, "doPageSubmit");
+showfenyeform($page_data, "yxwg_game", $pluginid);
+

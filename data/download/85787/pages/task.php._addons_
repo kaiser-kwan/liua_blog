@@ -1,0 +1,124 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司
+//        All rights reserved
+//
+//        filename :task.php
+//        description :
+//
+//        update by vier at 2015-12-23 11:34:51
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+
+//参数获取
+$gid = intval(isset($_GET['gid']) ? $_GET['gid'] : '0');
+$sid = intval(isset($_GET['sid']) ? $_GET['sid'] : '0');
+$host = isset($_GET['game']) ? trim($_GET['game']) : '';
+if(empty($game)){
+    if (empty($gid)) {
+        $game = $host?C::t('#yxwg_web#yxwg_web_game')->byhost($host):'';
+    }else{
+        $game = C::t('#yxwg_web#yxwg_web_game')->bygid($gid);
+    }
+}
+$gid = $game['gid'];
+$host = $game['host'];
+$sid = $sid?$sid:C::t('#yxwg_web#yxwg_web_server')->getmaxsnobygid($gid);
+$posttask = intval(isset($_POST['posttask']) ? $_POST['posttask'] : '0');
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//任务列表
+$task_list = getTaskList();
+$task_list_count = count($task_list);
+//任务记录
+$task_record = getTaskRecord($gid,$sid);
+$task_record_count = count($task_record);
+
+//任务列表页面
+if (empty($gid)) {
+    
+    include template('yxwg_web:'.$display.'/tasklist');
+}else{
+    //当前任务
+    $task = array_values(array_filter($task_list,create_function('$v','if($v["gid"] == '.$gid.') return $v;')));
+    $task = $task[0];
+    //任务不存在
+    if (empty($task)) {
+        $taskresult['msg'] = '\u4efb\u52a1\u4e0d\u5b58\u5728';
+    }else{
+        //当前区服
+        //$server_list = getServerList($gid);
+        $server_list = yeyou::serv($host);
+        $server = array_values(array_filter($server_list,create_function('$v','if($v["sno"] == '.$sid.') return $v;')));
+        $server = $server[0];
+        //未开服
+        if ($server['time_open']>date('Y-m-d H:i:s')) {
+            $taskresult['msg'] = '\u5c1a\u672a\u5f00\u670d';
+        }else{
+            //任务已过期
+            if ($server['time_open']<date('Y-m-d H:i:s',time()-$task['expiretime'])) {
+                $taskresult['msg'] = '\u4efb\u52a1\u5df2\u8fc7\u671f';
+            }else{
+                //角色信息
+                /*$role = getRoleInfo($gid, $sid);*/
+                $role = yeyou::role($host, $sid);
+                $role = is_array($role) && $role['flag']?$role['data'][0]:array();
+                //角色信息获取失败
+                if (empty($role)) {
+                    $taskresult['msg'] = '\u89d2\u8272\u8bfb\u53d6\u5931\u8d25';
+                }else{
+                    //判断当前任务进度
+                    if ($task['level5']>0 && $role['level']>=$task['level5'])
+                        $schedule = 5;
+                    else if ($task['level4']>0 && $role['level']>=$task['level4'])
+                        $schedule = 4;
+                    else if ($task['level3']>0 && $role['level']>=$task['level3'])
+                        $schedule = 3;
+                    else if ($task['level2']>0 && $role['level']>=$task['level2'])
+                        $schedule = 2;
+                    else if ($task['level1']>0 && $role['level']>=$task['level1'])
+                        $schedule = 1;
+                    else $schedule = 0;
+                    //判断上次任务进度
+                    $stage = $task_record_count?$task_record[0]['stage']:0;
+                    //判断任务是否完成
+                    if ($schedule>$stage) {
+                        //判断是否提交任务
+                        $taskresult = $posttask?getTaskResult($gid,$sid,0):array('result'=>0);
+                        $taskresult = json_decode($taskresult,true);
+                        if ($taskresult['result']) {
+                            //积分加值================================$task['credit'.($stage+1)];
+                            updatemembercount($uid, array('extcredits'.$gamecredit => "+".($task['credit'.($stage+1)]*$creditpercent)), true, '', 0, $game['name'].$server['name'].'['.($stage+1).']');
+                        }
+                    }else{
+                        $taskresult['msg'] = '\u4efb\u52a1\u672a\u5b8c\u6210';
+                    }
+                    $taskresult['role'] = $role;
+                    $taskresult['role']['name'] = CHARSET=='utf-8'?$taskresult['role']['name']:diconv($taskresult['role']['name'],CHARSET,'utf-8');
+                    $taskresult['nextlevel'] = $task['level'.($taskresult['result']?$stage+2:$stage+1)];
+                    $taskresult['nextcredit'] = $task['credit'.($taskresult['result']?$stage+2:$stage+1)];
+                }
+            }
+        }
+    }
+}
+if($posttask)echo str_replace('\\\\', '\\',json_encode($taskresult));

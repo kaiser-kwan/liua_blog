@@ -1,0 +1,215 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :yxwg_yeyou_sdk.php
+//        description :
+//
+//        created by ier at 2016-07-08 16:31:04
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+yeyou::init();
+class yeyou{
+
+    static $apiurl;
+    static $pid;
+    static $skey;
+
+    public static function init(){
+        global $_G;
+        self::$apiurl = 'http://api.jufeng.in/yeyou/';
+        self::$pid = $_G['cache']['plugin']['yxwg_web']['pid'];
+        self::$skey = $_G['cache']['plugin']['yxwg_web']['skey'];
+    }
+
+    private static function buildsig($p){
+        return md5($p['action'].$p['time'].$p['pid'].self::$skey);
+    }
+
+    private static function utf2arr($s) {
+        global $_G;
+        if(is_array($s))
+            foreach($s as $k => $v)$s[$k] = self::utf2arr($v);
+        else{
+            $s = diconv($s,'utf-8');
+        }
+        return $s;
+    }
+
+    private static function request($p,$request=1){
+        global $_G;
+        $p['pid'] = self::$pid;
+        $p['time'] = $_G['timestamp'];
+        $p['sig'] = self::buildsig($p);
+        $p = http_build_query($p);// 拼接参数
+        $p = base64_encode($p);// BASE64编码
+        $url = self::$apiurl.$p;
+        $rst = $request?dfsockopen($url):$url;
+        return $rst;
+    }
+
+    // -------------------------------------------------
+
+    public static function adv($game=''){
+        $p = array();
+        $p['action'] = 'adv';
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function game($host=''){
+        $p = array();
+        $p['action'] = 'game';
+        $host && $p['game']=$host;
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function serv($host='',$lastsid=0,$count=3000){
+        $p = array();
+        $p['action'] = 'serv';
+        $host && $p['game']=$host;
+        $lastsid && $p['sid']=$lastsid;
+        $count && $p['c']=$count;
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+    public static function isfirstpay($gid = ''){
+        $p = array();
+        $p['action'] = 'isfirstpay';
+        $gid && $p['gid']=$gid;
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+    public static function getFirstPay($gid,$sid){
+        global $_G;
+        $p = array();
+        $p['action'] = 'getFirstPay';
+        $p['sid']=$sid;
+        $p['uid']=$_G['uid'];
+        $p['gid']=$gid;
+        $rst = self::request($p);
+        // $rst = json_decode($rst,true);
+        // $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function card($host,$sid){
+        global $_G;
+        $p = array();
+        $p['action'] = 'card';
+        $host && $p['game']=$host;
+        $sid && $p['sid']=$sid;
+        $_G['uid'] && $p['uid']=$_G['uid'];
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function login($host,$sid,$fcm,$client=0){
+        global $_G;
+        $p = array();
+        $p['action'] = 'login';
+        $p['game']=$host;
+        $p['sid']=$sid;
+        $_G['uid'] && $p['uid']=$_G['uid'];
+        $client && $p['client']=$client;
+        $p['fcm']=$fcm;
+        $rst = self::request($p,0);
+        C::t("#yxwg_web#yxwg_web_play")->add($host,$sid);
+        return $rst;
+    }
+
+    public static function pay($game='',$sid=0,$fast=0){
+        global $_G;
+        $p = array();
+        $p['action'] = 'pay';
+        $p['game']=$game;
+        $p['sid']=$sid;
+        $fast && $p['fast']=1;
+        $p['uid']=$_G['uid'];
+        $p['uname']=diconv($_G['username'],CHARSET,'utf-8');
+        $rst = self::request($p);
+        return $rst;
+    }
+
+    public static function role($game,$sid){
+        global $_G;
+        $p = array();
+        $p['action'] = 'role';
+        $p['game']=$game;
+        $p['sid']=$sid;
+        $p['uid']=$_G['uid'];
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function news($id,$count=1000){
+        $p = array();
+        $p['action'] = 'news';
+        $id && $p['id']=$id;
+        $count && $p['c']=$count;
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function gl($id,$count=1000){
+        $p = array();
+        $p['action'] = 'gl';
+        $id && $p['id']=$id;
+        $count && $p['c']=$count;
+        $rst = self::request($p);
+        $rst = json_decode($rst,true);
+        $rst = self::utf2arr($rst);
+        return $rst;
+    }
+
+    public static function geturl($host){
+        $p = array();
+        $p['action'] = 'geturl';
+        $p['game'] = $host;
+        $rst = self::request($p);
+        $rst = json_decode($rst, true);
+        return $rst;
+    }
+
+    public static function seturl($host, $type, $url=''){
+        $p = array();
+        $p['action'] = 'seturl';
+        $p['game'] = $host;
+        if (in_array($type, array('site', 'pay', 'card', 'bbs', 'fcm', 'wd'))) {
+            $p['type'] = $type . '_url';
+            $p['url'] = urlencode($url);
+            $rst = self::request($p);
+            return $rst;
+        }
+    }
+
+    public static function getTaskById($tid)
+    {
+        $p = array();
+        $p['action'] = 'getTaskById';
+        $p['tid'] = $tid;
+        $rst = self::request($p);
+        $rst = json_decode($rst, true);
+        return $rst;
+    }
+}

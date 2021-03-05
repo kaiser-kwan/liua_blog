@@ -1,0 +1,195 @@
+<?php
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+HG::init($_G['cache']['plugin']['yxwg_web']['fromid'],$_G['cache']['plugin']['yxwg_web']['secretKey'],$_G['cache']['plugin']['yxwg_web']['from_apiurl']);
+
+class h5game{
+
+	private static $apiurl;
+	private static $from;
+	private static $secretKey;
+
+	//初始化
+	public static function init($from='',$secretKey='',$apiurl=''){
+		if (is_array($from)) {
+			@extract($from);
+		}
+		self::$apiurl = $apiurl;
+		self::$from = $from;
+		self::$secretKey = $secretKey;
+	}
+
+
+	//计算签名
+	private static function fomatquery(&$data,$issign=1){
+		$data['from'] = self::$from;
+		$data['dtype'] = 4;
+		ksort($data);
+		if ($issign==1) {
+			$querystr = http_build_query($data);
+			$querystr.= self::$secretKey;
+			$sign = strtolower(md5($querystr));
+			$data['signature'] = $sign;
+		}
+		return $data;
+	}
+
+	//提交数据
+	private static function post($action,$data,$issign=1,$decode=1){
+		$url = self::$apiurl.'/'.$action.'.php';
+		self::fomatquery($data,$issign=1);
+		// $return = file_get_contents($url.'?'.http_build_query($data));
+		$return = dfsockopen($url.'?'.http_build_query($data));
+		if (!empty($return)&&$decode) {
+			$return = json_decode($return,true);
+			$return = CHARSET=='utf-8'?$return:self::utf82arr($return);
+		}
+		return $return;
+	}
+
+	//编码转换
+	function utf82arr($s) {
+		if(is_array($s)){
+		    foreach($s as $key => $val)
+		    	$s[$key] = self::utf82arr($val);
+		}else{
+			$s = diconv($s,'utf-8');
+		}
+		return $s;
+	}
+
+	//============ 以下是 接口函数 ======================================
+
+	function getGameUrl($appid){
+		global $_G;
+		$from = $_G['cache']['plugin']['yxwg_web']['fromid'];
+	    $key = $_G['cache']['plugin']['yxwg_web']['secretKey'];
+	    $user = $_G['uid'];
+	    $time = date('H:i:s',$_SERVER['REQUEST_TIME']);
+	    $url = 'http://sdk.5qwan.com/api/dz.php?a=reg';
+	    $sign = md5($from . $user . $key);
+	    $data = array(
+	        'appid' => $appid,
+	        'from' => $from,
+	        'user' => $user,
+	        'verify' => $sign
+	    );
+	    $rst = dfsockopen($url,0,$data);
+	    return $rst;
+	}
+
+	//获取应用列表
+	function appList($type=0,$page=1,$pagesize=20,$starttime=0,$endtime=0){
+		$data = array(
+			'type' => $type,//应用类型（1-软件，2-游戏），默认不区分应用类型
+			'page' => $page,//分页号，默认值1
+			'pagesize' => $pagesize,//每次请求返回的记录最大数量，默认20，最大值300
+			'starttime' => $starttime,//按时间返回获取应用的起始时间（Unix时间戳）,单位为秒
+			'endtime' => $endtime,//按时间返回获取应用的结束时间（Unix时间戳），单位为秒
+		);
+		$rst = self::post('applist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取指定编号的应用信息
+	function appGet($appid){
+		$data = array(
+			'appid' => $appid,//应用编号，多个编号请使用半角逗号 ,分隔
+		);
+		$rst = self::post('appinfo',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取新闻列表
+	function newsList($appid='',$type=0,$keyword='',$page=1,$pagesize=20,$starttime=0,$endtime=0){
+		$data = array(
+			'appid' => $appid,//应用编号，多个编号请使用半角逗号 ,分隔
+			'type' => $type,//默认不区游戏类型
+			'keyword' => $keyword,//关键字
+			'page' => $page,//分页号，默认值1
+			'pagesize' => $pagesize,//每次请求返回的记录最大数量，默认20，最大值300
+			'starttime' => $starttime,//按时间返回获取应用的起始时间（Unix时间戳）,单位为秒
+			'endtime' => $endtime,//按时间返回获取应用的结束时间（Unix时间戳），单位为秒
+		);
+		$rst = self::post('newslist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取指定编号的新闻信息
+	function newsGet($newsid){
+		$data = array(
+			'newsid' => $newsid,//新闻编号，多个编号请使用半角逗号 ,分隔
+		);
+		$rst = self::post('newsinfo',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取新手礼包列表
+	function cardList($appid='',$servno=0,$page=1,$pagesize=20,$starttime=0,$endtime=0){
+		$data = array(
+			'appid' => $appid,//应用编号，多个编号请使用半角逗号 ,分隔
+			'servno' => $servno,//服务器编号，多个编号请使用半角逗号 ,分隔
+			'page' => $page,//分页号，默认值1
+			'pagesize' => $pagesize,//每次请求返回的记录最大数量，默认20，最大值300
+			'starttime' => $starttime,//按时间返回获取应用的起始时间（Unix时间戳）,单位为秒
+			'endtime' => $endtime,//按时间返回获取应用的结束时间（Unix时间戳），单位为秒
+		);
+		$rst = self::post('cardlist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取指定编号的新手礼包
+	function cardGet($cardid,$uid){
+		$data = array(
+			'cardid' => $cardid,//新闻编号，多个编号请使用半角逗号 ,分隔
+			'uid' => $uid,//
+		);
+		$rst = self::post('cardinfo',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取最新开服表
+	function openList($appid='',$page=1,$pagesize=20,$starttime=0,$endtime=0){
+		$data = array(
+			'appid' => $appid,//新闻编号，多个编号请使用半角逗号 ,分隔
+        	'page' => $page,
+        	'pagesize' => $pagesize,
+        	'starttime' => $starttime,
+        	'endtime' => $endtime,
+		);
+		$rst = self::post('openlist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取app的分类列表
+	function catList(){
+		$data = array(
+		);
+		$rst = self::post('catlist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取推荐游戏
+	function adsList(){
+		$data = array(
+		);
+		$rst = self::post('adslist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+	//获取服务器列表
+	function servList($appid='',$page=1,$pagesize=20,$starttime=0,$endtime=0){
+		$data = array(
+			'appid' => $appid,//应用编号，多个编号请使用半角逗号 ,分隔
+			'page' => $page,//分页号，默认值1
+			'pagesize' => $pagesize,//每次请求返回的记录最大数量，默认20，最大值300
+			'starttime' => $starttime,//按时间返回获取应用的起始时间（Unix时间戳）,单位为秒
+			'endtime' => $endtime,//按时间返回获取应用的结束时间（Unix时间戳），单位为秒
+		);
+		$rst = self::post('servlist',$data);
+		$rst = dhtmlspecialchars($rst);
+		return $rst;
+	}
+
+}
+class HG extends h5game{}

@@ -1,0 +1,38 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+
+$ajaxflag = isset($_POST['inajax'])?intval($_POST['inajax']):0;//应用分类
+$ajaxflag or dheader('location:?id=yxwg_web');//非ajax访问跳到首页
+
+$opt = isset($_POST['opt'])? $_POST['opt']:'';//ajax操作
+if ($opt=='card') {
+
+/**/
+session_start();
+
+$cardid = isset($_POST['cardid'])?intval($_POST['cardid']):0;
+$cardid or die(json_encode(array('errmsg'=>$lang['ajax']['ErrCardType'])));
+
+$_G['uid'] or die(json_encode(array('errmsg'=>$lang['ajax']['NoLogin'])));
+
+
+if (!empty($_SESSION['card'])) {
+    // list($cardinfo) = array_values(array_filter($_SESSION['card'],function($item)use($cardid){return $item['items'][0]['cardid']==$cardid;}));
+    foreach ($_SESSION['card'] as $i => $value) {
+        if ($value['items'][0]['cardid']==$cardid) {
+            $cardinfo = $_SESSION['card'][$i];
+            break;
+        }
+    }
+}
+
+if(empty($cardinfo)){
+    $cardinfo = HG::cardGet($cardid,$_G['uid']);
+    $_SESSION['card'][] = $cardinfo;
+}
+
+echo json_encode($cardinfo);
+
+}
+
+exit;

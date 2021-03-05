@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Addon MD5]]></item>
+	<item id="ID"><![CDATA[ahome_common_setting.plugin]]></item>
+	<item id="RevisionID"><![CDATA[87341]]></item>
+	<item id="SN"><![CDATA[2021030300d4NeEc80fO]]></item>
+	<item id="RevisionDateline"><![CDATA[1585269355]]></item>
+	<item id="Data">
+		<item id="/admin_more.inc.php"><![CDATA[fd919328825db9248354001a1176c9c2]]></item>
+		<item id="/discuz_plugin_ahome_common_setting_TC_UTF8.xml"><![CDATA[ba3252830b58f8a4a556e66fab39ee7e]]></item>
+		<item id="/discuz_plugin_ahome_common_setting_SC_UTF8.xml"><![CDATA[00f27e64a4240f1b149d8f0f5ffb26b9]]></item>
+	</item>
+</root>

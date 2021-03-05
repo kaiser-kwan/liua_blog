@@ -1,0 +1,54 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+
+//参数获取
+$page = isset($_GET['page'])?intval($_GET['page']):1;//分页
+$appid = isset($_GET['appid'])?trim($_GET['appid']):'';//筛选游戏
+//app列表
+$cardlist = HG::cardList($appid,$servno=0,$page,$pagesize=20,$starttime=0,$endtime=0);
+
+$applist = C::t('#yxwg_web#yxwg_web_syscache')->byvalue('applist',86400);
+if(empty($applist)){
+	$applist = HG::appList(0,1,20);
+	C::t('#yxwg_web#yxwg_web_syscache')->reupdate('applist',$applist);
+}
+//当前第几页
+$page = is_numeric($page) ? $page : 1 ;
+//总记录数
+$num = $cardlist['total'];
+//每页 几条记录
+$pageNum = 20;
+//总页数
+$countNum =ceil($num/$pageNum);
+			
+$page = $page >= $countNum ? $countNum : $page; //总页数大于当前页  最后一页
+$page = $page <= 0 ? 1 : $page;				   //总页数小于当前页  第一页
+
+//上一页
+$uppage = $page-1 <= 1 ? 1 : $page-1;
+//下一页 
+$nepage = ($page+1) > $countNum ? $countNum : ($page+1);
+
+$startpage = ($page-1)*$pageNum;
+
+$start = $page-2 < 1 ? 1 : $page-2;
+$end = $page+2 > $countNum ? $countNum : $page+2;
+for($i=$start;$i<=$end;$i++){
+	$class = $i == $page ? 'active' : '';
+	$a .= "<li class='page $class '><a href='plugin.php?id=yxwg_web&a=h5card&page=$i&appid=$appid'>$i</a></li>";
+}
+$nav = "
+<div class='fye'>
+<ul class='la_paging fr' id='yw1'>
+<li class='first hidden'><a href='plugin.php?id=yxwg_web&a=h5card&page=1&appid=$appid '>{$lang['app']['FirstPage']}</a></li>
+<li class='previous hidden'><a href='plugin.php?id=yxwg_web&a=h5card&page=$uppage&appid=$appid'>{$lang['app']['PrevPage']}</a></li>
+$a
+<li class='next'><a href='plugin.php?id=yxwg_web&a=h5card&page=$nepage&appid=$appid'>{$lang['app']['NextPage']}</a></li>
+<li class='last'><a href='plugin.php?id=yxwg_web&a=h5card&page=$countNum&appid=$appid'>{$lang['app']['EndPage']}</a></li>
+</ul>
+</div>
+";
+
+include template('yxwg_web:'.$display.'/h5head');
+include template('yxwg_web:'.$display.'/h5card');
+include template('yxwg_web:'.$display.'/h5footer');

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="{$_G['charset']}">
+<title>{$navtitle}</title>
+<meta content="{$keywords}" name="keywords">
+<meta content="{$description}" name="description">
+<link rel="stylesheet" type="text/css" href="./source/plugin/yxwg_web/template/style/ku-index.css">
+<link href="./source/plugin/yxwg_web/template/style/common.css" rel="stylesheet">   
+<link href="./source/plugin/yxwg_web/template/style/index.css?v=123" type="text/css" rel="stylesheet"> 
+<link href="./source/plugin/yxwg_web/template/style/index2.css?v=13" type="text/css" rel="stylesheet"> 
+<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/jquery-1.7.min.js"></script>
+<script src="./source/plugin/yxwg_web/template/js/index.js?v=12"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body><div id="wp_topbar">
+	<div class="topbar">
+		<ul class="navlist" style="">		
+			<li class="phone">
+				<a href="javascript:;" onclick="SetHome(this,'/')">{$lang['head']['SetHome']}</a>
+			</li>
+			<li class="line"></li>
+			<li class="shouchang">
+				<a href="javascript:;" onclick="shoucang(document.title,window.location)">{$lang['head']['Collection']}</a>
+			</li>
+			<li class="line"></li>
+			<li class="zhuomian">
+				<a href="{echo yxwgurl('download','h5')}">{$lang['head']['SaveToDesktop']}</a>
+			</li>
+			<li class="line"></li>
+			<li navindex="2">
+				<a href="plugin.php?id=yxwg_web&a=h5card" target="_self">{$lang['head']['CardCenter']}</a>
+			</li>
+			<li class="line"></li>
+			<li navindex="6">
+				<a href="/" target="_blank">{$lang['head']['PlayerBBS']}</a>
+			</li>
+			<li class="line"></li>		
+		</ul>
+		<div class="Hlogin" style="">
+		<!--{if $_G['uid']}-->
+		<p class="user_info">
+			<strong class="vwmy{if $_G['setting']['connect']['allow'] && $_G[member][conisbind]} qq{/if}"><a href="home.php?mod=space&uid=$_G[uid]" target="_blank" title="{lang visit_my_space}">{$_G[member][username]}</a></strong>
+			<!--{if $_G['group']['allowinvisible']}-->
+			<span id="loginstatus">
+				<a id="loginstatusid" href="member.php?mod=switchstatus" title="{lang login_switch_invisible_mode}" onclick="ajaxget(this.href, 'loginstatus');return false;" class="xi2"></a>
+			</span>
+			<!--{/if}-->
+			<!--{hook/global_usernav_extra1}-->
+			<span class="pipe">|</span><a href="home.php?mod=spacecp">{lang setup}</a>
+			<span class="pipe">|</span><a href="home.php?mod=space&do=pm" id="pm_ntc"{if $_G[member][newpm]} class="new"{/if}>{lang pm_center}</a>
+			<span class="pipe">|</span><a href="home.php?mod=space&do=notice" id="myprompt" class="showmenu{if $_G[member][newprompt]} new{/if}" onmouseover="showMenu({'ctrlid':'myprompt'});">{lang remind}<!--{if $_G[member][newprompt]}-->($_G[member][newprompt])<!--{/if}--></a><span id="myprompt_check"></span>
+			<!--{if empty($_G['cookie']['ignore_notice']) && ($_G[member][newpm] || $_G[member][newprompt_num][follower] || $_G[member][newprompt_num][follow] || $_G[member][newprompt])}--><script language="javascript">delayShow($('myprompt'), function() {showMenu({'ctrlid':'myprompt','duration':3})});</script><!--{/if}-->
+			<!--{if $_G['setting']['taskon'] && !empty($_G['cookie']['taskdoing_'.$_G['uid']])}--><span class="pipe">|</span><a href="home.php?mod=task&item=doing" id="task_ntc" class="new">{lang task_doing}</a><!--{/if}-->
+			<!--{if ($_G['group']['allowmanagearticle'] || $_G['group']['allowpostarticle'] || $_G['group']['allowdiy'] || getstatus($_G['member']['allowadmincp'], 4) || getstatus($_G['member']['allowadmincp'], 6) || getstatus($_G['member']['allowadmincp'], 2) || getstatus($_G['member']['allowadmincp'], 3))}-->
+				<span class="pipe">|</span><a href="portal.php?mod=portalcp"><!--{if $_G['setting']['portalstatus'] }-->{lang portal_manage}<!--{else}-->{lang portal_block_manage}<!--{/if}--></a>
+			<!--{/if}-->
+			<!--{if $_G['uid'] && $_G['group']['radminid'] > 1}-->
+				<span class="pipe">|</span><a href="forum.php?mod=modcp&fid=$_G[fid]" target="_blank">{lang forum_manager}</a>
+			<!--{/if}-->
+			<!--{if $_G['uid'] && getstatus($_G['member']['allowadmincp'], 1)}-->
+				<span class="pipe">|</span><a href="admin.php?frames=yes&action=plugins" target="_blank">{lang admincp}</a>
+			<!--{/if}-->
+			<!--{hook/global_usernav_extra2}-->
+			<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
+		</p>
+		<!--{elseif !$_G[connectguest]}-->
+		<form method="post" autocomplete="off" id="lsform" action="member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes" onsubmit="{if $_G['setting']['pwdsafety']}pwmd5('ls_password');{/if}return lsSubmit();">
+			<p class="Hlogin_p"><span class="Hlogin_span">{$lang['head']['Account']}</span><input class="Hlogin_input" type="text" name="username" /></p>
+		    <p class="Hlogin_p"><span class="Hlogin_span">{$lang['head']['Password']}</span><input class="Hlogin_input" type="password" name="password" /></p>
+			<p class="Hlogin_p"><input id="Hlogin_submit" type="submit" value="{$lang['head']['Login']}" /></p>
+			<p class="Hlogin_p"><a id="Hlogin_submit" href="#" style="color:#fff;">{$lang['head']['Register']}</a></p>
+		</form>
+		<!--{/if}-->
+		</div>
+	</div>
+</div>
+<style>
+.Hlogin{ overflow:hidden; height:50px;line-height:50px;}
+.Hlogin_p{
+float:left;
+overflow:hidden;
+}
+.Hlogin_span{ display:block;float:left;width:55px;text-align:center}
+.Hlogin_input{ width:110px; border:1px solid #2B242F;padding:3px;}
+#Hlogin_submit{ width:40px;display:block; background:#2B242F;height:25px; margin:12px 0 0 10px; line-height:25px; color:#fff;text-align:center;cursor:pointer}
+.user_info{}
+.vwmy {
+    padding-left: 16px;
+}
+#user_info .pipe {
+    margin: 0 5px 0 0;
+}
+.pipe {
+    margin: 0 5px;
+    color: #CCC;
+}
+.showmenu {
+    padding-right: 16px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+</style>
+<script type="text/javascript"> 
+// ÉèÖÃÎªÖ÷Ò³ 
+function SetHome(obj,vrl){ 
+	try{ 
+		obj.style.behavior='url(#default#homepage)';obj.setHomePage(vrl); 
+	} 
+	catch(e){ 
+		if(window.netscape){ 
+			try { 
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect"); 
+			}catch (e){ 
+				alert("{$lang['head']['Tip1']}"); 
+			}
+			var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch); 
+			prefs.setCharPref('browser.startup.homepage',vrl); 
+		}else{ 
+			alert("{$lang['head']['Tip2']}"+vrl+"{$lang['head']['Tip3']}"); 
+		} 
+	} 
+} 
+// ¼ÓÈëÊÕ²Ø ¼æÈÝ360ºÍIE6 
+function shoucang(sTitle,sURL){ 
+	try{ 
+		window.external.addFavorite(sURL, sTitle); 
+	}catch (e){ 
+		try{ 
+			window.sidebar.addPanel(sTitle, sURL, ""); 
+		}catch (e){ 
+			alert("{$lang['head']['Tip4']}"); 
+		} 
+	} 
+} 
+</script>
+<div class="mg-topheader">
+	<div class="header">
+		<a href="./" class="logo" alt="{$lang['head']['LogoAlt']}">
+			{$_G['style']['boardlogo']}</a>		
+	</div>
+	
+	<div class="nav">
+		<ul class="menu">
+			<li>
+				<a href="plugin.php
+?id=yxwg_web&a=h5" class="on">{$lang['head']['Nav1']}</a>
+			</li> 
+			<li>
+				<a href="plugin.php
+?id=yxwg_web&a=app">{$lang['head']['Nav2']}</a>
+			</li>
+			<li>
+				<a href="plugin.php
+?id=yxwg_web">{$lang['head']['Nav3']}</a>
+			</li>
+			<li>
+				<a href="forum.php">{$lang['head']['Nav4']}</a>
+			</li>
+		</ul>
+	</div>
+	<style type="text/css">
+      #mg_topheader .header ul.navlist { z-index: 1000;}
+      #wp_search { margin: 36px 0 0 15px; float:right;}
+      #wp_banner { margin: 20px 0 0 0; }
+  </style>
+  <script>
+  	function getQueryVariable(variable)
+	{
+	    var query = window.location.search.substring(1);
+	    var vars = query.split("&");
+	    for (var i=0;i<vars.length;i++) {
+	        var pair = vars[i].split("=");
+	        if(pair[0] == variable){return pair[1];}
+	    }
+	    return(false);
+	}
+	if(getQueryVariable('a') == 'app'){
+		$('.menu li:eq(0)').find('a').removeClass("on");
+		$('.menu li:eq(1)').find('a').addClass("on");
+	}
+  </script>
+</div>

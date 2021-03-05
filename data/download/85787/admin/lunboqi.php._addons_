@@ -1,0 +1,82 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2017/3/17
+ * Time: 14:19
+ */
+if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP'))exit('Access Denied');
+@include DISCUZ_ROOT . './source/plugin/yxwg_web/lib/yxwg.func.php';
+$_lang = lang('plugin/yxwg_web', 'admin');
+
+if (isset($_GET['operation'])) {
+    switch ($_GET['operation']) {
+        case 'del_all':
+            if(submitcheck('operation',1)){
+                $dir = DISCUZ_ROOT . '/source/plugin/yxwg_web/upload/';
+                $dh=opendir($dir);
+                while ($file=readdir($dh))
+                {
+                    if($file!="." && $file!="..")
+                    {
+                        $fullpath=$dir."/".$file;
+                        if(!is_dir($fullpath)) {
+                            unlink($fullpath);
+                        }
+                        else {
+                            deldir($fullpath);
+                        }
+                    }
+                }
+                closedir($dh);
+                C::t('#yxwg_web#yxwg_web_adimg')->truncate();
+                }
+            break;
+        case 'del':
+            if(submitcheck('pid',1)){
+                $arr = C::t('#yxwg_web#yxwg_web_adimg')->byid($_GET['pid']);
+                if (substr($arr['image'],0,4) != 'http') {
+                    unlink(DISCUZ_ROOT . $arr['image']);
+                }
+                C::t('#yxwg_web#yxwg_web_adimg')->del($_GET['pid']);
+            }
+            break;
+    }
+}
+
+if (isset($_POST['adimg'])&&$_POST['adimg']&&submitcheck('adimg')) {
+    $g = $_POST['adimg'];
+    if (!empty($_FILES['adimg']['name']['image']) && !empty($g['title']) && !empty($g['url']) && !empty($g['title'])) {
+        $str = upload();
+        $dir = '/source/plugin/yxwg_web/upload/';
+        $filename = basename($str);
+        $dest = $dir . $filename;
+        if(!empty($dest)){
+           if(isset($g['id'])&&$g['id'])
+                $rst = @C::t('#yxwg_web#yxwg_web_adimg')->updbyid($g['id'],$g['aid'],$g['title'],$dest,$g['url'],$g['list']);
+            else{
+                $g['aid'] = substr(time(),-4);
+                $rst = @C::t('#yxwg_web#yxwg_web_adimg')->add($g['aid'],$g['title'],$dest,$g['url'],$g['list']);
+            }
+        }else{
+             echo "<script>alert('{$_lang['table']['lunboqi']['error02']}');</script>";
+        }
+    } else {
+        echo "<script>alert('{$_lang['table']['lunboqi']['error01']}');</script>";
+    }
+}
+
+showtips($_lang['page']['lunboqi']['showtips']);
+showtableheader($_lang['page']['lunboqi']['showtableheader']);
+
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=lunboqi&operation=del_all">'.$_lang['table']['lunboqi']['delete_all'].'</a>&nbsp;&nbsp;   ';
+echo '<a class="btn_big" href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_lunboqi&operation=insert&pid=-1">'.$_lang['table']['lunboqi']['insert'].'</a>';
+$_lang_g = $_lang['table']['lunboqi'];
+echo '<tr class="header"><th>',$_lang_g['id'],'</th><th>',$_lang_g['title'],'</th><th>'.$_lang_g['image'].'</th><th>'.$_lang_g['url'].'</th><th>'.$_lang_g['list'].'</th><th>'.$_lang_g['operation'].'</th></tr>';
+
+$lunbiqi_list = C::t('#yxwg_web#yxwg_web_adimg')->range(0,0);
+foreach ($lunbiqi_list as $i => $g) {
+    $href_del = '<a href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=lunboqi&operation=del&pid='.$g['id'].'">'.$_lang_g['delete'].'</a>';
+    $href_upd = '<a href="?action=plugins&operation=config&do='.$pluginid.'&identifier=yxwg_web&pmod=admin&a=edit_lunboqi&pid='.$g['id'].'">'.$_lang_g['update'].'</a>';
+    echo '<tr class="hover" title="',$g['title'],'"><td>',$g['id'],'</td><td>',$g['title'],'</td><td>',$g['image'],'</td><td>',$g['url'],'</td><td>',$g['list'],'</td><td>',$href_upd,' | ',$href_del,'</td></tr>';
+}

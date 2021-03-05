@@ -1,0 +1,69 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+$toplist['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(6,1);
+$toplist['num'] = count($toplist['items']);
+// 最靠前的20个游戏
+
+
+$h5list['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(20,1,'',4);
+$h5list['num'] = count($h5list['items']);
+// 页面最上方宣传图片
+
+$adsList['items'] = C::t('#yxwg_web#yxwg_web_h5adimg')->range();
+
+$openList = HG::openList('',1,12,0,$_G['timestamp']+60*60*24*3);
+
+// 10个角色扮演
+
+$jiaose['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeJSBY']);
+$jiaose['num'] = count($jiaose['items']);
+
+
+$dongzuo['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeDZMX']);
+$dongzuo['num'] = count($dongzuo['items']);
+
+
+
+$monijingying['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeMNJY']);
+$monijingying['num'] = count($monijingying['items']);
+
+
+
+$qipai['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeQPZX']);
+$qipai['num'] = count($qipai['items']);
+
+
+
+$celue['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeZZCL']);
+$celue['num'] = count($celue['items']);
+
+
+
+$xiuxian['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytype(10,1,$lang['index']['TypeXXYZ']);
+$xiuxian['num'] = count($xiuxian['items']);
+
+
+//首发新游
+$firstlist['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytag(5,1,$lang['index']['TypeSHOUFA'],4);
+$firstlist['num'] = count($firstlist['items']);
+
+//精品推荐
+$boutique['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytag(5,1,$lang['index']['TypeJINGPIN'],4);
+$boutique['num'] = count($boutique['items']);
+
+//最新上架
+$newestlist['items'] = C::t('#yxwg_web#yxwg_web_h5game')->bytag(5,1,$lang['index']['NewArrival'],4);
+$newestlist['num'] = count($newestlist['items']);
+//点击排行
+$recommended = C::t('#yxwg_web#yxwg_web_syscache')->byvalue('h5_sort');
+if(empty($recommended)){
+	$recommended = HG::appList(-5,1,5);//点击排行
+	C::t('#yxwg_web#yxwg_web_syscache')->reupdate('h5_sort',$recommended);
+}
+foreach ($recommended['items'] as $key => $value) {
+	$recommended['items'][$key]['downloadUrl'] = '?id=yxwg_web&a=player&game='.$value['id'];
+}
+
+include template('yxwg_web:'.$display.'/h5head');
+include template('yxwg_web:'.$display.'/h5');
+include template('yxwg_web:'.$display.'/h5footer');

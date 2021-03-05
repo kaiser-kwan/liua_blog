@@ -1,0 +1,69 @@
+<?php
+if (!defined('IN_DISCUZ'))exit('Access Denied');
+
+// $dtype = isset($_GET['dtype'])?intval($_GET['dtype']):1;
+$catid = isset($_GET['cat'])?intval($_GET['cat']):0;
+$page = isset($_GET['page'])?intval($_GET['page']):1;
+
+$catlist = C::t('#yxwg_web#yxwg_web_syscache')->byvalue('catlist',86400);
+if(empty($catlist)){
+	$catlist = HG::catList();
+	C::t('#yxwg_web#yxwg_web_syscache')->reupdate('catlist',$catlist);
+}
+if(!empty($catid)){
+	$cats = array_combine(array_column($catlist['items'],'id'),$catlist['items']);
+	$catName = $cats[$catid]['cat_name'];
+}else{
+	$catName = '';
+}
+// $applist = HG::appList($catid,$page,16);
+$applist = C::t('#yxwg_web#yxwg_web_h5game')->bycategory(4,$catName,16,$page);
+//当前第几页
+$page = is_numeric($page) ? $page : 1 ;
+
+//总记录数
+$num = $applist['total'];
+//每页 几条记录
+$pageNum = 16;
+//总页数
+$countNum =ceil($applist['total']/$pageNum);
+
+$page = $page >= $countNum ? $countNum : $page; //总页数大于当前页  最后一页
+$page = $page <= 0 ? 1 : $page;                //总页数小于当前页  第一页
+
+//上一页
+$uppage = $page-1 <= 1 ? 1 : $page-1;
+//下一页
+$nepage = ($page+1) > $countNum ? $countNum : ($page+1);
+
+$startpage = ($page-1)*$pageNum;
+
+$firstclass = $page==1 ? "unable" : '';
+$lastclass = $page==$countNum ? 'unable' : '';
+
+$firsthref = $page==1 ? "#" : '';
+$lasthref = $page==$countNum ? '#' : '';
+
+
+$start = $page-2 < 1 ? 1 : $page-2;
+$end = $page+2 > $countNum ? $countNum : $page+2;
+for($i=$start;$i<=$end;$i++){
+    $class = $i == $page ? 'fs_fy_active' : '';
+    $a .= "<a href='plugin.php?id=yxwg_web&a=app&page={$i}&cat={$catid}' class='$class'>$i</a>";
+}
+
+$nav = <<<_
+<div class="fs_fenye" style="width:60%;">
+    <a class="fs_fy_before $firstclass" href="plugin.php?id=yxwg_web&a=app&page=1&cat={$catid}">{$lang['app']['FirstPage']}</a>
+    <a class="fs_fy_before $firstclass" href="plugin.php?id=yxwg_web&a=app&page=$uppage&cat={$catid}">{$lang['app']['PrevPage']}</a>
+    {$a}
+    <a class="fs_fy_next $lastclass" href="plugin.php?id=yxwg_web&a=app&page=$nepage&cat={$catid}">{$lang['app']['NextPage']}</a>
+    <a class="fs_fy_last $lastclass" href="plugin.php?id=yxwg_web&a=app&page=$countNum&cat={$catid}">{$lang['app']['EndPage']}</a>
+</div>
+_;
+
+
+include template('yxwg_web:'.$display.'/h5head');
+include template('yxwg_web:'.$display.'/app');
+include template('yxwg_web:'.$display.'/h5footer');
+

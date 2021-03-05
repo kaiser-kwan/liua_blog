@@ -1,0 +1,165 @@
+$(function(){
+
+	var game_show = $('#game_show').html();
+	var serv_show = $('#serv_show').html();
+	var news_show = $('#news_show').html();
+	var gl_show = $('#gl_show').html();
+	progressNum = 0;
+	function verification(){
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=verification',
+			dataType:'json',
+			success:function(res){
+				if(res == 0){
+					adv();
+				}else if(res == 1){
+				}
+			},
+			error:function(){
+				verification()
+			}
+		})
+
+	}
+	function adv(){
+		$('#progress-box').css('display','block');
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=adv',
+			dataType:'json',
+			success:function(res){
+				if(res == 0){
+					game();	
+				}else if(res == 1){
+					adv();
+				}
+			},
+			error:function(){
+				adv()
+			}
+		})
+	}
+	function game(){
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=game',
+			dataType:'json',
+			success:function(res){
+				if(res == 0){
+					$("#progress_text").html(serv_show);
+					serv();
+				}else if(res == 1){
+					game();
+				}
+			},
+			error:function(){
+				game()
+			}
+		})
+	}
+	function serv(){
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=serv',
+			dataType:'json',
+			success:function(res){
+				if(res.code == 0){
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					$('.progress-bar').removeClass('progress-type')
+					$('#progress-box').css('display','none');
+					$("#progress_text").html(news_show);
+					progressNum = 0
+					$('.progress-bar').css('width',progressNum+'%');
+					$('.progress-bar').html(progressNum+'%');
+					$('#progress-box').css('display','block');
+					news();
+				}else if(res.code == 1){
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					serv();
+				}
+			},
+			error:function(){
+				serv()
+			}
+		})
+
+	}
+	function news(){
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=news',
+			dataType:'json',
+			success:function(res){
+				if(res.code == 0){
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					$('.progress-bar').removeClass('progress-type')
+					$("#progress_text").html(gl_show);
+					$('#progress-box').css('display','none');
+					progressNum = 0
+					$('.progress-bar').css('width',progressNum+'%');
+					$('.progress-bar').html(progressNum+'%');
+					$('#progress-box').css('display','block');
+					gl();
+				}else if(res.code == 1){
+					$('.progress-bar').addClass('progress-type')
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					news();
+				}
+			},
+			error:function(){
+				news()
+			}
+		})
+
+	}
+	function gl(){
+		
+		$.ajax({
+			url : 'plugin.php?id=yxwg_web&a=progress&d=gl',
+			dataType:'json',
+			success:function(res){
+				if(res.code == 0){
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					setTimeout(function(){
+						$('#progress-box').css('display','none');
+						window.location.href = window.location.href;
+					}, 500);
+					
+				}else if(res.code == 1){
+					$('.progress-bar').addClass('progress-type')
+					$('.progress-bar').css('width',res.progress+'%');
+					$('.progress-bar').html(res.progress+'%');
+					gl();
+				}
+			},
+			error:function(){
+				gl()
+			}
+		})
+
+	}
+	verification()
+	// var i = 0;
+	// timer = setInterval(progress, 500);
+	// function progress(){
+	// 	console.log(i);
+	// 	if(i == 0){
+	// 		$('#progress-box').css('display','block');
+	// 	}
+		
+	// 	$('.layui-progress-bar').css('width',i+'%');
+	// 	$('.layui-progress-bar').html(i+'%');
+	// 	i= i+1;
+	// 	if(i == 11){
+	// 		 clearInterval(timer);
+	// 		 timer = setInterval(progress, 1000);
+	// 	}
+	// 	if(i > 100){
+	// 		$('#progress-box').css('display','none');
+	// 		clearInterval(timer);
+	// 	}
+
+	// }
+
+})

@@ -1,0 +1,97 @@
+<?php
+//======================================================================
+//
+//		Copyright (C) 2015-2016 深圳飓风伟业网络有限公司	
+//		All rights reserved
+//
+//		filename :table_yxwg_web_game.php
+//		description :
+//
+//		created by ier at 2015-12-23 14:50:38
+//		http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_game extends discuz_table{
+	
+	public function __construct() {
+		$this->_table = 'yxwg_web_game';
+		$this->_pk = 'id';
+		parent::__construct();
+	}
+	public function byid($id){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+	}
+	public function bygid($gid){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('gid',$gid));
+	}
+	public function byname($name){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('name',$name));
+	}
+	public function byhost($host){
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('host',$host));
+	}
+	public function getmaxgid(){
+		return current(DB::fetch_first('SELECT max(`gid`) FROM '.DB::table($this->_table)));
+	}
+	public function range($start = 0, $limit = 0, $where = '',$item='', $sort = 'DESC') {
+		if($sort) {
+			$this->checkpk();
+		}
+		return array_values(DB::fetch_all('SELECT * FROM '.DB::table($this->_table).($where? ' WHERE `flag`>0': '').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, $this->_pk ? $this->_pk : ''));
+	}
+	public function count($where = ''){
+		$gname ='';
+		if($where['name']){
+			$gname = $where['name'];
+			unset($where['name']);
+		}
+		$count = (int) DB::result_first("SELECT count(*) FROM ".DB::table($this->_table).($where||$gname ? ' WHERE '.($gname?DB::field('name','%'.$gname.'%','like'):'').($where&&$gname?' AND ':'').DB::implode($where, ' AND ') : ''));
+		return $count;
+	}
+	public function add($gid=0,$name='',$host='',$type='',$info='',$coin_name='',$coin_rmb=10,$list=0,$flag=1,$html_title='',$html_keywd='',$html_desc=''){
+		$game = array();
+		$game['gid']        = $gid;
+		$game['name']       = $name;
+		$game['host']       = $host;
+		$game['type']       = $type;
+		$game['info']       = $info;
+		$game['coin_name']  = $coin_name;
+		$game['coin_rmb']   = $coin_rmb;
+		$game['list']       = $list;
+		$game['flag']       = $flag;
+		$game['html_title'] = $html_title;
+		$game['html_keywd'] = $html_keywd;
+		$game['html_desc']  = $html_desc;
+		return $this->insert($game);
+	}
+	public function updbyid($id,$gid=0,$name='',$host='',$type='',$info='',$coin_name='',$coin_rmb=10,$list=0,$flag=1,$html_title='',$html_keywd='',$html_desc=''){
+		$game = array();
+		$game['gid']        = $gid;
+		$game['name']       = $name;
+		$game['host']       = $host;
+		$game['type']       = $type;
+		$game['info']       = $info;
+		$game['coin_name']  = $coin_name;
+		$game['coin_rmb']   = $coin_rmb;
+		$game['list']       = $list;
+		$game['flag']       = $flag;
+		$game['html_title'] = $html_title;
+		$game['html_keywd'] = $html_keywd;
+		$game['html_desc']  = $html_desc;
+		return $this->update($id,$game);
+	}
+	public function updbygid($gid,$name='',$host='',$type='',$info='',$coin_name='',$coin_rmb=10,$list=0,$flag=1,$html_title='',$html_keywd='',$html_desc=''){
+		$game = $this->bygid($gid);
+		return $game['id']?$this->updbyid($game['id'],$gid,$name,$host,$type,$info,$coin_name,$coin_rmb,$list,$flag,$html_title,$html_keywd,$html_desc):0;
+	}
+	public function del($id){
+		return $this->delete($id);
+	}
+	public function addserv($host,$sid,$name,$time_open){
+		$game = $this->byhost($host);
+		$lastsno = C::t('#yxwg_web#yxwg_web_server')->getmaxsno($host);
+		return C::t('#yxwg_web#yxwg_web_server')->add($sid,$name,$game['id'],$lastsno+1,$time_open,1);
+	}
+}

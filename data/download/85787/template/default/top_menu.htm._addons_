@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+	<!--{if $_G['config']['output']['iecompatible']}--><meta http-equiv="X-UA-Compatible" content="IE=EmulateIE{$_G['config']['output']['iecompatible']}" /><!--{/if}-->
+	<title>$navtitle</title>
+	$_G['setting']['seohead']
+	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}" />
+	<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}{if empty($nobbname)},$_G['setting']['bbname']{/if}" />
+	<meta name="generator" content="Discuz! $_G['setting']['version']" />
+	<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+	<meta name="copyright" content="2001-2013 Comsenz Inc." />
+	<meta name="MSSmartTagsPreventParsing" content="True" />
+	<meta http-equiv="MSThemeCompatible" content="Yes" />
+	<base href="{$_G['siteurl']}" />
+<!-- plugin version : v1.8.1116 -->
+	<link id="css_extstyle" href="https://img.5qwan.com/attachment/s/dzweb/default/css/top_menu.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/jquery-1.7.min.js"></script>
+	<script type="text/javascript">var gameJsons = {$game_json};</script>
+		<script>
+            var urlpre = undefined;
+		</script>
+	<script type="text/javascript" src="https://img.5qwan.com/attachment/s/dzweb/default/js/index1.js"></script>
+
+<script type="text/javascript">
+function SetHome(obj,vrl){
+		try{
+			obj.style.behavior='url(#default#homepage)';obj.setHomePage(vrl);
+		}
+		catch(e){
+			if(window.netscape) {
+				try {
+						netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+				}
+				catch (e) {
+					   alert("{lang yxwg_web:jsHome}");
+				}
+				var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
+				prefs.setCharPref('browser.startup.homepage',vrl);
+			 }
+		}
+}
+
+function AddFavorite(sURL, sTitle){
+	var url = window.location;
+	var title = document.title;
+	eval("var err='\u60a8\u7684\u6d4f\u89c8\u5668\u4e0d\u652f\u6301,\u8bf7\u6309 Ctrl+D \u624b\u52a8\u6536\u85cf!'");
+	var ua = navigator.userAgent.toLowerCase();
+	if (ua.indexOf("360se") > -1)
+		alert(err);
+	else if (ua.indexOf("msie 8") > -1)
+		window.external.AddToFavoritesBar(url, title); //IE8
+	else if (document.all)
+		try{
+			window.external.addFavorite(url, title);
+		}
+		catch(e){
+			alert(err);
+		}
+	else if (window.sidebar)
+		window.sidebar.addPanel(title, url, "");
+	else
+		alert(err);
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="top_sub_nav">
+	<div style="*z-index:9999" class="wrapper">
+		<div style="display: none;" id="all_game_div" class="all_games_up">
+			<ul class="all_games_list">
+
+			</ul>
+			<div class="holder" style="-moz-user-select: block;">
+
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="sub_nav_left">
+				<a href="{echo yxwgurl('download','lnk')}"><em class="c_web_icon"></em>{lang yxwg_web:c_web_icon}</a>
+				<a href="javascript:;"  onclick="SetHome(this,window.location)"><em class="c_home_icon"></em>{lang yxwg_web:c_home_icon}</a>
+				<a  href="javascript:;" onclick="AddFavorite(window.location,document.title)"><em class="c_add_icon"></em>{lang yxwg_web:c_add_icon}</a>
+			</div>
+
+			<div class="sub_nav_right">
+				<span id="top_login_tips">
+					<!--{if $freepay &&0}--><a target="_blank" style="color:red" href="{echo yxwgurl('firstpay')}"> {lang yxwg_web:pay_first} </a><!--{/if}-->
+					<!--{if $_G['uid'] == 0}-->
+					<a href="home.php?mod=space&uid={$uid}">{lang yxwg_web:c_logout}</a>
+					<!--{else}-->
+					 <a href="home.php?mod=space&uid={$uid}"><em class="c_login_icon"></em>{$username}</a>$_G['cache']['userstats']['totalmembers'] {lang yxwg_web:c_login_icon2}
+					<!--{/if}-->
+					<a href="{echo yxwgurl('pay')}">{lang yxwg_web:quick_zone_6}</a>
+				</span>
+				<span class="all_games_ico" id="all_game_hover">{lang yxwg_web:index_allgame_1}<em class="down_ico"></em></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="top_menu">
+	<div class="wrapper clearfix">
+		<h1 class="logo" style="height: 60px;width: 200px;display: flex;justify-content: flex-start;align-items: center;overflow: hidden;"><a style="max-height: 60px;max-width: 200px;" href="/" id="logoimg"><img style="max-height: 60px;max-width: 200px;height: auto;" src="{$_G['cache']['style_default']['boardimg']}"></a></h1>
+		<ul class="clearfix">
+			<li class="mouse_out"><a href="/">{lang yxwg_web:card_title_3}</a></li>
+			<li><a class="{echo $mod=='index'?'on':''}" href="plugin.php?id=yxwg_web" >{lang yxwg_web:nav_1}</a></li>
+			<li><a class="{echo $mod=='news'?'on':''}" href="{echo yxwgurl('news')}">{lang yxwg_web:game_news_2}</a></li>
+			<li><a target="_blank" rel="nofollow" class="{echo $mod=='pay'?'on':''}" href="{echo yxwgurl('pay')}">{lang yxwg_web:nav_2}</a></li>
+			<li><a target="_blank" href="{echo yxwgurl('h5')}">{lang yxwg_web:h5_main_1}</a></li>
+			<li><a target="_blank" href="{echo yxwgurl('shouji')}">{lang yxwg_web:nav_10}</a></li>
+			<li><a target="_blank" class="{echo $mod=='task'?'on':''}" href="{echo yxwgurl('task')}">{lang yxwg_web:task_1}</a></li>
+			<li><a target="_blank" class="{echo $mod=='card'?'on':''}" href="{echo yxwgurl('card')}">{lang yxwg_web:game_tab_4}</a></li>
+			<li><a target="_blank" class="{echo $mod=='kaifu'?'on':''}" href="{echo yxwgurl('kaifu')}">{lang yxwg_web:nav_6}</a></li>
+			<li><a target="_blank" href="forum.php">{lang yxwg_web:nav_5}</a></li>
+			<!--{if $freepay}-->
+			<li><a target="_blank" class="{echo $mod=='firstpay'?'on':''}" style="color:yellow" href="{echo yxwgurl('firstpay')}"> {lang yxwg_web:pay_first} </a></li>
+			<!--{/if}-->
+		</ul>
+	</div>
+</div>

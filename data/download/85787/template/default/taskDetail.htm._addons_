@@ -1,0 +1,166 @@
+<!--{eval include template("yxwg_web:$display/top_menu")}-->
+<div id="bg"></div>
+<link rel="stylesheet" type="text/css" href="http://www.5qwan.com/jfrw/css/product.css">
+<link rel="stylesheet" type="text/css" href="http://www.5qwan.com/jfrw/css/base.css">
+<link rel="stylesheet" type="text/css" href="http://www.5qwan.com/jfrw/css/game_middle.css">
+<script>
+    $(function(){
+        $("body").css("background","#fff url(https://img.5qwan.com/2686/{$game['host']}_bg.jpg) center 96px no-repeat");
+    })
+</script>
+<div id="main">
+    <div id="main_head">
+        <p style=" text-align:left; padding-left:20px;padding-top: 20px">{lang yxwg_web:task_detail_gameName} {$game['name']}{lang yxwg_web:index_user_6}{$serverlist}{lang yxwg_web:index_user_7}<em>|</em>{lang yxwg_web:task_detail_sale}{$task['sale']}<span> {lang yxwg_web:task_detail_points}</span>
+            <a id="ref" href="javascript:;" class="baoming" style="margin-left:50px; background:#930; color:#FFF; display:inline; padding:5px 15px 5px 15px;">{lang yxwg_web:task_detail_refresh}</a>
+            <span style="color:#f00; margin-left:10px;margin-right:20px;">{lang yxwg_web:task_detail_roleInfo}<!--{if $role['flag']}--> {$role['data'][0]['name']} <!--{else}--> {lang yxwg_web:task_detail_noRole} <!--{/if}--></span>
+            <!--{if $role['flag']}--><span style='color:#fff;'>{lang yxwg_web:task_detail_nowLevel}{$role['data'][0]['level']}</span><!--{/if}-->
+            <a id="ref" href="javascript:;" class="baoming lq" style="margin-left:70px; background:#930; color:#FFF; display:inline; padding:5px 15px 5px 15px;">{lang yxwg_web:task_detail_getPoints}</a>
+        </p>
+    </div>
+    <script>
+        $(function(){
+            $("#ref").click(function(){
+                location.reload();
+            });
+        });
+    </script>
+    <div id="box">
+        <div class="box_left">
+            <div class="game_start">
+                <span class="register_box" onClick=""><a class="top_btn enroll baoming" getpoint="{$tid}" href="/plugin.php?id=yxwg_web&a=play&gid={$game['gid']}&sid={$server['sno']}" target="_blank"></a></span>
+                <div class="clr"></div>
+
+                <div class="top_time">
+                    <ul>
+                        <span id="t_d">00{lang yxwg_web:task_12}</span>
+                        <span id="t_h">00{lang yxwg_web:task_13}</span>
+                        <span id="t_m">00{lang yxwg_web:task_14}</span>
+                        <span id="t_s">00{lang yxwg_web:task_15}</span>
+                        <div class="clr"></div>
+                    </ul>
+                    <div class="clr"></div>
+                </div>
+            </div>
+
+            <div class="game_intr">
+                <h3></h3>
+                <p>
+                    {$game['info']}
+                <h2></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="box_right">
+        <div class="game_rmb">
+            <h3 style="height: 46px;background: url(http://www.5qwan.com/jfrw/images/title_h3.png) no-repeat #141821;background-position: -324px 0;"></h3>
+            <div class="game_rmb_list">
+                <ul class="dataul">
+                    <li class="li_title"><span class="span_num">{lang yxwg_web:task_detail_taskLevel}</span><span class="span_ask">{lang yxwg_web:task_detail_taskRequire}</span><span class="span_rmb">{lang yxwg_web:task_detail_rewardPoints}</span></li>
+                    <li class="li_title"><span class="span_num">{lang yxwg_web:task_detail_taskLevel}</span><span class="span_ask">{lang yxwg_web:task_detail_taskRequire}</span><span class="span_rmb">{lang yxwg_web:task_detail_rewardPoints}</span></li>
+                    <!--{eval for ($i=0; $i<=5; $i++) {}-->
+                    <li>
+                        <span class="span_num"><!--{eval echo $i+1 }--></span>
+                        <span class="span_ask"><!--{eval if($task['level'.($i+1)]){ }-->{lang yxwg_web:task_detail_requireContent1}<!--{eval echo $task['level'.($i+1)] }-->{lang yxwg_web:task_detail_requireContent2}<!--{eval }}--></span>
+                        <span class="span_rmb"><!--{eval if($task['level'.($i+1)]){ }--><!--{eval echo $task['credit'.($i+1)] * 10 }-->{lang yxwg_web:task_detail_points}<!--{eval }}--></span>
+                    </li>
+                    <!--{eval }}-->
+                </ul>
+                <div class="clr"></div>
+            </div>
+        </div>
+
+        <div class="clr"></div>
+
+        <div class="game_tips">
+            <h3 style="height: 46px;background: url(http://www.5qwan.com/jfrw/images/title_h3.png) no-repeat #141821;background-position: -324px -230px;"></h3>
+            <div class="game_tips_list">
+                <div class="game_tips_L" style="border-right: 0;">
+                    <p><em>{lang yxwg_web:task_detail_playCycle}</em> {lang yxwg_web:task_detail_requireContent4}  &nbsp;{$dead_line}</p>
+                    <p><em>{lang yxwg_web:task_detail_updateTime}</em> <span>{lang yxwg_web:task_detail_requireContent5}</span></p>
+                    <p><em>{lang yxwg_web:task_detail_rewardWay}</em> {lang yxwg_web:task_detail_requireContent6}</p>
+                    <p><em>{lang yxwg_web:task_detail_tips}</em> {lang yxwg_web:task_detail_requireContent7}<span>{lang yxwg_web:task_detail_requireContent8}</span>{lang yxwg_web:task_detail_requireContent9}<span>{lang yxwg_web:task_detail_requireContent8}</span>{lang yxwg_web:task_detail_requireContent10}</p>
+                </div>
+
+                <div class="game_jt_btn next"></div>
+                <div class="clr"></div>
+            </div>
+        </div>
+
+        <div class="clr"></div>
+
+        <div class="game_rule">
+            <h3 style="height: 46px;background: url(http://www.5qwan.com/jfrw/images/title_h3.png) no-repeat #141821;background-position: -324px -184px"></h3>
+            <div class="game_rule_list">
+                <ul>
+                    <li>{lang yxwg_web:task_detail_gameRule1}</li>
+                    <li>{lang yxwg_web:task_detail_gameRule2}</li>
+                    <li>{lang yxwg_web:task_detail_gameRule3}</li>
+                    <li>{lang yxwg_web:task_detail_gameRule4}</li>
+                    <li>{lang yxwg_web:task_detail_gameRule5}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="clr"></div>
+</div>
+<div class="clr"></div>
+</div>
+<!--{eval include template("yxwg_web:$display/footer")}-->
+
+<script>
+
+    $(function(){
+        //监听区服下拉框
+        $("#sid").change(function(){
+            var sid = $(this).val();
+            self.location.href='plugin.php?id=yxwg_web&a=taskDetail&tid={$tid}&sid=' + sid;
+        });
+
+        //领取积分
+        $(".lq").click(function(){
+            var gid = {$game['gid']};
+            var sno = {$server['sno']};
+            $.ajax({
+                url:'plugin.php?id=yxwg_web&a=task&sid='+ sno +'&gid='+ gid,
+                type:"post",
+                data:{"posttask":1},
+                async:false,
+                success:function(data){
+                    data = JSON.parse(data);
+                    alert(data.msg);
+                }
+            });
+        });
+
+        //倒计时
+        function GetRTime(){
+            var endTime= '{$dead_line_int}';
+            var NowTime = new Date(); //
+            var t =endTime - NowTime.getTime();
+            //console.log(endTime);
+            //console.log(NowTime.getTime());
+            if(t<0){
+                $(".top_time ul").html("&nbsp;&nbsp;&nbsp;&nbsp;{lang yxwg_web:task_detail_over}");
+                return false;
+            }
+            var d=0;
+            var h=0;
+            var m=0;
+            var s=0;
+            if(t>=0){
+                d=Math.floor(t/1000/60/60/24);
+                h=Math.floor(t/1000/60/60%24);
+                m=Math.floor(t/1000/60%60);
+                s=Math.floor(t/1000%60);
+            }
+            $("#t_d").html(d+'{lang yxwg_web:task_detail_d}');
+            $("#t_h").html(h+'{lang yxwg_web:task_detail_h}');
+            $("#t_m").html(m+'{lang yxwg_web:task_detail_m}');
+            $("#t_s").html(s+'{lang yxwg_web:task_detail_s}');
+
+        }
+        setInterval(GetRTime,1000);
+    });
+</script>

@@ -1,0 +1,72 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :card.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:33:31
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//必须登录
+if (!$uid) {showmessage('not_loggedin', null, 'NOPERM');}
+/*//引入新的api
+@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';*/
+//接收参数
+/*$gameid = intval(isset($_GET['gid']) ? $_GET['gid'] : '0');*/
+$serverid = intval(isset($_GET['sid']) ? $_GET['sid'] : '0');
+$host = isset($_GET['host']) ? $_GET['host'] : '0';
+//区服信息
+/*$server_info = getServerInfo($gameid, $serverid);*/
+//获取游戏信息
+$game_info = C::t('#yxwg_web#yxwg_web_game')->byhost($host);
+$game_title = $game_info['name'];
+//区服列表
+$server_list = yeyou::serv($host);
+$server_list_count = count($server_list);
+/*$server_list = getServerList($gameid);*/
+//如果有设置区服 获取新手卡
+if (!empty($serverid)) {
+    /*$game_card = getGameCard($gameid, $serverid);*/
+    $game_card = yeyou::card($host, $serverid);
+    $game_card = $game_card['card'];
+    $game_card = strlen($game_card) > 5 ? $game_card : lang('plugin/yxwg_web', 'errorcode_' . $game_card);
+}
+//获取游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//如果游戏都没有设置 获取新手礼包列表
+if (empty($host)) {
+    //显示礼包列表页
+    include template('yxwg_web:'.$display.'/cardlist');
+    exit();
+}
+//游戏信息
+/*$game_info = getGameInfo($gameid);*/
+//标题加上游戏名称
+$navtitle = $game_info['name'].$navtitle;
+$metakeywords = $game_info['name'].','.$metakeywords;
+$metadescription = $game_info['info'];
+//显示礼包页面
+include template('yxwg_web:'.$display.'/card');
+
+

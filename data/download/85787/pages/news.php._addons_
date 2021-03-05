@@ -1,0 +1,89 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :news.php
+//        description :
+//
+//        created by ier at 2015-12-23 16:05:51
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+
+
+//接收参数
+$newsid = intval(isset($_GET['nid']) ? $_GET['nid'] : '0');
+$gsid = intval(isset($_GET['gsid']) ? $_GET['gsid'] : '0');
+$gid = intval(isset($_GET['gid']) ? $_GET['gid'] : '0'); //游戏id
+$host = isset($_GET['game']) ? trim($_GET['game']) : '0';
+$isgl = isset($_GET['gsid'])?true:false;
+if (empty($gid)) {
+    $game = $host?C::t('#yxwg_web#yxwg_web_game')->byhost($host):'';
+}else{
+    $game = C::t('#yxwg_web#yxwg_web_game')->bygid($gid);
+}
+$gid = $game['gid'];
+$host = $game['host'];
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//文章内容页
+if (!empty($newsid) || !empty($gsid) ) {
+    /*@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';*/
+    if ($newsid) {
+        $news_content = C::t('#yxwg_web#yxwg_web_news')->bynid($newsid);
+        if (empty($news_content['context'])) {
+            $content = current(yeyou::news($newsid,1));
+            $rst = @C::t('#yxwg_web#yxwg_web_news')->updbyid($news_content['id'],$content['id'],$content['title'],$content['context'],$content['type'],$content['gid'],$content['time_add']);
+            $news_content = $content;
+        }
+    }else{
+        $news_content = C::t('#yxwg_web#yxwg_web_ziliao')->bynid($gsid);
+        if (empty($news_content['context'])) {
+            $content = current(yeyou::gl($gsid,1));
+            $rst = @C::t('#yxwg_web#yxwg_web_ziliao')->updbyid($news_content['id'],$content['id'],$content['title'],$content['context'],$content['type'],$content['gid'],$content['time_add']);
+            $news_content = $content;
+        }
+    }
+    $gameid = $news_content['gid'];
+    $game_info = C::t('#yxwg_web#yxwg_web_game')->bygid($gameid);
+    $navtitle = $news_content['title'];
+    $metakeywords = $game_info['name'].','.$metakeywords;
+    $metadescription = $game_info['info'];
+    include template('yxwg_web:'.$display.'/news');
+    exit;
+}
+//文章列表页
+
+//分页
+$page=isset($_GET['page'])&&$_GET['page']?$_GET['page']:1;
+$pagesize = 20;
+
+if ($isgl) {
+    $news_list = C::t('#yxwg_web#yxwg_web_ziliao')->range(($page-1)*$pagesize,$pagesize,$gid);
+    $news_list_count = C::t('#yxwg_web#yxwg_web_ziliao')->count($gid);
+}else{
+    $news_list = C::t('#yxwg_web#yxwg_web_news')->range(($page-1)*$pagesize,$pagesize,$gid);
+    $news_list_count = C::t('#yxwg_web#yxwg_web_news')->count($gid);
+}
+
+$page_data = Page::db_data_page($news_list_count, $pagesize, "doPageSubmit");
+include template('yxwg_web:'.$display.'/newslist');

@@ -1,0 +1,49 @@
+<div class="fs_choose ng_f_c" style=" margin-top: 20px;">
+	<div class="def_menu_line">
+		<div>{$lang['app']['FilterGame']}</div>
+	</div>
+	<div class="top_recommend_div t_r_d_long">
+		<div class="t_r_d_l t_r_d_new">{$lang['app']['NewHotTag']}</div>
+		<div class="t_r_d_r">
+			<!--{eval for($i=0;$i<16;$i++):}-->
+			<a href="plugin.php?id=yxwg_web&a=app&cat=<!--{eval echo $catlist['items'][$i]['id']}-->"><!--{eval echo $catlist['items'][$i]['cat_name']}--></a>
+			<span>|</span>
+			<!--{eval endfor}-->
+		</div>
+	</div>
+	<div class="top_recommend_div t_r_d_long">
+		<div class="t_r_d_l t_r_d_up">{$lang['app']['AllCat']}</div>
+		<div class="t_r_d_r">
+			<!--{eval for($i=16;$i<27;$i++):}-->
+			<a href="plugin.php?id=yxwg_web&a=app&cat=<!--{eval echo $catlist['items'][$i]['id']}-->"><!--{eval echo $catlist['items'][$i]['cat_name']}--></a>
+			<span>|</span>
+			<!--{eval endfor}-->
+		</div>
+	</div>
+	
+</div>
+
+<div class="fs_list ng_f_l">
+	<div class="fs_nav" id="fs_nav">
+		<div class="fs_n_num fs_n_active">
+			<a href="#">{$lang['app']['Game']}</a>
+		</div>
+		
+	</div>
+	<ul class="good_recom_ul good_recom_ul_fs">
+		<!--48条记录-->
+		<!--{eval for($i=0;$i<$applist['num'];$i++):}-->
+		<li class="qr-show">
+			<div class="g_r_img">
+				<a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $applist['items'][$i]['appid']}-->" target="_blank">
+					<img class="lazy_img" src="<!--{eval echo $applist['items'][$i]['iconUrl']}-->" alt=""></a>
+			</div>
+			<p>
+				<a href="plugin.php?id=yxwg_web&a=detail&appid=<!--{eval echo $applist['items'][$i]['appid']}-->" target="_blank" title="<!--{eval echo $applist['items'][$i]['name']}-->"><!--{eval echo $applist['items'][$i]['name']}--></a>
+			</p>
+			<a class="g_r_down" data_icon="<!--{eval echo $applist['items'][$i]['iconUrl']}-->" href="plugin.php?id=yxwg_web&a=player&game=<!--{eval echo $applist['items'][$i]['appid']}-->">{$lang['app']['Download']}</a>
+		</li>
+		<!--{eval endfor}-->
+	</ul>
+	<!--{eval echo $nav;}-->
+</div>

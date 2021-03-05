@@ -1,0 +1,87 @@
+<?php
+//======================================================================
+//
+//      Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//      All rights reserved
+//
+//      filename :table_yxwg_web_ziliao.php
+//      description :
+//
+//      created by ier at 2016-07-30 11:19:55
+//      http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')) {exit('Access Denied');}
+
+class table_yxwg_web_ziliao extends discuz_table{
+    
+    public function __construct() {
+        $this->_table = 'yxwg_web_ziliao';
+        $this->_pk = 'id';
+        parent::__construct();
+    }
+    public function byid($id){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('id',$id));
+    }
+    public function bynid($nid){
+        return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('nid',$nid));
+    }
+    public function getmaxnid(){
+        return current(DB::fetch_first('SELECT max(`nid`) FROM '.DB::table($this->_table)));
+    }
+    public function range($start = 0, $limit = 0, $gid = '',$item='id', $sort = 'DESC') {
+        $table_g = DB::table('yxwg_web_game');
+        if($sort) {
+            $this->checkpk();
+        }
+        return DB::fetch_all('SELECT g.`name`,s.`id`,`nid`,`title`,s.`type`,s.`gid`,`time_add` FROM '.DB::table($this->_table).' as s left join '.$table_g.' as g on g.gid = s.gid'.($gid?" WHERE s.`gid`='$gid' ":'').($item ? ' ORDER BY '.DB::order($item, $sort) : '').DB::limit($start, $limit), null, $this->_pk ? $this->_pk : '');
+    }
+    public function count($gid = ''){
+        $table = DB::table($this->_table);
+        $where_game = $gid?" WHERE `gid`='$gid' ":'';
+        return current(DB::fetch_first("SELECT count(1) FROM $table $where_game "));
+    }
+    public function add($nid,$title,$context='',$type,$gid=0,$time_add=''){
+        if ($nid==0 || current(DB::fetch_first('SELECT count(1) FROM '.DB::table($this->_table)." WHERE gid='$gid' AND nid='$nid' "))==0) {
+            $item = array();
+            $item['nid']      = $nid;
+            $item['title']    = $title;
+            $item['context']  = $context;
+            $item['type']     = $type;
+            $item['gid']      = $gid;
+            $item['time_add'] = $time_add;
+            return $this->insert($item);
+        }
+        return false;
+    }
+    public function updbyid($id,$nid,$title,$context='',$type,$gid=0,$time_add=''){
+        $item = array();
+        $item['nid']      = $nid;
+        $item['title']    = $title;
+        $item['context']  = $context;
+        $item['type']     = $type;
+        $item['gid']      = $gid;
+        $item['time_add'] = $time_add;
+        return $this->update($id,$item);
+    }
+    public function updbynid($nid,$title,$context='',$type,$gid=0,$time_add=''){
+        $item = $this->bynid($nid);
+        return $item['id']?$this->updbyid($item['id'],$nid,$name,$gid,$sno,$time_open,$flag):0;
+    }
+    public function del($id){
+        return $this->delete($id);
+    }
+
+    public function del_all_context()
+    {
+        $table = DB::table($this->_table);
+        return DB::query("UPDATE $table SET context = '';");
+    }
+
+    public function get_msg_byid($id)
+    {
+        $table_n = DB::table($this->_table);
+        $table_g = DB::table('yxwg_web_game');
+        return DB::fetch_first("select n.id,n.nid,n.title,n.context,n.type,n.gid,n.time_add,g.name from {$table_n} as n left join {$table_g} as g on n.gid = g.gid where n.id = {$id}");
+    }
+}

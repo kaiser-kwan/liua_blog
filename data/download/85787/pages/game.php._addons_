@@ -1,0 +1,75 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :game.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:33:53
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+
+//获取游戏
+$gid = isset($_GET['gid'])?intval($_GET['gid']):0;
+$ghost = isset($_GET['game'])?trim($_GET['game']):'';
+if ($gid) {
+    $game = C::t('#yxwg_web#yxwg_web_game')->bygid($gid);
+}else{
+    $game = C::t('#yxwg_web#yxwg_web_game')->byhost($ghost);
+}
+$gid = $game['gid'];
+$ghost = $game['host'];
+// 未开启的游戏官网跳首页
+if (empty($game['flag'])) {
+    dheader('location:?id=yxwg_web');
+    exit;
+}
+//用户信息
+$user_info = getUserInfo();
+//游戏列表
+$game_list = C::t('#yxwg_web#yxwg_web_game')->range(0,0,1,'list');
+$game_list_count = count($game_list);
+$game_json = array();
+foreach ($game_list as $k => $v) {
+    unset($v['id']);
+    unset($v['info']);
+    unset($v['coin_name']);
+    unset($v['coin_rmb']);
+    unset($v['flag']);
+    unset($v['html_title']);
+    unset($v['html_keywd']);
+    unset($v['html_desc']);
+    $v['name'] = diconv($v['name'],CHARSET,'utf-8');
+    $v['info'] = diconv($v['info'],CHARSET,'utf-8');
+    $v['type'] = diconv($v['type'],CHARSET,'utf-8');
+    $game_json[] = $v;
+}
+$game_json = json_encode($game_json);
+//区服列表
+/*@include DISCUZ_ROOT.'./source/plugin/yxwg_web/lib/yxwg_yeyou_sdk.php';*/
+// $server_list = C::t('#yxwg_web#yxwg_web_server')->bygid($gid,0,1,'DESC',1);
+$server_list = array_reverse(yeyou::serv($ghost));
+foreach ($server_list as $key => $value) {
+    if($value['time_open']>date('Y-m-d H:i:s',$_SERVER['REQUEST_TIME']+300)||empty($value['flag']))
+        unset($server_list[$key]);
+}
+$server_list = array_values($server_list);
+
+//公告列表
+$news_list = C::t('#yxwg_web#yxwg_web_news')->range(0,16,$game['gid']);
+//攻略列表
+$strategy_list = C::t('#yxwg_web#yxwg_web_ziliao')->range(0,0,$game['gid']);
+//最近玩过
+$last_play = C::t('#yxwg_web#yxwg_web_play')->bygid($game['gid'],3);
+$last_play_count = count($last_play);
+//seo设置
+$navtitle = $game['html_title']?$game['html_title']:$game['name'];
+$metakeywords = $game['html_keywd']?$game['html_keywd']:$game['name'];
+$metadescription = $game['html_desc']?$game['html_desc']:$game['name'];
+//显示游戏官网
+include template('yxwg_web:'.$display.'/game');
+

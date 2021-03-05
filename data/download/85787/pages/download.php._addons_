@@ -1,0 +1,44 @@
+<?php
+//======================================================================
+//
+//        Copyright (C) 2015-2016 深圳飓风伟业网络有限公司    
+//        All rights reserved
+//
+//        filename :download.php
+//        description :
+//
+//        created by ier at 2015-12-23 11:33:38
+//        http://vier.ml
+//
+//======================================================================
+if(!defined('IN_DISCUZ')){exit('Access Denied');}
+//输出快捷方式供浏览器下载
+if ($_GET['s']=='lnk') {
+    $str = '[{00000000-0000-0000-0000-000000000000}]
+[InternetShortcut]
+IDList=
+URL='.$_G['siteurl'].'plugin.php?id=yxwg_web';
+    $filename = $navtitle.'.url';
+    header("Content-type: text/plain");
+    header("Accept-Ranges: bytes");
+    header("Content-Disposition: attachment; filename=".$filename);
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+    header("Pragma: no-cache" );
+    header("Expires: 0" ); 
+    exit($str);
+}else if($_GET['s']=='h5'){
+	    $str = '[{00000000-0000-0000-0000-000000000000}]
+[InternetShortcut]
+IDList=
+URL='.$_G['siteurl'].'plugin.php?id=yxwg_web&a=h5';
+    $filename = $navtitle.'.url';
+    header("Content-type: text/plain");
+    header("Accept-Ranges: bytes");
+    header("Content-Disposition: attachment; filename=".$filename);
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+    header("Pragma: no-cache" );
+    header("Expires: 0" ); 
+    exit($str);
+
+}
+
